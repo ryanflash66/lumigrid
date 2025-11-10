@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pricing | Play Tailwind</title>
+    <title>Pricing | Lumigrid</title>
     <link
       rel="shortcut icon"
       href="assets/images/favicon.png"
@@ -40,8 +40,8 @@
               />
             </a>
           </div>
-          <div class="flex items-center justify-between w-full px-4">
-            <div>
+          <div class="flex items-center justify-end flex-1 px-4">
+            <div class="w-full lg:w-auto">
               <button
                 id="navbarToggler"
                 class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
@@ -58,9 +58,9 @@
               </button>
               <nav
                 id="navbarCollapse"
-                class="absolute right-4 top-full hidden w-full max-w-[250px] rounded-lg bg-white dark:bg-dark-2 py-5 shadow-lg lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent dark:lg:bg-transparent lg:py-0 lg:px-4 lg:shadow-none xl:px-6"
+                class="absolute right-4 top-full hidden w-full max-w-[250px] rounded-lg bg-white dark:bg-dark-2 py-5 shadow-lg lg:static lg:block lg:w-auto lg:max-w-full lg:bg-transparent dark:lg:bg-transparent lg:py-0 lg:px-0 lg:shadow-none"
               >
-                <ul class="blcok lg:flex 2xl:ml-20">
+                <ul class="blcok lg:flex lg:items-center lg:gap-6">
                   <li class="relative group">
                     <a
                       href="#home"
@@ -72,7 +72,7 @@
                   <li class="relative group">
                     <a
                       href="/#about"
-                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6 xl:ml-10"
+                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6"
                     >
                       About
                     </a>
@@ -80,7 +80,7 @@
                   <li class="relative group">
                     <a
                       href="/#pricing"
-                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6 xl:ml-10"
+                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6"
                     >
                       Pricing
                     </a>
@@ -88,7 +88,7 @@
                   <li class="relative group">
                     <a
                       href="/#team"
-                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6 xl:ml-10"
+                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6"
                     >
                       Team
                     </a>
@@ -96,96 +96,15 @@
                   <li class="relative group">
                     <a
                       href="/#contact"
-                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6 xl:ml-10"
+                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6"
                     >
                       Contact
                     </a>
                   </li>
-                  <li class="relative group">
-                    <a
-                      href="blog-grids.html"
-                      class="flex py-2 mx-8 text-base font-medium ud-menu-scroll text-dark dark:text-white group-hover:text-primary lg:mr-0 lg:ml-7 lg:inline-flex lg:py-6 lg:px-0 lg:text-body-color dark:lg:text-dark-6 xl:ml-10"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li class="relative submenu-item group">
-                    <a
-                      href="javascript:void(0)"
-                      class="relative flex items-center justify-between py-2 mx-8 text-base font-medium text-primary group-hover:text-primary lg:mr-0 lg:ml-8 lg:inline-flex lg:py-6 lg:pl-0 lg:pr-4 xl:ml-10"
-                    >
-                      Pages
-
-                      <svg
-                        class="ml-2 fill-current"
-                        width="16"
-                        height="20"
-                        viewBox="0 0 16 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M7.99999 14.9C7.84999 14.9 7.72499 14.85 7.59999 14.75L1.84999 9.10005C1.62499 8.87505 1.62499 8.52505 1.84999 8.30005C2.07499 8.07505 2.42499 8.07505 2.64999 8.30005L7.99999 13.525L13.35 8.25005C13.575 8.02505 13.925 8.02505 14.15 8.25005C14.375 8.47505 14.375 8.82505 14.15 9.05005L8.39999 14.7C8.27499 14.825 8.14999 14.9 7.99999 14.9Z"
-                        />
-                      </svg>
-                    </a>
-                    <div
-                      class="submenu relative top-full left-0 hidden w-[250px] rounded-xs bg-white dark:bg-dark-2 p-4 transition-[top] duration-300 group-hover:opacity-100 lg:invisible lg:absolute lg:top-[110%] lg:block lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full"
-                    >
-                      <a
-                        href="about.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        About Page
-                      </a>
-                      <a
-                        href="pricing.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-primary hover:text-primary dark:hover:text-primary"
-                      >
-                        Pricing Page
-                      </a>
-                      <a
-                        href="contact.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        Contact Page
-                      </a>
-                      <a
-                        href="blog-grids.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        Blog Grid Page
-                      </a>
-                      <a
-                        href="blog-details.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        Blog Details Page
-                      </a>
-                      <a
-                        href="signup.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        Sign Up Page
-                      </a>
-                      <a
-                        href="signin.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        Sign In Page
-                      </a>
-                      <a
-                        href="404.html"
-                        class="block rounded-sm py-[10px] px-4 text-sm text-body-color dark:text-dark-6 hover:text-primary dark:hover:text-primary"
-                      >
-                        404 Page
-                      </a>
-                    </div>
-                  </li>
                 </ul>
               </nav>
             </div>
-            <div class="flex items-center justify-end pr-16 lg:pr-0">
+            <div class="flex items-center lg:ml-8">
               <label
                 for="themeSwitcher"
                 class="inline-flex items-center cursor-pointer"
@@ -258,20 +177,6 @@
                   </svg>
                 </span>
               </label>
-              <div class="hidden sm:flex">
-                <a
-                  href="signin.html"
-                  class="loginBtn py-2 px-[22px] text-base font-medium text-dark dark:text-white hover:opacity-70"
-                >
-                  Sign In
-                </a>
-                <a
-                  href="signup.html"
-                  class="px-6 py-2 text-base font-medium text-white duration-300 ease-in-out rounded-md signUpBtn bg-primary hover:bg-blue-dark"
-                >
-                  Sign Up
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -281,7 +186,7 @@
 
     <!-- ====== Banner Section Start -->
     <div
-      class="relative z-10 overflow-hidden pt-[120px] pb-[60px] md:pt-[130px] lg:pt-[160px] dark:bg-dark"
+      class="relative z-10 overflow-hidden pt-[120px] pb-14 md:pt-[130px] lg:pt-[160px] dark:bg-dark"
     >
       <div
         class="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-stroke/0 via-stroke dark:via-dark-3 to-stroke/0"
@@ -296,7 +201,7 @@
                 Pricing Page
               </h1>
               <p class="mb-5 text-base text-body-color dark:text-dark-6">
-                There are many variations of passages of Lorem Ipsum available.
+                Transparent pricing designed to fit your needs. Choose the plan that works for you, or contact us to discuss a custom solution.
               </p>
 
               <ul class="flex items-center justify-center gap-[10px]">
@@ -333,7 +238,7 @@
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap -mx-4">
           <div class="w-full px-4">
-            <div class="mx-auto mb-[60px] max-w-[510px] text-center">
+            <div class="mx-auto mb-14 max-w-[510px] text-center">
               <span class="block mb-2 text-lg font-semibold text-primary">
                 Pricing Table
               </span>
@@ -343,8 +248,7 @@
                 Awesome Pricing Plan
               </h2>
               <p class="text-base text-body-color dark:text-dark-6">
-                There are many variations of passages of Lorem Ipsum available
-                but the majority have suffered alteration in some form.
+                Transparent pricing designed to fit your budget. Choose the plan that works for you, or let's discuss a custom solution tailored to your specific needs.
               </p>
             </div>
           </div>
@@ -370,30 +274,30 @@
                   Per Month
                 </span>
               </h2>
-              <div class="mb-[50px]">
+              <div class="mb-12">
                 <h5 class="mb-5 text-lg font-medium text-dark dark:text-white">
                   Features
                 </h5>
-                <div class="flex flex-col gap-[14px]">
+                <div class="flex flex-col gap-3.5">
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Up to 1 User
+                    Custom website design
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    All UI components
+                    Responsive mobile-friendly layout
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Lifetime access
+                    Basic SEO optimization
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Free updates
+                    Email support
                   </p>
                 </div>
               </div>
               <a
-                href="javascript:void(0)"
-                class="inline-block py-3 text-base font-medium text-center text-white transition rounded-md bg-primary px-7 hover:bg-blue-dark"
+                href="contact.html"
+                class="inline-flex items-center justify-center px-7 py-3 text-base font-medium text-center text-white rounded-md bg-primary transition duration-300 ease-in-out hover:bg-blue-dark"
               >
-                Purchase Now
+                Get Started
               </a>
             </div>
           </div>
@@ -409,7 +313,7 @@
               <span
                 class="block mb-5 text-xl font-medium text-dark dark:text-white"
               >
-                Basic
+                Professional
               </span>
               <h2
                 class="mb-11 text-4xl font-semibold text-dark dark:text-white xl:leading-[1.21] xl:text-[42px]"
@@ -422,30 +326,30 @@
                   Per Month
                 </span>
               </h2>
-              <div class="mb-[50px]">
+              <div class="mb-12">
                 <h5 class="mb-5 text-lg font-medium text-dark dark:text-white">
                   Features
                 </h5>
-                <div class="flex flex-col gap-[14px]">
+                <div class="flex flex-col gap-3.5">
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Up to 1 User
+                    Everything in Starter
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    All UI components
+                    Advanced customization options
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Lifetime access
+                    Content management system
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Free updates
+                    Priority support & updates
                   </p>
                 </div>
               </div>
               <a
-                href="javascript:void(0)"
-                class="inline-block py-3 text-base font-medium text-center text-white transition rounded-md bg-primary px-7 hover:bg-blue-dark"
+                href="contact.html"
+                class="inline-flex items-center justify-center px-7 py-3 text-base font-medium text-center text-white rounded-md bg-primary transition duration-300 ease-in-out hover:bg-blue-dark"
               >
-                Purchase Now
+                Get Started
               </a>
             </div>
           </div>
@@ -456,7 +360,7 @@
               <span
                 class="block mb-5 text-xl font-medium text-dark dark:text-white"
               >
-                Premium
+                Enterprise
               </span>
               <h2
                 class="mb-11 text-4xl font-semibold text-dark dark:text-white xl:leading-[1.21] xl:text-[42px]"
@@ -469,30 +373,30 @@
                   Per Month
                 </span>
               </h2>
-              <div class="mb-[50px]">
+              <div class="mb-12">
                 <h5 class="mb-5 text-lg font-medium text-dark dark:text-white">
                   Features
                 </h5>
-                <div class="flex flex-col gap-[14px]">
+                <div class="flex flex-col gap-3.5">
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Up to 1 User
+                    Everything in Professional
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    All UI components
+                    E-commerce integration
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Lifetime access
+                    Advanced analytics & reporting
                   </p>
                   <p class="text-base text-body-color dark:text-dark-6">
-                    Free updates
+                    Dedicated account manager
                   </p>
                 </div>
               </div>
               <a
-                href="javascript:void(0)"
-                class="inline-block py-3 text-base font-medium text-center text-white transition rounded-md bg-primary px-7 hover:bg-blue-dark"
+                href="contact.html"
+                class="inline-flex items-center justify-center px-7 py-3 text-base font-medium text-center text-white rounded-md bg-primary transition duration-300 ease-in-out hover:bg-blue-dark"
               >
-                Purchase Now
+                Get Started
               </a>
             </div>
           </div>
@@ -521,8 +425,7 @@
                 />
               </a>
               <p class="mb-8 max-w-[270px] text-base text-gray-7">
-                We create digital experiences for brands and companies by using
-                technology.
+                We create custom websites and digital experiences for individuals, NGOs, companies, and agencies.
               </p>
               <div class="flex items-center -mx-3">
                 <a
@@ -1090,31 +993,28 @@
     </a>
     <!-- ====== Back To Top End -->
 
-    <!-- ====== Made With Button Start -->
+    <!-- ====== Book a Call CTA Button Start -->
     <a
-      target="_blank"
-      rel="nofollow noopener"
-      class="inline-flex items-center gap-[10px] py-2 px-[14px] rounded-lg bg-white dark:bg-dark-2 shadow-2 fixed bottom-8 left-4 sm:left-9 z-999"
-      href="https://tailgrids.com/"
+      class="cta-button-modern fixed bottom-8 left-4 z-999 inline-flex items-center justify-center gap-3 rounded-2xl bg-primary px-8 py-4 text-base font-bold tracking-wide text-white transition-all duration-300 ease-in-out hover:bg-blue-dark dark:bg-primary dark:hover:bg-blue-dark sm:left-9"
+      href="/#contact"
     >
-      <span class="text-base font-medium text-dark-3 dark:text-dark-6">
-        Made with
-      </span>
-      <span class="block w-px h-4 bg-stroke dark:bg-dark-3"></span>
-      <span class="block max-w-[88px] w-full">
-        <img
-          src="./assets/images/brands/tailgrids.svg"
-          alt="tailgrids"
-          class="dark:hidden"
+      <svg
+        class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
         />
-        <img
-          src="./assets/images/brands/tailgrids-white.svg"
-          alt="tailgrids"
-          class="hidden dark:block"
-        />
-      </span>
+      </svg>
+      <span>Book a Call</span>
     </a>
-    <!-- ====== Made With Button End -->
+    <!-- ====== Book a Call CTA Button End -->
 
     <!-- ====== All Scripts -->
     <script src="assets/js/main.js"></script>
