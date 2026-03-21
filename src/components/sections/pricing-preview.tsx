@@ -1,8 +1,18 @@
 'use client'
 
+import { useRef } from 'react'
 import Link from 'next/link'
+import {
+  motion,
+  useReducedMotion,
+  useInView,
+  type Variants,
+} from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { AnimatedNumber } from '@/components/ui/animated-number'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
+import { TiltCard } from '@/components/ui/tilt-card'
 
 const tiers = [
   {
@@ -26,85 +36,167 @@ const tiers = [
   },
 ]
 
+// ---------------------------------------------------------------------------
+// Card variants
+// ---------------------------------------------------------------------------
+
+function getCardVariants(featured: boolean, prefersReduced: boolean | null): Variants {
+  if (prefersReduced) {
+    return {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: { duration: 0.4 },
+      },
+    }
+  }
+
+  if (featured) {
+    return {
+      hidden: { opacity: 0, y: 60, scale: 0.9, rotateX: 8, filter: 'blur(2px)' },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotateX: 0,
+        filter: 'blur(0px)',
+        transition: {
+          type: 'spring',
+          stiffness: 220,
+          damping: 22,
+        },
+      },
+    }
+  }
+
+  return {
+    hidden: { opacity: 0, y: 60, scale: 0.95, rotateX: 8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 180,
+        damping: 22,
+      },
+    },
+  }
+}
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+}
+
+// ---------------------------------------------------------------------------
+// PricingPreview
+// ---------------------------------------------------------------------------
+
 export function PricingPreview() {
+  const prefersReduced = useReducedMotion()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(containerRef, { once: true, margin: '-80px' })
+
   return (
     <section id="pricing" className="bg-background px-6 py-24">
-      <div className="mx-auto max-w-6xl text-center">
+      <ScrollReveal variant="clip-reveal" className="mx-auto max-w-6xl text-center">
         <h2 className="text-balance text-4xl font-semibold md:text-5xl">
           Build your dream landing page, today.
         </h2>
         <p className="mt-4 text-base text-muted-foreground md:text-lg">
           Simple, transparent pricing for teams ready to ship with confidence.
         </p>
-      </div>
-      <div className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3 md:items-center">
+      </ScrollReveal>
+
+      <motion.div
+        ref={containerRef}
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+        className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3 md:items-center"
+        style={{ perspective: '800px' }}
+      >
         {tiers.map((tier) => (
-          <div
+          <motion.div
             key={tier.name}
-            className={cn(
-              // Base card styles with glassmorphism
-              'relative flex h-full flex-col rounded-[20px] p-6',
-              'backdrop-blur-md bg-card/60 border border-border/50',
-              // Hover effects
-              'transition-all duration-300 ease-in-out',
-              'motion-safe:hover:-translate-y-2 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10',
-              // Featured card elevation
-              tier.featured && [
-                'motion-safe:md:scale-105 ring-2 ring-primary/30 z-10',
-              ]
-            )}
+            variants={getCardVariants(!!tier.featured, prefersReduced)}
           >
-            {/* Glassmorphism radial gradient overlay */}
-            <div
-              className="pointer-events-none absolute inset-0 rounded-[20px] opacity-40"
-              style={{
-                background:
-                  'radial-gradient(ellipse at 30% 0%, oklch(0.95 0 0 / 0.15), transparent 60%)',
-              }}
-            />
-
-            {/* Featured gradient border wrapper */}
-            {tier.featured && (
-              <div className="pointer-events-none absolute -inset-px rounded-[21px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
-            )}
-
-            {/* Most Popular badge */}
-            {tier.featured && (
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                  Most Popular
-                </span>
-              </div>
-            )}
-
-            {/* Card content (relative to sit above overlays) */}
-            <div className="relative z-[1]">
-              <h3 className="text-lg font-semibold text-foreground">
-                {tier.name}
-              </h3>
-              <p className="mt-3 text-3xl font-semibold text-foreground">
-                $<AnimatedNumber value={tier.price} />
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {tier.description}
-              </p>
-            </div>
-            <div className="relative z-[1] mt-6">
-              <Link
-                href="/contact"
+            <TiltCard maxTilt={3} glowBorder={false}>
+              <div
                 className={cn(
-                  'inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors',
-                  tier.featured
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'border border-foreground/20 text-foreground hover:border-foreground/40'
+                  // Base card styles with glassmorphism
+                  'relative flex h-full flex-col rounded-[20px] p-6',
+                  'backdrop-blur-md bg-card/60 border border-border/50',
+                  // Hover effects
+                  'transition-[border-color,box-shadow] duration-300 ease-in-out',
+                  'hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10',
+                  // Featured card elevation
+                  tier.featured && [
+                    'motion-safe:md:scale-105 ring-2 ring-primary/30 z-10',
+                  ],
                 )}
               >
-                {tier.cta}
-              </Link>
-            </div>
-          </div>
+                {/* Glassmorphism radial gradient overlay */}
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-[20px] opacity-40"
+                  style={{
+                    background:
+                      'radial-gradient(ellipse at 30% 0%, oklch(0.95 0 0 / 0.15), transparent 60%)',
+                  }}
+                />
+
+                {/* Featured gradient border wrapper */}
+                {tier.featured && (
+                  <div className="pointer-events-none absolute -inset-px rounded-[21px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
+                )}
+
+                {/* Most Popular badge */}
+                {tier.featured && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+
+                {/* Card content (relative to sit above overlays) */}
+                <div className="relative z-[1]">
+                  <h3 className="text-lg font-semibold text-foreground">
+                    {tier.name}
+                  </h3>
+                  <p className="mt-3 text-3xl font-semibold text-foreground">
+                    $<AnimatedNumber value={tier.price} />
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {tier.description}
+                  </p>
+                </div>
+                <div className="relative z-[1] mt-6">
+                  <MagneticWrapper>
+                    <Link
+                      href="/contact"
+                      className={cn(
+                        'inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors',
+                        tier.featured
+                          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                          : 'border border-foreground/20 text-foreground hover:border-foreground/40',
+                      )}
+                    >
+                      {tier.cta}
+                    </Link>
+                  </MagneticWrapper>
+                </div>
+              </div>
+            </TiltCard>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       <div className="mt-8 text-center text-sm text-muted-foreground">
         <Link
           href="/pricing"
