@@ -40,7 +40,7 @@ export function Hero() {
           </Link>
         </div>
 
-        <h1 className="mt-10 max-w-5xl text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl md:text-7xl">
+        <h1 className="mt-10 max-w-5xl text-balance text-5xl font-extrabold tracking-tight text-foreground sm:text-6xl md:text-7xl">
           Give your big idea the website it deserves
         </h1>
 

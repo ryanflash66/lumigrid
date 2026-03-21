@@ -24,9 +24,9 @@ const tiers = [
 
 export function PricingPreview() {
   return (
-    <section id="pricing" className="bg-background px-6 py-24">
+    <section id="pricing" className="bg-background px-6 py-28 md:py-32">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="text-balance text-4xl font-semibold md:text-5xl">Build your dream landing page, today.</h2>
+        <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">Build your <em className="font-serif text-primary">dream</em> landing page, today.</h2>
         <p className="mt-4 text-base text-muted-foreground md:text-lg">
           Simple, transparent pricing for teams ready to ship with confidence.
         </p>

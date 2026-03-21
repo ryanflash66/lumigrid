@@ -45,10 +45,10 @@ const itemVars: Variants = {
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="bg-background px-6 py-24">
+    <section id="testimonials" className="bg-background px-6 py-28 md:py-32">
       <div className="mx-auto max-w-5xl space-y-8 text-center">
-        <h2 className="text-balance text-4xl font-semibold md:text-5xl">
-          Loved by designers and
+        <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">
+          Loved by <em className="font-serif text-primary">designers</em> and
           <br />
           developers across the planet
         </h2>
@@ -68,7 +68,7 @@ export function TestimonialsSection() {
             className="group flex flex-col gap-6 rounded-[20px] border border-border/70 bg-linear-to-b from-muted/40 to-background p-6 transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-xl"
           >
             <Quote className="h-6 w-6 text-primary/40 transition-colors group-hover:text-primary" />
-            <p className="text-sm text-muted-foreground">{testimonial.quote}</p>
+            <p className="text-sm text-foreground/85">{testimonial.quote}</p>
             <div className="mt-auto flex items-center gap-4 pt-4">
               <Image
                 src={testimonial.avatar}

@@ -12,11 +12,11 @@ const metrics = [
 
 export function QualitySection() {
   return (
-    <section id="quality" className="relative overflow-hidden bg-background px-6 py-28">
+    <section id="quality" className="relative overflow-hidden bg-background px-6 py-28 md:py-32">
       <div className="pointer-events-none absolute inset-x-0 -top-40 mx-auto h-80 w-[80%] rounded-full bg-linear-to-r from-foreground/5 via-blue-500/20 to-foreground/5 blur-[140px]" />
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
-        <h2 className="max-w-5xl text-4xl font-semibold text-foreground md:text-6xl">
-          Quality you can trust.
+        <h2 className="max-w-5xl text-4xl font-bold tracking-tight text-foreground md:text-6xl">
+          Quality you can <em className="font-serif text-primary">trust</em>.
           <br />
           And build on.
         </h2>
@@ -44,7 +44,7 @@ export function QualitySection() {
                 </div>
                 <div className="flex flex-col items-center text-center mt-2">
                   <span className="text-3xl font-bold tracking-tight text-foreground">{metric.value}</span>
-                  <span className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mt-2">{metric.label}</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground mt-2">{metric.label}</span>
                 </div>
               </motion.div>
             ))}

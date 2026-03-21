@@ -3,10 +3,10 @@ import { ArrowUpRight } from 'lucide-react'
 
 export function ContactStrip() {
   return (
-    <section id="contact" className="relative overflow-hidden bg-background px-6 py-24">
+    <section id="contact" className="relative overflow-hidden bg-background px-6 py-28 md:py-32">
       <div className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-48 w-[70%] rounded-full bg-blue-500/20 blur-[140px]" />
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
-        <h2 className="text-4xl font-semibold md:text-5xl">Start building</h2>
+        <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">Start <em className="font-serif italic not-italic text-primary">building</em></h2>
         <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
           Launch your next site with a system that keeps the experience crisp, fast, and ready to scale.
         </p>
