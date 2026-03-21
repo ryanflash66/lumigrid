@@ -1,4 +1,7 @@
+'use client'
+
 import { Globe, MonitorSmartphone, SunMoon, Blocks, Gauge, Languages } from 'lucide-react'
+import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
 
 const features = [
   {
@@ -37,28 +40,32 @@ export function FeaturesSection() {
   return (
     <section id="features" className="bg-background px-6 py-24">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="text-balance text-4xl font-semibold md:text-5xl">
-          Everything you need.
-          <br />
-          Nothing you don&apos;t.
-        </h2>
+        <ScrollReveal variant="clip-reveal">
+          <h2 className="text-balance text-4xl font-semibold md:text-5xl">
+            Everything you need.
+            <br />
+            Nothing you don&apos;t.
+          </h2>
+        </ScrollReveal>
       </div>
-      <div className="mx-auto mt-14 grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <StaggerContainer stagger={0.1} className="mx-auto mt-14 grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => {
           const Icon = feature.icon
           return (
-            <div key={feature.title} className="flex flex-col gap-3 text-left">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-muted/40">
-                  <Icon className="h-5 w-5 text-foreground/70" />
-                </span>
-                <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+            <StaggerItem key={feature.title} variant="fade-up">
+              <div className="flex flex-col gap-3 text-left">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-muted/40">
+                    <Icon className="h-5 w-5 text-foreground/70" />
+                  </span>
+                  <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">{feature.description}</p>
               </div>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
-            </div>
+            </StaggerItem>
           )
         })}
-      </div>
+      </StaggerContainer>
     </section>
   )
 }

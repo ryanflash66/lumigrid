@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
 
 const faqs = [
   {
@@ -23,7 +24,7 @@ const faqs = [
   {
     question: 'Can you work with our analytics and growth stack?',
     answer:
-      'Absolutely. We typically wire GA4, PostHog, or Mixpanel, plus any experimentation platforms you rely on. Bring your tools and we’ll integrate them during QA.'
+      "Absolutely. We typically wire GA4, PostHog, or Mixpanel, plus any experimentation platforms you rely on. Bring your tools and we\u2019ll integrate them during QA."
   }
 ]
 
@@ -33,35 +34,38 @@ export function FAQSection() {
   return (
     <section id="faq" className="bg-background px-6 py-24">
       <div className="mx-auto max-w-3xl space-y-6 text-center">
-        <h2 className="text-4xl font-semibold">Questions and Answers</h2>
+        <ScrollReveal variant="clip-reveal">
+          <h2 className="text-4xl font-semibold">Questions and Answers</h2>
+        </ScrollReveal>
       </div>
-      <div className="mx-auto mt-12 max-w-3xl divide-y divide-border/60">
+      <StaggerContainer stagger={0.1} className="mx-auto mt-12 max-w-3xl divide-y divide-border/60">
         {faqs.map((faq) => {
           const isOpen = open === faq.question
           return (
-            <button
-              key={faq.question}
-              type="button"
-              className="w-full py-5 text-left transition"
-              aria-expanded={isOpen}
-              onClick={() => setOpen(isOpen ? null : faq.question)}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-base font-medium">{faq.question}</p>
-                <ChevronDown className={cn('h-5 w-5 transition-transform', isOpen && 'rotate-180')} />
-              </div>
-              <div
-                className={cn(
-                  'grid transition-all duration-300 ease-out',
-                  isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                )}
+            <StaggerItem key={faq.question} variant="fade-up">
+              <button
+                type="button"
+                className="w-full py-5 text-left transition"
+                aria-expanded={isOpen}
+                onClick={() => setOpen(isOpen ? null : faq.question)}
               >
-                <p className="overflow-hidden text-sm text-muted-foreground">{faq.answer}</p>
-              </div>
-            </button>
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-base font-medium">{faq.question}</p>
+                  <ChevronDown className={cn('h-5 w-5 transition-transform', isOpen && 'rotate-180')} />
+                </div>
+                <div
+                  className={cn(
+                    'grid transition-all duration-300 ease-out',
+                    isOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  )}
+                >
+                  <p className="overflow-hidden text-sm text-muted-foreground">{faq.answer}</p>
+                </div>
+              </button>
+            </StaggerItem>
           )
         })}
-      </div>
+      </StaggerContainer>
     </section>
   )
 }
