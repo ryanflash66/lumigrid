@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import { Activity, Zap, Layers, Users } from 'lucide-react'
 import { useRef } from 'react'
 import { AnimatedNumber } from '@/components/ui/animated-number'
+import { ScrollScene } from '@/components/ui/scroll-storytelling'
 
 const metrics = [
   { id: 1, label: 'Guaranteed Uptime', value: '99.9%', numericPercent: 0.999, icon: Activity, delay: 0.1 },
@@ -80,6 +81,7 @@ export function QualitySection() {
         </p>
 
         {/* Metrics Dashboard Mockup */}
+        <ScrollScene scaleFrom={0.97} speed={15} fadeIn={false}>
         <div className="relative mt-16 flex min-h-[320px] w-full max-w-5xl flex-col items-center justify-center overflow-hidden rounded-[28px] border border-border/70 bg-muted/20 p-8 shadow-sm md:p-12">
           <div className="absolute inset-0 bg-linear-to-br from-foreground/5 via-transparent to-foreground/10" />
 
@@ -125,6 +127,7 @@ export function QualitySection() {
 
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-background/90 md:h-56" />
         </div>
+        </ScrollScene>
       </div>
     </section>
   )

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 
 const INTERACTION_IDLE_MS = 1500
 const INTERACTION_THROTTLE_MS = 150
@@ -50,17 +51,19 @@ export function FloatingCTA() {
       <p className="pointer-events-auto text-[11px] font-semibold uppercase tracking-[0.4em] text-accent">
         Need to ship?
       </p>
-      <Link
-        href="/contact"
-        className={cn('floating-cta pointer-events-auto group', isActive && 'floating-cta--interacting')}
-        aria-label="Book a call with Lumigrid"
-      >
-        <div className="flex flex-col">
-          <span className="text-base font-semibold">Book a Call</span>
-          <span className="text-xs text-muted-foreground/80">Kickoff slots open two weeks out</span>
-        </div>
-        <ArrowUpRight className="ml-auto h-4 w-4 transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1" />
-      </Link>
+      <MagneticWrapper>
+        <Link
+          href="/contact"
+          className={cn('floating-cta pointer-events-auto group', isActive && 'floating-cta--interacting')}
+          aria-label="Book a call with Lumigrid"
+        >
+          <div className="flex flex-col">
+            <span className="text-base font-semibold">Book a Call</span>
+            <span className="text-xs text-muted-foreground/80">Kickoff slots open two weeks out</span>
+          </div>
+          <ArrowUpRight className="ml-auto h-4 w-4 transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1" />
+        </Link>
+      </MagneticWrapper>
     </div>
   )
 }

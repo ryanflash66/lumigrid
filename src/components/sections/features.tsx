@@ -2,6 +2,7 @@
 
 import { Globe, MonitorSmartphone, SunMoon, Blocks, Gauge, Languages } from 'lucide-react'
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
+import { ScrollScene } from '@/components/ui/scroll-storytelling'
 
 const features = [
   {
@@ -39,6 +40,7 @@ const features = [
 export function FeaturesSection() {
   return (
     <section id="features" className="bg-background px-6 py-24">
+      <ScrollScene speed={20} scaleFrom={0.98}>
       <div className="mx-auto max-w-6xl text-center">
         <ScrollReveal variant="clip-reveal">
           <h2 className="text-balance text-4xl font-semibold md:text-5xl">
@@ -66,6 +68,7 @@ export function FeaturesSection() {
           )
         })}
       </StaggerContainer>
+      </ScrollScene>
     </section>
   )
 }

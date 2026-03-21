@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion, Variants } from 'framer-motion'
 import { Quote } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { WordReveal } from '@/components/ui/text-reveal'
 
 const testimonials = [
   {
@@ -120,11 +121,9 @@ export function TestimonialsSection() {
   return (
     <section id="testimonials" className="bg-background px-6 py-24">
       <div className="mx-auto max-w-5xl space-y-8 text-center">
-        <h2 className="text-balance text-4xl font-semibold md:text-5xl">
-          Loved by designers and
-          <br />
-          developers across the planet
-        </h2>
+        <WordReveal className="text-balance text-4xl font-semibold md:text-5xl">
+          Loved by designers and developers across the planet
+        </WordReveal>
         <p className="text-muted-foreground">Here&apos;s what teams say about building with Lumigrid.</p>
       </div>
 
