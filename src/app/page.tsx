@@ -7,18 +7,24 @@ import { TestimonialsSection } from '@/components/sections/testimonials'
 import { PricingPreview } from '@/components/sections/pricing-preview'
 import { FAQSection } from '@/components/sections/faq'
 import { ContactStrip } from '@/components/sections/contact-strip'
+import { SectionDivider } from '@/components/ui/section-divider'
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       <Hero />
+      <SectionDivider variant="glow-line" />
       <BrandsSection />
       <CapabilitiesSection />
+      <SectionDivider variant="wave" />
       <FeaturesSection />
+      <SectionDivider variant="dot-cluster" />
       <QualitySection />
       <TestimonialsSection />
+      <SectionDivider variant="glow-line" />
       <PricingPreview />
       <FAQSection />
+      <SectionDivider variant="dot-cluster" />
       <ContactStrip />
     </main>
   )
