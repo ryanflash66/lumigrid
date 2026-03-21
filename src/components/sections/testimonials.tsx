@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { Quote } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -47,14 +48,16 @@ const itemVars: Variants = {
 
 function TestimonialCard({
   testimonial,
-  featured = false
+  featured = false,
+  isMobile = false,
 }: {
   testimonial: (typeof testimonials)[number]
   featured?: boolean
+  isMobile?: boolean
 }) {
   return (
     <motion.div
-      variants={itemVars}
+      variants={isMobile ? undefined : itemVars}
       className={cn(
         'group relative flex flex-col gap-6 overflow-hidden rounded-[20px] border border-border/70 transition-all duration-300',
         'hover:-translate-y-1 hover:border-primary/30 hover:bg-muted/60 hover:shadow-xl',
@@ -117,6 +120,10 @@ function TestimonialCard({
 
 export function TestimonialsSection() {
   const [featured, ...rest] = testimonials
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(max-width: 768px)').matches)
+  }, [])
 
   return (
     <section id="testimonials" className="bg-background px-6 py-24">
@@ -128,19 +135,19 @@ export function TestimonialsSection() {
       </div>
 
       <motion.div
-        variants={containerVars}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-100px' }}
+        variants={isMobile ? undefined : containerVars}
+        initial={isMobile ? undefined : "hidden"}
+        whileInView={isMobile ? undefined : "show"}
+        viewport={isMobile ? undefined : { once: true, margin: '-100px' }}
         className="mx-auto mt-12 max-w-6xl space-y-8"
       >
         {/* Featured testimonial - full width */}
-        <TestimonialCard testimonial={featured} featured />
+        <TestimonialCard testimonial={featured} featured isMobile={isMobile} />
 
         {/* Remaining testimonials in a grid */}
         <div className="grid gap-8 md:grid-cols-2">
           {rest.map((testimonial) => (
-            <TestimonialCard key={testimonial.name} testimonial={testimonial} />
+            <TestimonialCard key={testimonial.name} testimonial={testimonial} isMobile={isMobile} />
           ))}
         </div>
       </motion.div>

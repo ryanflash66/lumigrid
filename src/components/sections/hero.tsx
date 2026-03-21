@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { DotShaderBackground } from '@/components/ui/dot-shader-background'
@@ -100,7 +101,13 @@ const reducedFade: Variants = {
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
-  const shaderEnabled = !prefersReducedMotion
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(max-width: 768px)').matches)
+  }, [])
+
+  const shaderEnabled = !prefersReducedMotion && !isMobile
 
   const { ref: mockupRef, y: mockupY } = useParallax(0.15)
   const { ref: subtextRef, y: subtextY } = useParallax(0.05)
@@ -276,6 +283,13 @@ export function Hero() {
             </Link>
           </MagneticWrapper>
         </motion.div>
+
+        <a
+          href="tel:+16285550148"
+          className="pointer-events-auto mt-3 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground md:hidden"
+        >
+          Or call us directly →
+        </a>
 
         {/* Browser mockup with weighty spring rise and clipPath reveal */}
         <motion.div

@@ -127,8 +127,9 @@ export const ModernPricingPage = ({
   const [shaderEnabled, setShaderEnabled] = useState(true)
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setShaderEnabled(!media.matches)
+    const update = () => setShaderEnabled(!media.matches && !isMobile)
     update()
     media.addEventListener('change', update)
     return () => media.removeEventListener('change', update)

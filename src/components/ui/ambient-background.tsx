@@ -1,8 +1,17 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 
 export function AmbientBackground() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.matchMedia('(max-width: 768px)').matches)
+  }, [])
+
+  if (isMobile) return null
+
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-50 border-0 bg-transparent">
       <div className="absolute inset-0 bg-background/50 backdrop-blur-[100px] z-10" />

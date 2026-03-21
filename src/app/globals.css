@@ -219,6 +219,11 @@
   .animate-marquee {
     animation: marquee 30s linear infinite;
   }
+  @media (max-width: 767px) {
+    .animate-marquee {
+      animation: none;
+    }
+  }
   @keyframes marquee {
     0% {
       transform: translateX(0);
