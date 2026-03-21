@@ -1,5 +1,6 @@
 import { ModernPricingPage, PricingCardProps } from '@/components/ui/animated-glassy-pricing'
 import { GradientCTASection } from '@/components/sections/cta-variations'
+import { PricingSections } from '@/components/pricing/pricing-sections'
 
 // Transform pricing data to match new component format
 const transformPricingData = (): PricingCardProps[] => {
@@ -93,6 +94,7 @@ export default function PricingPage() {
         plans={pricingPlans}
         showAnimatedBackground={true}
       />
+      <PricingSections />
       <GradientCTASection />
     </>
   )
