@@ -1,11 +1,12 @@
-import { posts } from '@/data/posts'
+import { projects } from '@/data/projects'
 import { ProjectsGrid } from './projects-grid'
 
 export const metadata = {
-  title: 'Projects Showcase',
-  description: 'Lumigrid case studies, performance notes, and design system dispatches.'
+  title: 'Projects | Lumigrid',
+  description:
+    'Case studies from the Lumigrid studio. Strategy, design, and engineering for teams chasing ambitious outcomes.'
 }
 
 export default function BlogPage() {
-  return <ProjectsGrid posts={posts} />
+  return <ProjectsGrid projects={projects} />
 }
