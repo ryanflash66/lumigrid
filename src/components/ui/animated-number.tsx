@@ -3,7 +3,15 @@
 import { animate, useInView } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 
-export function AnimatedNumber({ value }: { value: string }) {
+interface AnimatedNumberProps {
+  value: string
+  /** Use spring physics instead of tween-based easing */
+  spring?: boolean
+  /** Custom format callback for the displayed number */
+  format?: (value: number) => string
+}
+
+export function AnimatedNumber({ value, spring = false, format }: AnimatedNumberProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
@@ -16,7 +24,7 @@ export function AnimatedNumber({ value }: { value: string }) {
     const prefix = match[1] || ''
     const numStr = match[2]
     const suffix = match[3] || ''
-    
+
     const isCommaSeparated = numStr.includes(',')
     const num = parseFloat(numStr.replace(/,/g, ''))
     if (isNaN(num)) return
@@ -24,25 +32,32 @@ export function AnimatedNumber({ value }: { value: string }) {
     const hasDecimals = numStr.includes('.')
     const decimals = hasDecimals ? numStr.split('.')[1].length : 0
 
+    const animationOptions = spring
+      ? { type: 'spring' as const, stiffness: 100, damping: 30 }
+      : { duration: 2, ease: "easeOut" as const }
+
     const controls = animate(0, num, {
-      duration: 2,
-      ease: "easeOut",
+      ...animationOptions,
       onUpdate(current) {
         if (ref.current) {
-          let currentStr = current.toFixed(decimals)
-          if (isCommaSeparated) {
-             currentStr = parseFloat(currentStr).toLocaleString('en-US', {
-               minimumFractionDigits: decimals,
-               maximumFractionDigits: decimals
-             })
+          if (format) {
+            ref.current.textContent = format(current)
+          } else {
+            let currentStr = current.toFixed(decimals)
+            if (isCommaSeparated) {
+               currentStr = parseFloat(currentStr).toLocaleString('en-US', {
+                 minimumFractionDigits: decimals,
+                 maximumFractionDigits: decimals
+               })
+            }
+            ref.current.textContent = `${prefix}${currentStr}${suffix}`
           }
-          ref.current.textContent = `${prefix}${currentStr}${suffix}`
         }
       }
     })
 
     return () => controls.stop()
-  }, [value, isInView])
+  }, [value, isInView, spring, format])
 
   return <span ref={ref}>{value}</span>
 }
