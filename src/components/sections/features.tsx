@@ -35,12 +35,12 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="bg-background px-6 py-24">
+    <section id="features" className="bg-background px-6 py-28 md:py-32">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="text-balance text-4xl font-semibold md:text-5xl">
+        <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">
           Everything you need.
           <br />
-          Nothing you don&apos;t.
+          Nothing you <em className="font-serif text-primary">don&apos;t</em>.
         </h2>
       </div>
       <div className="mx-auto mt-14 grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -54,7 +54,7 @@ export function FeaturesSection() {
                 </span>
                 <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
               </div>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
+              <p className="text-sm text-foreground/85">{feature.description}</p>
             </div>
           )
         })}

@@ -53,6 +53,13 @@
 
 :root {
   --radius: 0.625rem;
+
+  /* Responsive type scale */
+  --text-display: clamp(3rem, 7vw, 5.5rem);
+  --text-heading: clamp(1.875rem, 4.5vw, 3rem);
+  --text-subheading: clamp(1.25rem, 3vw, 1.75rem);
+  --text-body: clamp(1rem, 1.5vw, 1.125rem);
+  --text-small: clamp(0.8125rem, 1vw, 0.875rem);
   
   /* Vibrant Premium Palette (Light Mode) */
   --background: oklch(0.99 0.01 250); /* Cool airy ice */

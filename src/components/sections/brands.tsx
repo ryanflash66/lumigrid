@@ -10,9 +10,9 @@ const brands = [
 
 export function BrandsSection() {
   return (
-    <section id="brands" className="bg-background px-6 py-20">
+    <section id="brands" className="bg-background px-6 py-28 md:py-32">
       <div className="mx-auto max-w-5xl text-center space-y-3">
-        <p className="text-xs uppercase tracking-[0.4em] text-foreground/60">Loved by teams everywhere</p>
+        <p className="text-xs uppercase tracking-[0.15em] text-foreground/60">Loved by teams everywhere</p>
         <p className="text-sm text-muted-foreground">
           Design leaders and growth teams rely on Lumigrid to ship their most important launches.
         </p>

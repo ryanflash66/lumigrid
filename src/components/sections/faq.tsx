@@ -31,9 +31,9 @@ export function FAQSection() {
   const [open, setOpen] = useState<string | null>(faqs[0].question)
 
   return (
-    <section id="faq" className="bg-background px-6 py-24">
+    <section id="faq" className="bg-background px-6 py-28 md:py-32">
       <div className="mx-auto max-w-3xl space-y-6 text-center">
-        <h2 className="text-4xl font-semibold">Questions and Answers</h2>
+        <h2 className="text-4xl font-bold tracking-tight">Questions and <em className="font-serif italic not-italic text-primary">Answers</em></h2>
       </div>
       <div className="mx-auto mt-12 max-w-3xl divide-y divide-border/60">
         {faqs.map((faq) => {

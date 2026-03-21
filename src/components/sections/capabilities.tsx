@@ -20,10 +20,10 @@ const capabilities = [
 
 export function CapabilitiesSection() {
   return (
-    <section id="capabilities" className="bg-background px-6 py-24">
+    <section id="capabilities" className="bg-background px-6 py-28 md:py-32">
       <div className="mx-auto max-w-6xl space-y-4">
-        <h2 className="text-balance text-4xl font-semibold text-foreground md:text-5xl">
-          Build a better website, faster.
+        <h2 className="text-balance text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          Build a better website, <em className="font-serif text-primary">faster</em>.
         </h2>
         <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
           A modular system that keeps strategy, design, and delivery aligned, with enough flexibility to tailor every
