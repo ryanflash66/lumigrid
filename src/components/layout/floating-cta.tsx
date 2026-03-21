@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 
@@ -11,8 +12,21 @@ const INTERACTION_THROTTLE_MS = 150
 
 export function FloatingCTA() {
   const [isActive, setIsActive] = useState(false)
+  const [pastHero, setPastHero] = useState(false)
   const idleTimer = useRef<NodeJS.Timeout | null>(null)
   const throttleTimer = useRef<NodeJS.Timeout | null>(null)
+  const prefersReduced = useReducedMotion()
+
+  const { scrollY } = useScroll()
+  const ctaOpacity = useTransform(scrollY, [300, 500], [0, 1])
+  const ctaX = useTransform(scrollY, [300, 500], [100, 0])
+
+  useEffect(() => {
+    return scrollY.on('change', (v) => {
+      const shouldShow = v > 400
+      setPastHero((prev) => (prev === shouldShow ? prev : shouldShow))
+    })
+  }, [scrollY])
 
   useEffect(() => {
     const interactions: Array<[keyof WindowEventMap, AddEventListenerOptions | boolean | undefined]> = [
@@ -47,7 +61,18 @@ export function FloatingCTA() {
   }, [])
 
   return (
-    <div className="pointer-events-none fixed bottom-6 right-4 z-40 hidden flex-col gap-1 md:flex lg:right-8">
+    <motion.div
+      className="pointer-events-none fixed bottom-6 right-4 z-40 hidden flex-col gap-1 md:flex lg:right-8"
+      style={prefersReduced ? { opacity: pastHero ? 1 : 0 } : { opacity: ctaOpacity, x: ctaX }}
+      animate={
+        prefersReduced || !pastHero
+          ? {}
+          : { scale: [1, 1.02, 1] }
+      }
+      transition={{
+        scale: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
+      }}
+    >
       <p className="pointer-events-auto text-[11px] font-semibold uppercase tracking-[0.4em] text-accent">
         Need to ship?
       </p>
@@ -64,6 +89,6 @@ export function FloatingCTA() {
           <ArrowUpRight className="ml-auto h-4 w-4 transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1" />
         </Link>
       </MagneticWrapper>
-    </div>
+    </motion.div>
   )
 }

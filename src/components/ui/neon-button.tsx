@@ -1,6 +1,11 @@
+'use client'
+
 import * as React from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { VariantProps, cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
+
+const springTransition = { type: 'spring' as const, stiffness: 400, damping: 25 }
 
 const buttonVariants = cva(
   'group relative inline-flex items-center justify-center rounded-full font-medium tracking-tight transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/60 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 isolate overflow-visible',
@@ -48,7 +53,7 @@ const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
         {/* Outer blur glow */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -inset-3 -z-20 rounded-full bg-gradient-to-r from-primary via-accent to-secondary opacity-0 blur-3xl transition duration-500 group-hover:opacity-60 dark:group-hover:opacity-70"
+          className="pointer-events-none absolute -inset-4 -z-20 rounded-full bg-gradient-to-r from-primary via-accent to-secondary opacity-0 blur-3xl transition-all duration-500 group-hover:opacity-70 group-hover:scale-110 dark:group-hover:opacity-80"
         />
         {/* Ring highlight */}
         <span aria-hidden className="pointer-events-none absolute inset-0 -z-20 rounded-full ring-1 ring-primary/20 blur-[1px] group-hover:ring-primary/35" />
@@ -77,6 +82,8 @@ const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
       </>
     )
 
+    const prefersReduced = useReducedMotion()
+
     if (asChild) {
       const child = React.Children.only(children) as React.ReactElement<React.HTMLAttributes<HTMLElement> & { className?: string }>
       return React.cloneElement(child, {
@@ -86,10 +93,25 @@ const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
       } as Partial<React.HTMLAttributes<HTMLElement>>)
     }
 
+    if (prefersReduced) {
+      return (
+        <button className={classes} ref={ref} type={type} {...props}>
+          {wrapChildren(children)}
+        </button>
+      )
+    }
+
     return (
-      <button className={classes} ref={ref} type={type} {...props}>
-        {wrapChildren(children)}
-      </button>
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
+        transition={springTransition}
+        className="inline-flex"
+      >
+        <button className={classes} ref={ref} type={type} {...props}>
+          {wrapChildren(children)}
+        </button>
+      </motion.div>
     )
   }
 )
