@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
 
 const tiers = [
   {
@@ -24,52 +27,59 @@ const tiers = [
 
 export function PricingPreview() {
   return (
-    <section id="pricing" className="bg-background px-6 py-28 md:py-32">
+    <section id="pricing" className="bg-background px-6 py-24">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="text-balance text-4xl font-bold tracking-tight md:text-5xl">Build your <em className="font-serif text-primary">dream</em> landing page, today.</h2>
-        <p className="mt-4 text-base text-muted-foreground md:text-lg">
-          Simple, transparent pricing for teams ready to ship with confidence.
-        </p>
+        <ScrollReveal variant="clip-reveal">
+          <h2 className="text-balance text-4xl font-semibold md:text-5xl">Build your dream landing page, today.</h2>
+        </ScrollReveal>
+        <ScrollReveal variant="fade-up" delay={0.1}>
+          <p className="mt-4 text-base text-muted-foreground md:text-lg">
+            Simple, transparent pricing for teams ready to ship with confidence.
+          </p>
+        </ScrollReveal>
       </div>
-      <div className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+      <StaggerContainer stagger={0.1} className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
         {tiers.map((tier) => (
-          <div
-            key={tier.name}
-            className={`flex h-full flex-col rounded-[20px] border border-border/70 p-6 ${
-              tier.featured ? 'bg-foreground text-background' : 'bg-card/60'
-            }`}
-          >
-            <div>
-              <h3 className={`text-lg font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
-                {tier.name}
-              </h3>
-              <p className={`mt-3 text-3xl font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
-                {tier.price}
-              </p>
-              <p className={`mt-2 text-sm ${tier.featured ? 'text-background/80' : 'text-muted-foreground'}`}>
-                {tier.description}
-              </p>
+          <StaggerItem key={tier.name} variant="fade-up">
+            <div
+              className={`flex h-full flex-col rounded-[20px] border border-border/70 p-6 ${
+                tier.featured ? 'bg-foreground text-background' : 'bg-card/60'
+              }`}
+            >
+              <div>
+                <h3 className={`text-lg font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
+                  {tier.name}
+                </h3>
+                <p className={`mt-3 text-3xl font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
+                  {tier.price}
+                </p>
+                <p className={`mt-2 text-sm ${tier.featured ? 'text-background/80' : 'text-muted-foreground'}`}>
+                  {tier.description}
+                </p>
+              </div>
+              <div className="mt-6">
+                <Link
+                  href="/contact"
+                  className={`inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition ${
+                    tier.featured
+                      ? 'bg-background text-foreground hover:bg-background/90'
+                      : 'border border-foreground/20 text-foreground hover:border-foreground/40'
+                  }`}
+                >
+                  {tier.cta}
+                </Link>
+              </div>
             </div>
-            <div className="mt-6">
-              <Link
-                href="/contact"
-                className={`inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition ${
-                  tier.featured
-                    ? 'bg-background text-foreground hover:bg-background/90'
-                    : 'border border-foreground/20 text-foreground hover:border-foreground/40'
-                }`}
-              >
-                {tier.cta}
-              </Link>
-            </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
-      <div className="mt-8 text-center text-sm text-muted-foreground">
-        <Link href="/pricing" className="font-medium text-foreground/80 hover:text-foreground">
-          View full pricing →
-        </Link>
-      </div>
+      </StaggerContainer>
+      <ScrollReveal variant="fade-up" delay={0.4}>
+        <div className="mt-8 text-center text-sm text-muted-foreground">
+          <Link href="/pricing" className="font-medium text-foreground/80 hover:text-foreground">
+            View full pricing →
+          </Link>
+        </div>
+      </ScrollReveal>
     </section>
   )
 }
