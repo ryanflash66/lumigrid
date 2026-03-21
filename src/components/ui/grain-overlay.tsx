@@ -2,9 +2,14 @@
 
 import { memo } from 'react'
 import { useReducedMotion } from 'framer-motion'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export const GrainOverlay = memo(function GrainOverlay() {
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
+
+  // Mobile: skip grain — invisible at 3-4% opacity on small screens, expensive SVG filter
+  if (isMobile) return null
 
   return (
     <div

@@ -2,10 +2,15 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { DotShaderBackground } from '@/components/ui/dot-shader-background'
+import { useIsMobile } from '@/hooks/use-mobile'
+import dynamic from 'next/dynamic'
+
+const DotShaderBackground = dynamic(
+  () => import('@/components/ui/dot-shader-background').then((m) => m.DotShaderBackground),
+  { ssr: false }
+)
 import { NeonButton } from '@/components/ui/neon-button'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 import { WordReveal } from '@/components/ui/text-reveal'
@@ -99,22 +104,44 @@ const reducedFade: Variants = {
   visible: { opacity: 1, transition: { duration: 0.4 } },
 }
 
+// Mobile-optimized variants: minimal delays so CTA is visible in ~200ms
+const mobileBadgeVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.2 } },
+}
+const mobileHeadlineVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.25, delay: 0.05 } },
+}
+const mobileSubtextVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.2, delay: 0.1 } },
+}
+const mobileCtaVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.2, delay: 0.15 } },
+}
+const mobileMockupVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3, delay: 0.2 } },
+}
+
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    setIsMobile(window.matchMedia('(max-width: 768px)').matches)
-  }, [])
+  const isMobile = useIsMobile()
 
   const shaderEnabled = !prefersReducedMotion && !isMobile
 
-  const { ref: mockupRef, y: mockupY } = useParallax(0.15)
-  const { ref: subtextRef, y: subtextY } = useParallax(0.05)
-  const { ref: blobRef, y: blobY } = useParallax(-0.1)
+  // Skip parallax on mobile — saves 3 scroll listeners + transform calculations
+  const { ref: mockupRef, y: mockupY } = useParallax(isMobile ? 0 : 0.15)
+  const { ref: subtextRef, y: subtextY } = useParallax(isMobile ? 0 : 0.05)
+  const { ref: blobRef, y: blobY } = useParallax(isMobile ? 0 : -0.1)
 
-  const pick = (full: Variants): Variants =>
-    prefersReducedMotion ? reducedFade : full
+  const pick = (full: Variants, mobileVariant?: Variants): Variants => {
+    if (prefersReducedMotion) return reducedFade
+    if (isMobile && mobileVariant) return mobileVariant
+    return full
+  }
 
   return (
     <section className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
@@ -152,7 +179,7 @@ export function Hero() {
 
       <motion.div
         ref={blobRef}
-        style={prefersReducedMotion ? undefined : { y: blobY }}
+        style={prefersReducedMotion || isMobile ? undefined : { y: blobY }}
         className="contents"
       >
         <div className="pointer-events-none absolute -left-40 top-1/3 z-0 h-96 w-96 rounded-full bg-linear-to-br from-primary/15 to-accent/5 blur-[120px] dark:from-primary/25 dark:to-accent/10" />
@@ -177,7 +204,7 @@ export function Hero() {
             />
           )}
           <motion.div
-            variants={pick(badgeVariants)}
+            variants={pick(badgeVariants, mobileBadgeVariants)}
             initial="hidden"
             animate="visible"
             className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)] backdrop-blur-xl"
@@ -196,7 +223,7 @@ export function Hero() {
 
         {/* Headline with increased y-travel and WordReveal delay 0.3s */}
         <motion.div
-          variants={pick(headlineVariants)}
+          variants={pick(headlineVariants, mobileHeadlineVariants)}
           initial="hidden"
           animate="visible"
           className="relative mt-12"
@@ -244,10 +271,10 @@ export function Hero() {
         {/* Subtext with spring physics */}
         <motion.div
           ref={subtextRef}
-          variants={pick(subtextVariants)}
+          variants={pick(subtextVariants, mobileSubtextVariants)}
           initial="hidden"
           animate="visible"
-          style={prefersReducedMotion ? undefined : { y: subtextY }}
+          style={prefersReducedMotion || isMobile ? undefined : { y: subtextY }}
         >
           <p className="mt-8 max-w-2xl text-pretty text-base text-muted-foreground md:text-lg lg:text-xl">
             A premium landing page system built for fast launches, polished
@@ -257,7 +284,7 @@ export function Hero() {
 
         {/* CTA buttons with snappy spring overshoot */}
         <motion.div
-          variants={pick(ctaVariants)}
+          variants={pick(ctaVariants, mobileCtaVariants)}
           initial="hidden"
           animate="visible"
           className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-4"
@@ -294,11 +321,11 @@ export function Hero() {
         {/* Browser mockup with weighty spring rise and clipPath reveal */}
         <motion.div
           ref={mockupRef}
-          variants={pick(mockupVariants)}
+          variants={pick(mockupVariants, mobileMockupVariants)}
           initial="hidden"
           animate="visible"
           className="relative mt-16 w-full max-w-5xl group"
-          style={prefersReducedMotion ? undefined : { y: mockupY }}
+          style={prefersReducedMotion || isMobile ? undefined : { y: mockupY }}
         >
           <div className="pointer-events-none absolute -inset-4 rounded-[28px] bg-linear-to-r from-primary/30 to-accent/30 opacity-40 blur-2xl transition-opacity duration-700 group-hover:opacity-70" />
           <div className="relative overflow-hidden rounded-[20px] border border-border/50 bg-background/40 p-3 shadow-2xl shadow-primary/20 backdrop-blur-2xl ring-1 ring-border/50">

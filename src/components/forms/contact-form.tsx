@@ -326,6 +326,8 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
           value={fields.fullName}
           onChange={(event) => handleChange('fullName', event.target.value)}
           onBlur={() => handleBlur('fullName')}
+          autoCapitalize="words"
+          enterKeyHint="next"
           aria-invalid={Boolean(errors.fullName)}
           aria-describedby={errors.fullName ? `${ids.fullName}-error` : undefined}
           disabled={status === 'loading'}
@@ -357,6 +359,9 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
             placeholder="you@company.com"
+            inputMode="email"
+            autoCapitalize="none"
+            enterKeyHint="next"
             value={fields.email}
             onChange={(event) => handleChange('email', event.target.value)}
             onBlur={() => handleBlur('email')}
@@ -389,6 +394,8 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
             placeholder="+1 (415) 555-8911"
+            inputMode="tel"
+            enterKeyHint="next"
             value={fields.phone}
             onChange={(event) => handleChange('phone', event.target.value)}
             onBlur={() => handleBlur('phone')}
@@ -423,6 +430,8 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
             'disabled:opacity-50 disabled:cursor-not-allowed'
           )}
           placeholder="Acme Inc."
+          autoCapitalize="words"
+          enterKeyHint="next"
           value={fields.company}
           onChange={(event) => handleChange('company', event.target.value)}
           onBlur={() => handleBlur('company')}
@@ -525,6 +534,7 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
             'disabled:opacity-50 disabled:cursor-not-allowed'
           )}
           placeholder="What are you hoping to achieve? The more context you share, the better we can prepare for our first conversation."
+          enterKeyHint="send"
           value={fields.message}
           onChange={(event) => handleChange('message', event.target.value)}
           onBlur={() => handleBlur('message')}

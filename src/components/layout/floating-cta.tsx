@@ -6,6 +6,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const INTERACTION_IDLE_MS = 1500
 const INTERACTION_THROTTLE_MS = 150
@@ -13,6 +14,7 @@ const INTERACTION_THROTTLE_MS = 150
 export function FloatingCTA() {
   const [isActive, setIsActive] = useState(false)
   const [pastHero, setPastHero] = useState(false)
+  const isMobile = useIsMobile()
   const idleTimer = useRef<NodeJS.Timeout | null>(null)
   const throttleTimer = useRef<NodeJS.Timeout | null>(null)
   const prefersReduced = useReducedMotion()
@@ -28,7 +30,9 @@ export function FloatingCTA() {
     })
   }, [scrollY])
 
+  // Mobile: skip all event listeners — MobileCTABar handles mobile CTA
   useEffect(() => {
+    if (isMobile) return
     const interactions: Array<[keyof WindowEventMap, AddEventListenerOptions | boolean | undefined]> = [
       ['scroll', { passive: true }],
       ['pointermove', { passive: true }],
@@ -58,7 +62,10 @@ export function FloatingCTA() {
       if (idleTimer.current) clearTimeout(idleTimer.current)
       if (throttleTimer.current) clearTimeout(throttleTimer.current)
     }
-  }, [])
+  }, [isMobile])
+
+  // Mobile: don't render — MobileCTABar handles this
+  if (isMobile) return null
 
   return (
     <motion.div

@@ -13,9 +13,17 @@ import {
 const LOAD_DURATION = 1.2;
 const EXIT_DURATION = 0.5;
 
+// Mobile: skip loader entirely — every ms counts for lead conversion
+function getInitialLoading() {
+  if (typeof window !== 'undefined') {
+    return !window.matchMedia('(max-width: 768px)').matches;
+  }
+  return true;
+}
+
 export function PageLoader() {
   const prefersReduced = useReducedMotion();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(getInitialLoading);
   const [showFlash, setShowFlash] = useState(false);
 
   // Animated progress value (0-100)
