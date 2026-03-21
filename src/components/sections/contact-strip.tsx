@@ -13,6 +13,7 @@ import {
 import { CharReveal } from '@/components/ui/text-reveal'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const springTransition = { type: 'spring' as const, stiffness: 80, damping: 25 }
 
@@ -29,10 +30,12 @@ const lineVariants = {
 export function ContactStrip() {
   const sectionRef = useRef<HTMLElement>(null)
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
+  const skipAnimations = !!prefersReduced || isMobile
 
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 })
 
-  // Background gradient shift driven by scroll position
+  // Background gradient shift driven by scroll position — skip on mobile
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -49,23 +52,25 @@ export function ContactStrip() {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative overflow-hidden bg-background px-6 py-24"
+      className="relative overflow-hidden bg-background px-6 py-12 md:py-24"
     >
-      {/* Scroll-driven radial gradient background */}
-      {!prefersReduced && (
+      {/* Scroll-driven radial gradient background — skip on mobile */}
+      {!skipAnimations && (
         <motion.div
           className="pointer-events-none absolute inset-0"
           style={{ backgroundImage: gradientBg }}
         />
       )}
 
-      {/* Animated glow blur */}
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-48 w-[70%] rounded-full bg-blue-500/20 blur-[140px]"
-        variants={prefersReduced ? undefined : glowVariants}
-        initial={prefersReduced ? undefined : 'hidden'}
-        animate={prefersReduced ? undefined : isInView ? 'visible' : 'hidden'}
-      />
+      {/* Animated glow blur — skip on mobile */}
+      {!skipAnimations && (
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-48 w-[70%] rounded-full bg-blue-500/20 blur-[140px]"
+          variants={glowVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        />
+      )}
 
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
         {/* Character-by-character heading reveal */}
@@ -80,14 +85,18 @@ export function ContactStrip() {
           </p>
         </ScrollReveal>
 
-        {/* Decorative horizontal line expanding from center */}
-        <motion.div
-          className="h-px w-full max-w-md bg-primary/30"
-          style={{ transformOrigin: 'center' }}
-          variants={prefersReduced ? undefined : lineVariants}
-          initial={prefersReduced ? undefined : 'hidden'}
-          animate={prefersReduced ? undefined : isInView ? 'visible' : 'hidden'}
-        />
+        {/* Decorative horizontal line — static on mobile */}
+        {skipAnimations ? (
+          <div className="h-px w-full max-w-md bg-primary/30" />
+        ) : (
+          <motion.div
+            className="h-px w-full max-w-md bg-primary/30"
+            style={{ transformOrigin: 'center' }}
+            variants={lineVariants}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+          />
+        )}
 
         <ScrollReveal variant="fade-scale" delay={0.2}>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const footerLinks = [
   {
@@ -68,36 +69,43 @@ const headlineWords = ["Let's", 'build', 'something', '|', 'luminous']
 
 export function SiteFooter() {
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
 
   return (
     <footer className="relative overflow-hidden bg-background">
-      {/* Animated gradient border sweep at top */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px] animate-[gradient-sweep_4s_linear_infinite]"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent)',
-          backgroundSize: '200% 100%',
-        }}
-      />
-      <div
-        className="absolute top-0 left-0 right-0 h-8 opacity-30"
-        style={{
-          background:
-            'linear-gradient(to bottom, var(--primary), transparent)',
-          filter: 'blur(12px)',
-        }}
-      />
+      {/* Animated gradient border sweep at top — skip on mobile */}
+      {!isMobile && (
+        <>
+          <div
+            className="absolute top-0 left-0 right-0 h-[2px] animate-[gradient-sweep_4s_linear_infinite]"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent)',
+              backgroundSize: '200% 100%',
+            }}
+          />
+          <div
+            className="absolute top-0 left-0 right-0 h-8 opacity-30"
+            style={{
+              background:
+                'linear-gradient(to bottom, var(--primary), transparent)',
+              filter: 'blur(12px)',
+            }}
+          />
+        </>
+      )}
 
-      {/* Pulsing dot grid pattern background */}
-      <div
-        className="pointer-events-none absolute inset-0 animate-[dot-pulse_6s_ease-in-out_infinite]"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, var(--primary) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-        }}
-      />
+      {/* Pulsing dot grid pattern background — skip on mobile */}
+      {!isMobile && (
+        <div
+          className="pointer-events-none absolute inset-0 animate-[dot-pulse_6s_ease-in-out_infinite]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, var(--primary) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+      )}
 
       {/* Year watermark */}
       <div

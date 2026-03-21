@@ -9,6 +9,7 @@ import {
   type Variants,
 } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { AnimatedNumber } from '@/components/ui/animated-number'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
@@ -100,11 +101,12 @@ const containerVariants: Variants = {
 
 export function PricingPreview() {
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: '-80px' })
 
   return (
-    <section id="pricing" className="bg-background px-6 py-24">
+    <section id="pricing" className="bg-background px-6 py-12 md:py-24">
       <ScrollReveal variant="clip-reveal" className="mx-auto max-w-6xl text-center">
         <h2 className="text-balance text-4xl font-semibold md:text-5xl">
           Build your dream landing page, today.
@@ -116,16 +118,16 @@ export function PricingPreview() {
 
       <motion.div
         ref={containerRef}
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        variants={isMobile ? undefined : containerVariants}
+        initial={isMobile ? undefined : 'hidden'}
+        animate={isMobile ? undefined : isInView ? 'visible' : 'hidden'}
         className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3 md:items-center"
-        style={{ perspective: '800px' }}
+        style={isMobile ? undefined : { perspective: '800px' }}
       >
         {tiers.map((tier) => (
           <motion.div
             key={tier.name}
-            variants={getCardVariants(!!tier.featured, prefersReduced)}
+            variants={isMobile ? undefined : getCardVariants(!!tier.featured, prefersReduced)}
           >
             <TiltCard maxTilt={3} glowBorder={false}>
               <div

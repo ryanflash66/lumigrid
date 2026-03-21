@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 type SectionDividerVariant = "glow-line" | "wave" | "dot-cluster"
 
@@ -91,6 +92,19 @@ function DotCluster() {
 }
 
 export function SectionDivider({ variant, className }: SectionDividerProps) {
+  const isMobile = useIsMobile()
+
+  // On mobile: render static divider without motion wrapper
+  if (isMobile) {
+    return (
+      <div className={cn("py-4", className)}>
+        {variant === "glow-line" && <GlowLine />}
+        {variant === "wave" && <Wave />}
+        {variant === "dot-cluster" && <DotCluster />}
+      </div>
+    )
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

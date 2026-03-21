@@ -6,6 +6,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   type CSSProperties,
 } from "react";
 import * as THREE from "three";
@@ -599,6 +600,14 @@ export function DotShaderBackground({
   className,
   style,
 }: DotShaderBackgroundProps) {
+  // Skip heavy WebGL shader entirely on mobile — #1 performance killer
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+  }, []);
+
+  if (isMobile) return null;
+
   return (
     <div
       className={cn("absolute inset-0 z-0 h-full w-full", className)}
