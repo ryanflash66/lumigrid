@@ -215,4 +215,12 @@
       transform: translateX(calc(-50% - 1.5rem)); /* Accommodates gap-12 (3rem) */
     }
   }
+
+  .animate-quality-pulse {
+    animation: quality-pulse 6s ease-in-out infinite;
+  }
+  @keyframes quality-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.97; }
+  }
 }
