@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingCTA } from "@/components/layout/floating-cta";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AmbientBackground } from "@/components/ui/ambient-background";
+import { PageLoader } from "@/components/ui/page-loader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -91,6 +92,7 @@ export default function RootLayout({
             <SiteFooter />
           </div>
           <FloatingCTA />
+          <PageLoader />
         </ThemeProvider>
       </body>
     </html>
