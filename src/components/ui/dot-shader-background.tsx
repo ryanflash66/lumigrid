@@ -24,7 +24,8 @@ const DotMaterial = shaderMaterial(
   {
     time: 0,
     resolution: new THREE.Vector2(),
-    dotColor: new THREE.Color("#FFFFFF"),
+    dotColorWarm: new THREE.Color("#FFFFFF"),
+    dotColorCool: new THREE.Color("#FFFFFF"),
     bgColor: new THREE.Color("#121212"),
     dotState: null,
     dotStateBack: null,
@@ -35,6 +36,7 @@ const DotMaterial = shaderMaterial(
     dotOpacity: 0.05,
     cursorUv: new THREE.Vector2(-1, -1),
     cursorActive: 0,
+    uFadeIn: 0,
   },
   /* glsl */ `
     void main() {
@@ -45,7 +47,8 @@ const DotMaterial = shaderMaterial(
     uniform float time;
     uniform int render;
     uniform vec2 resolution;
-    uniform vec3 dotColor;
+    uniform vec3 dotColorWarm;
+    uniform vec3 dotColorCool;
     uniform vec3 bgColor;
     uniform sampler2D dotState;
     uniform sampler2D dotStateBack;
@@ -55,6 +58,7 @@ const DotMaterial = shaderMaterial(
     uniform float dotOpacity;
     uniform vec2 cursorUv;
     uniform float cursorActive;
+    uniform float uFadeIn;
 
     vec2 rotate(vec2 uv, float angle) {
       float s = sin(angle);
@@ -69,6 +73,12 @@ const DotMaterial = shaderMaterial(
       return clamp(newUv, 0.0, 1.0);
     }
 
+    // Spatial gradient: blend warm (bottom-left) to cool (top-right)
+    vec3 spatialDotColor(vec2 uv) {
+      float gradientT = clamp((uv.x + (1.0 - uv.y)) * 0.5, 0.0, 1.0);
+      return mix(dotColorWarm, dotColorCool, gradientT);
+    }
+
     void main() {
       vec2 screenUv = gl_FragCoord.xy / resolution;
       vec2 uv = coverUv(screenUv);
@@ -76,10 +86,14 @@ const DotMaterial = shaderMaterial(
 
       float wave = sin(length(uv - 0.5) * 8.0 - time * 0.7);
 
+      // Spatial base color for this fragment
+      vec3 baseDotColor = spatialDotColor(uv);
+
       // --- Back layer (smaller, dimmer, slower) ---
       vec2 gCoordB = rUv * gridSizeBack;
       vec2 cellB = floor(gCoordB);
       float maskBack = 0.0;
+      float glowMaskBack = 0.0;
       float topInfBack = 0.0;
       float dotRBack = 0.065 + wave * 0.003;
 
@@ -91,9 +105,17 @@ const DotMaterial = shaderMaterial(
           vec4 stB = texture2D(dotStateBack, stUvB);
           vec2 displacedB = centerB + stB.rg;
           float velSizeB = stB.a * 0.03;
-          float sdB = length(gCoordB - displacedB) - (dotRBack + velSizeB);
+          float localInfB = stB.b;
+          // Bloom: expand radius when influenced
+          float bloomRadiusB = dotRBack + velSizeB + localInfB * 0.06;
+          float distB = length(gCoordB - displacedB);
+          float sdB = distB - bloomRadiusB;
           maskBack = max(maskBack, smoothstep(0.018, 0.0, sdB));
-          topInfBack = max(topInfBack, stB.b);
+          // Soft glow falloff around influenced dots
+          float sdGlowB = distB - bloomRadiusB - localInfB * 0.15;
+          float glowFallB = smoothstep(0.12, 0.0, sdGlowB) * localInfB;
+          glowMaskBack = max(glowMaskBack, glowFallB);
+          topInfBack = max(topInfBack, localInfB);
         }
       }
 
@@ -101,6 +123,7 @@ const DotMaterial = shaderMaterial(
       vec2 gCoord = rUv * gridSize;
       vec2 cell = floor(gCoord);
       float mask = 0.0;
+      float glowMask = 0.0;
       float topInf = 0.0;
       float dotRBase = 0.10 + wave * 0.005;
 
@@ -112,9 +135,17 @@ const DotMaterial = shaderMaterial(
           vec4 st = texture2D(dotState, stUv);
           vec2 displaced = center + st.rg;
           float velSize = st.a * 0.04;
-          float sd = length(gCoord - displaced) - (dotRBase + velSize);
+          float localInf = st.b;
+          // Bloom: expand radius when influenced
+          float bloomRadius = dotRBase + velSize + localInf * 0.08;
+          float dist = length(gCoord - displaced);
+          float sd = dist - bloomRadius;
           mask = max(mask, smoothstep(0.018, 0.0, sd));
-          topInf = max(topInf, st.b);
+          // Soft gaussian-like glow around activated dots
+          float sdGlow = dist - bloomRadius - localInf * 0.2;
+          float glowFall = smoothstep(0.15, 0.0, sdGlow) * localInf;
+          glowMask = max(glowMask, glowFall);
+          topInf = max(topInf, localInf);
         }
       }
 
@@ -125,8 +156,8 @@ const DotMaterial = shaderMaterial(
 
       // --- Color temperature shift near cursor ---
       float hueShift = topInf * 0.45;
-      vec3 cool = dotColor + vec3(-hueShift * 0.5, hueShift * 0.15, hueShift);
-      vec3 tintedDot = mix(dotColor, cool, smoothstep(0.0, 0.6, topInf));
+      vec3 cool = baseDotColor + vec3(-hueShift * 0.5, hueShift * 0.15, hueShift);
+      vec3 tintedDot = mix(baseDotColor, cool, smoothstep(0.0, 0.6, topInf));
 
       // --- Cursor-proximity reveal ---
       vec2 cursorCover = coverUv(cursorUv);
@@ -134,12 +165,19 @@ const DotMaterial = shaderMaterial(
       float reveal = smoothstep(0.38, 0.08, cursorDist) * cursorActive;
 
       // --- Composite: back layer first, then front on top ---
-      float glowBack = topInfBack * 1.5;
-      vec3 col = mix(bgColor, dotColor, maskBack * vignette * dotOpacity * 0.4 * (1.0 + glowBack) * reveal);
+      float glowBackVal = topInfBack * 1.5;
+      vec3 col = mix(bgColor, baseDotColor, maskBack * vignette * dotOpacity * 0.4 * (1.0 + glowBackVal) * reveal);
+      // Add soft glow halo for back layer
+      col += baseDotColor * glowMaskBack * vignette * dotOpacity * 0.2 * reveal;
 
-      float glow = topInf * 2.5;
+      float glowVal = topInf * 2.5;
       float brighten = 1.0 + topInf * 8.0;
-      col = mix(col, tintedDot * brighten, mask * vignette * dotOpacity * (1.0 + glow) * reveal);
+      col = mix(col, tintedDot * brighten, mask * vignette * dotOpacity * (1.0 + glowVal) * reveal);
+      // Add soft glow halo for front layer
+      col += tintedDot * glowMask * vignette * dotOpacity * 0.4 * reveal;
+
+      // Apply fade-in entrance animation
+      col = mix(bgColor, col, uFadeIn);
 
       gl_FragColor = vec4(col, 1.0);
 
@@ -158,11 +196,26 @@ function Scene() {
   const themeColors = useMemo(() => {
     switch (activeTheme) {
       case "dark":
-        return { dotColor: "#FFFFFF", bgColor: "#121212", dotOpacity: 0.025 };
+        return {
+          dotColorWarm: "#FFE8D6",  // warm accent (bottom-left)
+          dotColorCool: "#D6E8FF",  // cool primary (top-right)
+          bgColor: "#121212",
+          dotOpacity: 0.025,
+        };
       case "light":
-        return { dotColor: "#0F172A", bgColor: "#F7F7F8", dotOpacity: 0.35 };
+        return {
+          dotColorWarm: "#2A1A0F",  // warm dark accent (bottom-left)
+          dotColorCool: "#0F1A2A",  // cool dark primary (top-right)
+          bgColor: "#F7F7F8",
+          dotOpacity: 0.35,
+        };
       default:
-        return { dotColor: "#FFFFFF", bgColor: "#121212", dotOpacity: 0.05 };
+        return {
+          dotColorWarm: "#FFE8D6",
+          dotColorCool: "#D6E8FF",
+          bgColor: "#121212",
+          dotOpacity: 0.05,
+        };
     }
   }, [activeTheme]);
 
@@ -179,6 +232,7 @@ function Scene() {
 
   const scrollDelta = useRef(0);
   const scrollSmooth = useRef(0);
+  const fadeInStart = useRef(-1);
 
   const dotStateTex = useMemo(() => {
     const tex = new THREE.DataTexture(
@@ -223,7 +277,8 @@ function Scene() {
   }, [dotStateTex, dotStateTexBack, dotMaterial]);
 
   useEffect(() => {
-    dotMaterial.uniforms.dotColor.value.set(themeColors.dotColor);
+    dotMaterial.uniforms.dotColorWarm.value.set(themeColors.dotColorWarm);
+    dotMaterial.uniforms.dotColorCool.value.set(themeColors.dotColorCool);
     dotMaterial.uniforms.bgColor.value.set(themeColors.bgColor);
     dotMaterial.uniforms.dotOpacity.value = themeColors.dotOpacity;
   }, [themeColors, dotMaterial]);
@@ -250,6 +305,13 @@ function Scene() {
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.05);
     const time = state.clock.elapsedTime;
+
+    // --- Fade-in entrance animation (0 -> 1 over 1.5s) ---
+    if (fadeInStart.current < 0) fadeInStart.current = time;
+    const fadeProg = Math.min((time - fadeInStart.current) / 1.5, 1.0);
+    // Ease-out cubic for smooth materialization
+    const easedFade = 1.0 - (1.0 - fadeProg) * (1.0 - fadeProg) * (1.0 - fadeProg);
+    dotMaterial.uniforms.uFadeIn.value = easedFade;
 
     // --- Scroll velocity ---
     const rawScroll = scrollDelta.current;
