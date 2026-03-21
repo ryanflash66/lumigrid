@@ -1,85 +1,95 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { posts } from '@/data/posts'
+import { projects } from '@/data/projects'
 import { ReadingProgress } from '@/components/ui/reading-progress'
+import { ProjectDetail } from './project-detail'
 
-type BlogPageProps = {
+type ProjectPageProps = {
   params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
-  return posts.map((post) => ({ slug: post.slug }))
+  return projects.map((p) => ({ slug: p.slug }))
 }
 
-export async function generateMetadata({ params }: BlogPageProps) {
+export async function generateMetadata({ params }: ProjectPageProps) {
   const { slug } = await params
-  const post = posts.find((item) => item.slug === slug)
-  if (!post) return {}
+  const project = projects.find((p) => p.slug === slug)
+  if (!project) return {}
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: `${project.title} | Lumigrid`,
+    description: project.excerpt,
     openGraph: {
-      images: [post.heroImage]
+      images: [project.heroImage]
     }
   }
 }
 
-export default async function BlogPostPage({ params }: BlogPageProps) {
+export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params
-  const post = posts.find((item) => item.slug === slug)
-  if (!post) notFound()
+  const projectIndex = projects.findIndex((p) => p.slug === slug)
+  if (projectIndex === -1) notFound()
+
+  const project = projects[projectIndex]
+  const prevProject = projectIndex > 0 ? projects[projectIndex - 1] : null
+  const nextProject = projectIndex < projects.length - 1 ? projects[projectIndex + 1] : null
 
   return (
     <>
       <ReadingProgress />
       <article className="bg-background px-6 py-24">
-      <div className="mx-auto max-w-3xl space-y-6">
-        <div className="space-y-4 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-primary">{post.category}</p>
-          <h1 className="text-balance text-4xl font-semibold md:text-6xl">{post.title}</h1>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-            <Image src={post.author.avatar} alt={post.author.name} width={40} height={40} className="rounded-full" />
-            <span>{post.author.name}</span>
-            <span>•</span>
-            <span>{new Date(post.date).toLocaleDateString()}</span>
-            <span>•</span>
-            <span>{post.readingTime}</span>
+        <div className="mx-auto max-w-4xl">
+          {/* Back link */}
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            &larr; All Projects
+          </Link>
+
+          {/* Header */}
+          <div className="mt-6 space-y-4">
+            <p className="text-sm font-medium text-primary">{project.client}</p>
+            <h1 className="text-balance text-4xl font-semibold md:text-6xl">{project.title}</h1>
+            <div className="flex flex-wrap items-center gap-3">
+              {project.services.map((s) => (
+                <span
+                  key={s}
+                  className="rounded-full border border-border/50 px-3 py-1 text-xs text-muted-foreground"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>{project.duration}</span>
+              <span>&bull;</span>
+              <span>{project.year}</span>
+              <span>&bull;</span>
+              <span>{project.industry}</span>
+            </div>
           </div>
+
+          {/* Hero image */}
+          <div className="mt-8 overflow-hidden rounded-2xl">
+            <Image
+              src={project.heroImage}
+              alt={project.title}
+              width={1200}
+              height={700}
+              className="h-[420px] w-full object-cover"
+            />
+          </div>
+
+          {/* Interactive sections */}
+          <ProjectDetail
+            project={project}
+            prevProject={prevProject ? { slug: prevProject.slug, title: prevProject.title } : null}
+            nextProject={nextProject ? { slug: nextProject.slug, title: nextProject.title } : null}
+          />
         </div>
-        <Image
-          src={post.heroImage}
-          alt={post.title}
-          width={1200}
-          height={700}
-          className="h-[420px] w-full rounded-[32px] object-cover"
-        />
-        <div className="prose prose-neutral max-w-none dark:prose-invert">
-          {post.content.map((block, index) => {
-            if (block.type === 'paragraph') {
-              return <p key={index}>{block.value as string}</p>
-            }
-            if (block.type === 'quote') {
-              return (
-                <blockquote key={index} className="border-l-4 border-primary pl-4 text-lg italic">
-                  {block.value as string}
-                </blockquote>
-              )
-            }
-            if (block.type === 'list') {
-              return (
-                <ul key={index}>
-                  {(block.value as string[]).map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              )
-            }
-            return null
-          })}
-        </div>
-      </div>
-    </article>
+      </article>
     </>
   )
 }
-
