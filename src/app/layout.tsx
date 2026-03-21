@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingCTA } from "@/components/layout/floating-cta"
-import { MobileCTABar } from "@/components/layout/mobile-cta-bar";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AmbientBackground } from "@/components/ui/ambient-background";
 import { PageLoader } from "@/components/ui/page-loader";
@@ -99,7 +98,6 @@ export default function RootLayout({
               <SiteFooter />
             </div>
             <FloatingCTA />
-            <MobileCTABar />
             <PageLoader />
           </LenisProvider>
         </ThemeProvider>

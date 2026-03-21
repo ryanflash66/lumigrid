@@ -3,6 +3,7 @@
 import { type ReactNode } from 'react'
 import { motion, useReducedMotion, type Variant, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 type RevealVariant = 'fade-up' | 'fade-scale' | 'slide-in-left' | 'slide-in-right' | 'clip-reveal'
 
@@ -76,6 +77,12 @@ export function ScrollReveal({
   children,
 }: ScrollRevealProps) {
   const reducedMotion = useReducedMotion()
+  const isMobile = useIsMobile()
+
+  // On mobile, skip scroll-triggered animations entirely — just render children
+  if (isMobile) {
+    return <div className={cn(className)}>{children}</div>
+  }
 
   return (
     <motion.div
@@ -109,6 +116,12 @@ export function StaggerContainer({
   className,
   children,
 }: StaggerContainerProps) {
+  const isMobile = useIsMobile()
+
+  if (isMobile) {
+    return <div className={cn(className)}>{children}</div>
+  }
+
   const variants: Variants = {
     hidden: { opacity: 1 },
     visible: {
@@ -151,6 +164,11 @@ export function StaggerItem({
   children,
 }: StaggerItemProps) {
   const reducedMotion = useReducedMotion()
+  const isMobile = useIsMobile()
+
+  if (isMobile) {
+    return <div className={cn(className)}>{children}</div>
+  }
 
   return (
     <motion.div

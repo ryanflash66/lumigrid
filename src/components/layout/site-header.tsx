@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/layout/theme-toggle'
+import { MobileMenu } from '@/components/layout/mobile-menu'
 import { NeonButton } from '@/components/ui/neon-button'
 import { ReadingProgress } from '@/components/ui/reading-progress'
 import { NavBar } from '@/components/ui/tubelight-navbar'
@@ -70,10 +71,10 @@ export function SiteHeader() {
           <span className="text-sm font-semibold tracking-[0.2em] text-foreground">LUMIGRID</span>
         </Link>
 
-        {/* Tubelight Navbar: floating on mobile, inline on desktop */}
+        {/* Desktop inline navbar (hidden on mobile) */}
         <NavBar
           items={navItems}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:bottom-auto"
+          className="hidden md:flex"
         />
 
         <div className="flex items-center gap-3">
@@ -89,6 +90,8 @@ export function SiteHeader() {
           >
             <Link href="/contact">Get started</Link>
           </NeonButton>
+          {/* Mobile hamburger menu */}
+          <MobileMenu items={navItems} />
         </div>
       </motion.div>
     </header>
