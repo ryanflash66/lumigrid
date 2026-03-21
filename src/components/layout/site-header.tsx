@@ -15,7 +15,7 @@ const navItems = [
   { name: 'Home', url: '/', icon: Home },
   { name: 'About', url: '/about', icon: Info },
   { name: 'Pricing', url: '/pricing', icon: CreditCard },
-  { name: 'Insights', url: '/blog', icon: BookOpen },
+  { name: 'Projects', url: '/blog', icon: BookOpen },
   { name: 'Contact', url: '/contact', icon: MessageCircle }
 ]
 
