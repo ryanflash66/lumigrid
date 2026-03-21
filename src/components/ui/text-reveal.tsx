@@ -8,11 +8,18 @@ import { cn } from '@/lib/utils'
 // WordReveal — viewport-triggered staggered word entrance
 // ---------------------------------------------------------------------------
 
+interface HighlightedWord {
+  text: string
+  highlight?: boolean
+}
+
 interface WordRevealProps {
   children: string
   className?: string
   delay?: number
   once?: boolean
+  /** Words or phrases to render with highlight styling (font-serif italic gradient) */
+  highlightWords?: string[]
 }
 
 const wordContainerVars: Variants = {
@@ -44,9 +51,19 @@ export function WordReveal({
   className,
   delay = 0,
   once = true,
+  highlightWords = [],
 }: WordRevealProps) {
   const prefersReduced = useReducedMotion()
+
+  // Build word list with highlight flags
   const words = children.split(' ')
+  const highlightSet = new Set(highlightWords.flatMap(phrase => phrase.split(' ')))
+
+  // For multi-word highlight phrases, track which words are part of one
+  const wordData: HighlightedWord[] = words.map(word => ({
+    text: word,
+    highlight: highlightSet.has(word),
+  }))
 
   return (
     <motion.span
@@ -57,13 +74,17 @@ export function WordReveal({
       whileInView="visible"
       viewport={{ once, margin: '-80px' }}
     >
-      {words.map((word, i) => (
-        <span key={`${word}-${i}`} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
+      {wordData.map((word, i) => (
+        <span key={`${word.text}-${i}`} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
           <motion.span
-            className="inline-block"
+            className={cn(
+              'inline-block',
+              word.highlight &&
+                'bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-serif italic'
+            )}
             variants={prefersReduced ? reducedWordVars : wordVars}
           >
-            {word}
+            {word.text}
           </motion.span>
         </span>
       ))}

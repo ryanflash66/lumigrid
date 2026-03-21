@@ -147,27 +147,27 @@ export function Hero() {
             }
           />
 
-          {prefersReducedMotion ? (
-            <h1
-              className="max-w-5xl text-balance font-semibold tracking-tight text-foreground"
-              style={{ fontSize: 'clamp(3.5rem, 9vw, 7rem)', lineHeight: 1.05 }}
-            >
-              Give your{' '}
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text font-serif italic text-transparent">
-                big idea
-              </span>{' '}
-              the website it deserves
-            </h1>
-          ) : (
-            <h1
-              className="max-w-5xl text-balance font-semibold tracking-tight text-foreground"
-              style={{ fontSize: 'clamp(3.5rem, 9vw, 7rem)', lineHeight: 1.05 }}
-            >
-              <WordReveal className="justify-center">
-                Give your big idea the website it deserves
+          <h1
+            className="max-w-5xl text-balance font-semibold tracking-tight text-foreground"
+            style={{ fontSize: 'clamp(3.5rem, 9vw, 7rem)', lineHeight: 1.05 }}
+          >
+            {prefersReducedMotion ? (
+              <>
+                Launch your{' '}
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text font-serif italic text-transparent">
+                  vision
+                </span>
+                {' '}with a site that converts
+              </>
+            ) : (
+              <WordReveal
+                className="justify-center"
+                highlightWords={['vision']}
+              >
+                Launch your vision with a site that converts
               </WordReveal>
-            </h1>
-          )}
+            )}
+          </h1>
         </motion.div>
 
         {/* Subtext with parallax */}
