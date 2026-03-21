@@ -42,3 +42,13 @@ next-env.d.ts
 
 # legacy HTML snapshot (kept locally for reference only)
 legacy-site/
+
+# bmad method
+_bmad/
+_bmad-output/
+AGENTS.md
+.cursor/
+
+# lint artifacts
+lint-output.txt
+lint-results.json
