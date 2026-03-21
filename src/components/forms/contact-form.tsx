@@ -322,7 +322,7 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
             touched.fullName && errors.fullName && 'border-destructive ring-destructive/20',
             'disabled:opacity-50 disabled:cursor-not-allowed'
           )}
-          placeholder="Jordan Michaels"
+          placeholder="Your full name"
           value={fields.fullName}
           onChange={(event) => handleChange('fullName', event.target.value)}
           onBlur={() => handleBlur('fullName')}
@@ -356,7 +356,7 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
               touched.email && errors.email && 'border-destructive ring-destructive/20',
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
-            placeholder="team@lumigrid.com"
+            placeholder="you@company.com"
             value={fields.email}
             onChange={(event) => handleChange('email', event.target.value)}
             onBlur={() => handleBlur('email')}
@@ -524,7 +524,7 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
             touched.message && errors.message && 'border-destructive ring-destructive/20',
             'disabled:opacity-50 disabled:cursor-not-allowed'
           )}
-          placeholder="Tell us about your goals, timeline, and success metrics..."
+          placeholder="What are you hoping to achieve? The more context you share, the better we can prepare for our first conversation."
           value={fields.message}
           onChange={(event) => handleChange('message', event.target.value)}
           onBlur={() => handleBlur('message')}
