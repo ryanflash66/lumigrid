@@ -1,14 +1,14 @@
 'use client'
 
 import { type ReactNode } from 'react'
-import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import { motion, useReducedMotion, type Variant, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 type RevealVariant = 'fade-up' | 'fade-scale' | 'slide-in-left' | 'slide-in-right' | 'clip-reveal'
 
 const easeOut = [0.25, 0.1, 0.25, 1] as const
 
-const variantMap: Record<RevealVariant, { hidden: object; visible: object }> = {
+const variantMap: Record<RevealVariant, { hidden: Variant; visible: Variant }> = {
   'fade-up': {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0 },
@@ -31,7 +31,7 @@ const variantMap: Record<RevealVariant, { hidden: object; visible: object }> = {
   },
 }
 
-const reducedMotionFallback = { hidden: { opacity: 0 }, visible: { opacity: 1 } }
+const reducedMotionFallback: { hidden: Variant; visible: Variant } = { hidden: { opacity: 0 }, visible: { opacity: 1 } }
 
 /** Build Framer Motion variants, collapsing to opacity-only when reduced motion is preferred. */
 function buildVariants(
