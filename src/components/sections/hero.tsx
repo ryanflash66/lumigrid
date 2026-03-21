@@ -10,40 +10,89 @@ import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 import { WordReveal } from '@/components/ui/text-reveal'
 import { useParallax } from '@/hooks/use-parallax'
 
-const staggerContainer: Variants = {
-  hidden: {},
+/* ------------------------------------------------------------------ */
+/*  Cinematic entrance variants                                       */
+/* ------------------------------------------------------------------ */
+
+// Badge: fade-in with blur-clear, delay 0.1s
+const badgeVariants: Variants = {
+  hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
   visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration: 0.6, ease: 'easeOut', delay: 0.1 },
+  },
+}
+
+// Badge glow pulse: settles after 3s
+const badgeGlowVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: [0, 0.8, 0.4, 0.7, 0.3, 0.15],
+    transition: { duration: 3, delay: 0.3, ease: 'easeOut' },
+  },
+}
+
+// Headline container: delay 0.3s (handled by WordReveal delay prop)
+const headlineVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 },
+  },
+}
+
+// Subtext: spring physics, delay 0.7s
+const subtextVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
     transition: {
-      staggerChildren: 0.25,
-      delayChildren: 0.3,
+      type: 'spring',
+      stiffness: 120,
+      damping: 20,
+      delay: 0.7,
     },
   },
 }
 
-const fadeIn: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-}
-
-const ctaScale: Variants = {
-  hidden: { opacity: 0, scale: 0.9, y: 20 },
+// CTA buttons: snappy spring with scale overshoot, delay 0.9s
+const ctaVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.85, y: 30 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: {
+      type: 'spring',
+      stiffness: 200,
+      damping: 22,
+      delay: 0.9,
+    },
   },
 }
 
-const mockupSlideUp: Variants = {
-  hidden: { opacity: 0, y: 100 },
+// Mockup: heavy spring for weighty rise + clipPath reveal, delay 1.1s
+const mockupVariants: Variants = {
+  hidden: { opacity: 0, y: 140, clipPath: 'inset(15% 0% 0% 0%)' },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 60, damping: 18, mass: 1 },
+    clipPath: 'inset(0% 0% 0% 0%)',
+    transition: {
+      type: 'spring',
+      stiffness: 50,
+      damping: 16,
+      mass: 1.2,
+      delay: 1.1,
+    },
   },
 }
 
+// Reduced motion fallback: opacity-only, no transforms
 const reducedFade: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.4 } },
@@ -56,10 +105,6 @@ export function Hero() {
   const { ref: mockupRef, y: mockupY } = useParallax(0.15)
   const { ref: subtextRef, y: subtextY } = useParallax(0.05)
   const { ref: blobRef, y: blobY } = useParallax(-0.1)
-
-  const container = prefersReducedMotion
-    ? { hidden: {}, visible: { transition: { staggerChildren: 0 } } }
-    : staggerContainer
 
   const pick = (full: Variants): Variants =>
     prefersReducedMotion ? reducedFade : full
@@ -108,29 +153,47 @@ export function Hero() {
       </motion.div>
 
       <motion.div
-        variants={container}
         initial="hidden"
         animate="visible"
         className="pointer-events-none relative z-20 mx-auto flex max-w-6xl flex-col items-center text-center"
       >
-        {/* Badge */}
-        <motion.div
-          variants={pick(fadeIn)}
-          className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)] backdrop-blur-xl"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] animate-pulse" />
-          <span>New Lumigrid launch kit is live</span>
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1 text-foreground transition-colors hover:text-primary"
+        {/* Badge with blur-clear entrance and glow pulse */}
+        <motion.div className="relative">
+          {/* Glow pulse behind badge — settles after 3s */}
+          {!prefersReducedMotion && (
+            <motion.div
+              aria-hidden
+              variants={badgeGlowVariants}
+              initial="hidden"
+              animate="visible"
+              className="pointer-events-none absolute -inset-3 -z-10 rounded-full bg-primary/30 blur-xl"
+            />
+          )}
+          <motion.div
+            variants={pick(badgeVariants)}
+            initial="hidden"
+            animate="visible"
+            className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)] backdrop-blur-xl"
           >
-            Read more
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+            <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] animate-pulse" />
+            <span>New Lumigrid launch kit is live</span>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-1 text-foreground transition-colors hover:text-primary"
+            >
+              Read more
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </motion.div>
         </motion.div>
 
-        {/* Headline with oversized typography and word reveal */}
-        <motion.div variants={pick(fadeIn)} className="relative mt-12">
+        {/* Headline with increased y-travel and WordReveal delay 0.3s */}
+        <motion.div
+          variants={pick(headlineVariants)}
+          initial="hidden"
+          animate="visible"
+          className="relative mt-12"
+        >
           {/* Glow behind headline */}
           <motion.div
             aria-hidden
@@ -163,6 +226,7 @@ export function Hero() {
               <WordReveal
                 className="justify-center"
                 highlightWords={['vision']}
+                delay={0.3}
               >
                 Launch your vision with a site that converts
               </WordReveal>
@@ -170,10 +234,12 @@ export function Hero() {
           </h1>
         </motion.div>
 
-        {/* Subtext with parallax */}
+        {/* Subtext with spring physics */}
         <motion.div
           ref={subtextRef}
-          variants={pick(fadeIn)}
+          variants={pick(subtextVariants)}
+          initial="hidden"
+          animate="visible"
           style={prefersReducedMotion ? undefined : { y: subtextY }}
         >
           <p className="mt-8 max-w-2xl text-pretty text-base text-muted-foreground md:text-lg lg:text-xl">
@@ -182,9 +248,11 @@ export function Hero() {
           </p>
         </motion.div>
 
-        {/* CTA buttons with magnetic effect */}
+        {/* CTA buttons with snappy spring overshoot */}
         <motion.div
-          variants={pick(ctaScale)}
+          variants={pick(ctaVariants)}
+          initial="hidden"
+          animate="visible"
           className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <MagneticWrapper strength={0.2}>
@@ -209,10 +277,12 @@ export function Hero() {
           </MagneticWrapper>
         </motion.div>
 
-        {/* Browser mockup with parallax */}
+        {/* Browser mockup with weighty spring rise and clipPath reveal */}
         <motion.div
           ref={mockupRef}
-          variants={pick(mockupSlideUp)}
+          variants={pick(mockupVariants)}
+          initial="hidden"
+          animate="visible"
           className="relative mt-16 w-full max-w-5xl group"
           style={prefersReducedMotion ? undefined : { y: mockupY }}
         >
