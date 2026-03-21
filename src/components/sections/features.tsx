@@ -1,4 +1,7 @@
+'use client'
+
 import { Globe, MonitorSmartphone, SunMoon, Blocks, Gauge, Languages } from 'lucide-react'
+import { TiltCard } from '@/components/ui/tilt-card'
 
 const features = [
   {
@@ -47,15 +50,20 @@ export function FeaturesSection() {
         {features.map((feature) => {
           const Icon = feature.icon
           return (
-            <div key={feature.title} className="flex flex-col gap-3 text-left">
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-muted/40">
-                  <Icon className="h-5 w-5 text-foreground/70" />
-                </span>
-                <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+            <TiltCard
+              key={feature.title}
+              className="rounded-2xl"
+            >
+              <div className="flex flex-col gap-3 rounded-2xl border border-border/70 bg-card/60 p-5 text-left">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-muted/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_12px_var(--primary)] motion-reduce:transition-none">
+                    <Icon className="h-5 w-5 text-foreground/70" />
+                  </span>
+                  <h3 className="text-lg font-semibold text-foreground">{feature.title}</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">{feature.description}</p>
               </div>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
-            </div>
+            </TiltCard>
           )
         })}
       </div>

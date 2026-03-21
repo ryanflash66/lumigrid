@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { TiltCard } from '@/components/ui/tilt-card'
 
 const tiers = [
   {
@@ -33,36 +36,37 @@ export function PricingPreview() {
       </div>
       <div className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
         {tiers.map((tier) => (
-          <div
-            key={tier.name}
-            className={`flex h-full flex-col rounded-[20px] border border-border/70 p-6 ${
-              tier.featured ? 'bg-foreground text-background' : 'bg-card/60'
-            }`}
-          >
-            <div>
-              <h3 className={`text-lg font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
-                {tier.name}
-              </h3>
-              <p className={`mt-3 text-3xl font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
-                {tier.price}
-              </p>
-              <p className={`mt-2 text-sm ${tier.featured ? 'text-background/80' : 'text-muted-foreground'}`}>
-                {tier.description}
-              </p>
+          <TiltCard key={tier.name} className="rounded-[20px]">
+            <div
+              className={`flex h-full flex-col rounded-[20px] border border-border/70 p-6 ${
+                tier.featured ? 'bg-foreground text-background' : 'bg-card/60'
+              }`}
+            >
+              <div>
+                <h3 className={`text-lg font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
+                  {tier.name}
+                </h3>
+                <p className={`mt-3 text-3xl font-semibold ${tier.featured ? 'text-background' : 'text-foreground'}`}>
+                  {tier.price}
+                </p>
+                <p className={`mt-2 text-sm ${tier.featured ? 'text-background/80' : 'text-muted-foreground'}`}>
+                  {tier.description}
+                </p>
+              </div>
+              <div className="mt-6">
+                <Link
+                  href="/contact"
+                  className={`inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition ${
+                    tier.featured
+                      ? 'bg-background text-foreground hover:bg-background/90'
+                      : 'border border-foreground/20 text-foreground hover:border-foreground/40'
+                  }`}
+                >
+                  {tier.cta}
+                </Link>
+              </div>
             </div>
-            <div className="mt-6">
-              <Link
-                href="/contact"
-                className={`inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition ${
-                  tier.featured
-                    ? 'bg-background text-foreground hover:bg-background/90'
-                    : 'border border-foreground/20 text-foreground hover:border-foreground/40'
-                }`}
-              >
-                {tier.cta}
-              </Link>
-            </div>
-          </div>
+          </TiltCard>
         ))}
       </div>
       <div className="mt-8 text-center text-sm text-muted-foreground">

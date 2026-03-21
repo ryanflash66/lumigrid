@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion, Variants } from 'framer-motion'
 import { Quote } from 'lucide-react'
+import { TiltCard } from '@/components/ui/tilt-card'
 
 const testimonials = [
   {
@@ -21,7 +22,7 @@ const testimonials = [
   },
   {
     quote:
-      'Performance went from 58 to 96 on Lighthouse the same day we launched. The team’s obsession with Core Web Vitals saved us weeks of tuning.',
+      'Performance went from 58 to 96 on Lighthouse the same day we launched. The team\'s obsession with Core Web Vitals saved us weeks of tuning.',
     name: 'Leah McConnell',
     title: 'Growth Lead, Luminous Health',
     avatar: '/assets/images/testimonials/author-03.jpg'
@@ -54,7 +55,7 @@ export function TestimonialsSection() {
         </h2>
         <p className="text-muted-foreground">Here&apos;s what teams say about building with Lumigrid.</p>
       </div>
-      <motion.div 
+      <motion.div
         variants={containerVars}
         initial="hidden"
         whileInView="show"
@@ -65,23 +66,26 @@ export function TestimonialsSection() {
           <motion.div
             variants={itemVars}
             key={testimonial.name}
-            className="group flex flex-col gap-6 rounded-[20px] border border-border/70 bg-linear-to-b from-muted/40 to-background p-6 transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-xl"
           >
-            <Quote className="h-6 w-6 text-primary/40 transition-colors group-hover:text-primary" />
-            <p className="text-sm text-muted-foreground">{testimonial.quote}</p>
-            <div className="mt-auto flex items-center gap-4 pt-4">
-              <Image
-                src={testimonial.avatar}
-                alt={testimonial.name}
-                width={56}
-                height={56}
-                className="rounded-full border border-border/60"
-              />
-              <div className="text-left">
-                <p className="font-semibold">{testimonial.name}</p>
-                <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+            <TiltCard className="rounded-[20px]">
+              <div className="flex h-full flex-col gap-6 rounded-[20px] border border-border/70 bg-linear-to-b from-muted/40 to-background p-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-border group-hover:shadow-xl motion-reduce:group-hover:translate-y-0">
+                <Quote className="h-6 w-6 text-primary/40 transition-colors group-hover:text-primary" />
+                <p className="text-sm text-muted-foreground">{testimonial.quote}</p>
+                <div className="mt-auto flex items-center gap-4 pt-4">
+                  <Image
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    width={56}
+                    height={56}
+                    className="rounded-full border border-border/60"
+                  />
+                  <div className="text-left">
+                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </TiltCard>
           </motion.div>
         ))}
       </motion.div>
