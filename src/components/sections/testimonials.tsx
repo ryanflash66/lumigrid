@@ -1,11 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { Quote } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { WordReveal } from '@/components/ui/text-reveal'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const testimonials = [
   {
@@ -55,16 +55,54 @@ function TestimonialCard({
   featured?: boolean
   isMobile?: boolean
 }) {
+  const cardClasses = cn(
+    'group relative flex flex-col gap-6 overflow-hidden rounded-[20px] border border-border/70 transition-all duration-300',
+    'hover:-translate-y-1 hover:border-primary/30 hover:bg-muted/60 hover:shadow-xl',
+    featured
+      ? 'bg-gradient-to-br from-primary/[0.04] via-muted/50 to-background p-8 md:p-10'
+      : 'bg-gradient-to-b from-muted/40 to-background p-6'
+  )
+
+  if (isMobile) {
+    return (
+      <div className={cardClasses}>
+        <Quote
+          className={cn(
+            'pointer-events-none absolute right-4 top-4 text-primary opacity-[0.06]',
+            featured ? 'h-20 w-20' : 'h-16 w-16'
+          )}
+          strokeWidth={1}
+        />
+        <Quote
+          className={cn(
+            'shrink-0 text-primary/40',
+            featured ? 'h-7 w-7' : 'h-6 w-6'
+          )}
+        />
+        <p className={cn('text-muted-foreground', featured ? 'text-xl md:text-2xl' : 'text-sm')}>
+          {testimonial.quote}
+        </p>
+        <div className="mt-auto flex items-center gap-4 pt-4">
+          <Image
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            width={featured ? 64 : 56}
+            height={featured ? 64 : 56}
+            className={cn('rounded-full border border-border/60', featured ? 'h-16 w-16' : 'h-14 w-14')}
+          />
+          <div className="text-left">
+            <p className={cn('font-semibold', featured && 'text-lg')}>{testimonial.name}</p>
+            <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <motion.div
-      variants={isMobile ? undefined : itemVars}
-      className={cn(
-        'group relative flex flex-col gap-6 overflow-hidden rounded-[20px] border border-border/70 transition-all duration-300',
-        'hover:-translate-y-1 hover:border-primary/30 hover:bg-muted/60 hover:shadow-xl',
-        featured
-          ? 'bg-gradient-to-br from-primary/[0.04] via-muted/50 to-background p-8 md:p-10'
-          : 'bg-gradient-to-b from-muted/40 to-background p-6'
-      )}
+      variants={itemVars}
+      className={cardClasses}
     >
       {/* Oversized decorative quotation mark */}
       <Quote
@@ -120,13 +158,10 @@ function TestimonialCard({
 
 export function TestimonialsSection() {
   const [featured, ...rest] = testimonials
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    setIsMobile(window.matchMedia('(max-width: 768px)').matches)
-  }, [])
+  const isMobile = useIsMobile()
 
   return (
-    <section id="testimonials" className="bg-background px-6 py-24">
+    <section id="testimonials" className="bg-background px-6 py-12 md:py-24">
       <div className="mx-auto max-w-5xl space-y-8 text-center">
         <WordReveal className="text-balance text-4xl font-semibold md:text-5xl">
           Loved by designers and developers across the planet
@@ -134,23 +169,31 @@ export function TestimonialsSection() {
         <p className="text-muted-foreground">Here&apos;s what teams say about building with Lumigrid.</p>
       </div>
 
-      <motion.div
-        variants={isMobile ? undefined : containerVars}
-        initial={isMobile ? undefined : "hidden"}
-        whileInView={isMobile ? undefined : "show"}
-        viewport={isMobile ? undefined : { once: true, margin: '-100px' }}
-        className="mx-auto mt-12 max-w-6xl space-y-8"
-      >
-        {/* Featured testimonial - full width */}
-        <TestimonialCard testimonial={featured} featured isMobile={isMobile} />
-
-        {/* Remaining testimonials in a grid */}
-        <div className="grid gap-8 md:grid-cols-2">
-          {rest.map((testimonial) => (
-            <TestimonialCard key={testimonial.name} testimonial={testimonial} isMobile={isMobile} />
-          ))}
+      {isMobile ? (
+        <div className="mx-auto mt-12 max-w-6xl space-y-8">
+          <TestimonialCard testimonial={featured} featured isMobile />
+          <div className="grid gap-8">
+            {rest.map((testimonial) => (
+              <TestimonialCard key={testimonial.name} testimonial={testimonial} isMobile />
+            ))}
+          </div>
         </div>
-      </motion.div>
+      ) : (
+        <motion.div
+          variants={containerVars}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-100px' }}
+          className="mx-auto mt-12 max-w-6xl space-y-8"
+        >
+          <TestimonialCard testimonial={featured} featured />
+          <div className="grid gap-8 md:grid-cols-2">
+            {rest.map((testimonial) => (
+              <TestimonialCard key={testimonial.name} testimonial={testimonial} />
+            ))}
+          </div>
+        </motion.div>
+      )}
     </section>
   )
 }

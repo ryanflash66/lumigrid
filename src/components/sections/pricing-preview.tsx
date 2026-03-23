@@ -116,89 +116,118 @@ export function PricingPreview() {
         </p>
       </ScrollReveal>
 
-      <motion.div
-        ref={containerRef}
-        variants={isMobile ? undefined : containerVariants}
-        initial={isMobile ? undefined : 'hidden'}
-        animate={isMobile ? undefined : isInView ? 'visible' : 'hidden'}
-        className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3 md:items-center"
-        style={isMobile ? undefined : { perspective: '800px' }}
-      >
-        {tiers.map((tier) => (
-          <motion.div
-            key={tier.name}
-            variants={isMobile ? undefined : getCardVariants(!!tier.featured, prefersReduced)}
-          >
-            <TiltCard maxTilt={3} glowBorder={false}>
-              <div
-                className={cn(
-                  // Base card styles with glassmorphism
-                  'relative flex h-full flex-col rounded-[20px] p-6',
-                  'backdrop-blur-md bg-card/60 border border-border/50',
-                  // Hover effects
-                  'transition-[border-color,box-shadow] duration-300 ease-in-out',
-                  'hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10',
-                  // Featured card elevation
-                  tier.featured && [
-                    'motion-safe:md:scale-105 ring-2 ring-primary/30 z-10',
-                  ],
-                )}
-              >
-                {/* Glassmorphism radial gradient overlay */}
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-[20px] opacity-40"
-                  style={{
-                    background:
-                      'radial-gradient(ellipse at 30% 0%, oklch(0.95 0 0 / 0.15), transparent 60%)',
-                  }}
-                />
-
-                {/* Featured gradient border wrapper */}
-                {tier.featured && (
-                  <div className="pointer-events-none absolute -inset-px rounded-[21px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
-                )}
-
-                {/* Most Popular badge */}
-                {tier.featured && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                {/* Card content (relative to sit above overlays) */}
-                <div className="relative z-[1]">
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {tier.name}
-                  </h3>
-                  <p className="mt-3 text-3xl font-semibold text-foreground">
-                    $<AnimatedNumber value={tier.price} />
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {tier.description}
-                  </p>
+      {isMobile ? (
+        <div
+          ref={containerRef}
+          className="mx-auto mt-12 grid max-w-6xl gap-6"
+        >
+          {tiers.map((tier) => (
+            <div
+              key={tier.name}
+              className={cn(
+                'relative flex h-full flex-col rounded-[20px] p-6',
+                'bg-card/60 border border-border/50',
+                tier.featured && 'ring-2 ring-primary/30',
+              )}
+            >
+              {tier.featured && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    Most Popular
+                  </span>
                 </div>
-                <div className="relative z-[1] mt-6">
-                  <MagneticWrapper>
-                    <Link
-                      href="/contact"
-                      className={cn(
-                        'inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors',
-                        tier.featured
-                          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                          : 'border border-foreground/20 text-foreground hover:border-foreground/40',
-                      )}
-                    >
-                      {tier.cta}
-                    </Link>
-                  </MagneticWrapper>
-                </div>
+              )}
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
+                <p className="mt-3 text-3xl font-semibold text-foreground">
+                  $<AnimatedNumber value={tier.price} />
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{tier.description}</p>
               </div>
-            </TiltCard>
-          </motion.div>
-        ))}
-      </motion.div>
+              <div className="mt-6">
+                <Link
+                  href="/contact"
+                  className={cn(
+                    'inline-flex w-full items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-colors touch-manipulation',
+                    tier.featured
+                      ? 'bg-primary text-primary-foreground'
+                      : 'border border-foreground/20 text-foreground',
+                  )}
+                >
+                  {tier.cta}
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <motion.div
+          ref={containerRef}
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3 md:items-center"
+          style={{ perspective: '800px' }}
+        >
+          {tiers.map((tier) => (
+            <motion.div
+              key={tier.name}
+              variants={getCardVariants(!!tier.featured, prefersReduced)}
+            >
+              <TiltCard maxTilt={3} glowBorder={false}>
+                <div
+                  className={cn(
+                    'relative flex h-full flex-col rounded-[20px] p-6',
+                    'backdrop-blur-md bg-card/60 border border-border/50',
+                    'transition-[border-color,box-shadow] duration-300 ease-in-out',
+                    'hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10',
+                    tier.featured && 'motion-safe:md:scale-105 ring-2 ring-primary/30 z-10',
+                  )}
+                >
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-[20px] opacity-40"
+                    style={{
+                      background: 'radial-gradient(ellipse at 30% 0%, oklch(0.95 0 0 / 0.15), transparent 60%)',
+                    }}
+                  />
+                  {tier.featured && (
+                    <div className="pointer-events-none absolute -inset-px rounded-[21px] bg-gradient-to-b from-primary/40 via-primary/10 to-transparent" />
+                  )}
+                  {tier.featured && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                      <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                        Most Popular
+                      </span>
+                    </div>
+                  )}
+                  <div className="relative z-[1]">
+                    <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
+                    <p className="mt-3 text-3xl font-semibold text-foreground">
+                      $<AnimatedNumber value={tier.price} />
+                    </p>
+                    <p className="mt-2 text-sm text-muted-foreground">{tier.description}</p>
+                  </div>
+                  <div className="relative z-[1] mt-6">
+                    <MagneticWrapper>
+                      <Link
+                        href="/contact"
+                        className={cn(
+                          'inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors',
+                          tier.featured
+                            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                            : 'border border-foreground/20 text-foreground hover:border-foreground/40',
+                        )}
+                      >
+                        {tier.cta}
+                      </Link>
+                    </MagneticWrapper>
+                  </div>
+                </div>
+              </TiltCard>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
       <div className="mt-8 text-center text-sm text-muted-foreground">
         <Link
           href="/pricing"

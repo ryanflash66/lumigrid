@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { cn } from '@/lib/utils'
 import dynamic from 'next/dynamic'
 
 const DotShaderBackground = dynamic(
@@ -144,7 +145,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
+    <section className="relative isolate overflow-hidden px-6 pb-16 pt-20 text-foreground md:pb-40 md:pt-32">
       {shaderEnabled ? (
         <DotShaderBackground />
       ) : (
@@ -193,8 +194,8 @@ export function Hero() {
       >
         {/* Badge with blur-clear entrance and glow pulse */}
         <motion.div className="relative">
-          {/* Glow pulse behind badge — settles after 3s */}
-          {!prefersReducedMotion && (
+          {/* Glow pulse behind badge — settles after 3s, skip on mobile */}
+          {!prefersReducedMotion && !isMobile && (
             <motion.div
               aria-hidden
               variants={badgeGlowVariants}
@@ -207,7 +208,10 @@ export function Hero() {
             variants={pick(badgeVariants, mobileBadgeVariants)}
             initial="hidden"
             animate="visible"
-            className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)] backdrop-blur-xl"
+            className={cn(
+              "pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)]",
+              !isMobile && "backdrop-blur-xl"
+            )}
           >
             <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] animate-pulse" />
             <span>New Lumigrid launch kit is live</span>
@@ -287,28 +291,54 @@ export function Hero() {
           variants={pick(ctaVariants, mobileCtaVariants)}
           initial="hidden"
           animate="visible"
-          className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-4"
+          className={cn(
+            "pointer-events-auto mt-10 flex items-center justify-center gap-4",
+            isMobile ? "flex-col w-full px-2" : "flex-wrap"
+          )}
         >
-          <MagneticWrapper strength={0.2}>
-            <NeonButton
-              asChild
-              variant="solid"
-              className="rounded-full px-8 py-6 text-base shadow-xl shadow-primary/20"
-            >
-              <Link href="/contact" className="group flex items-center gap-2">
-                Book a Call
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          {isMobile ? (
+            <>
+              <NeonButton
+                asChild
+                variant="solid"
+                className="w-full rounded-full px-8 py-4 text-base shadow-xl shadow-primary/20"
+              >
+                <Link href="/contact" className="group flex items-center justify-center gap-2">
+                  Book a Call
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </NeonButton>
+              <Link
+                href="/pricing"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-border/50 bg-background/50 px-8 py-3 text-base font-semibold text-foreground shadow-sm"
+              >
+                View Pricing
               </Link>
-            </NeonButton>
-          </MagneticWrapper>
-          <MagneticWrapper strength={0.15}>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/50 px-8 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur-md transition hover:border-primary/50 hover:bg-primary/10"
-            >
-              View Pricing
-            </Link>
-          </MagneticWrapper>
+            </>
+          ) : (
+            <>
+              <MagneticWrapper strength={0.2}>
+                <NeonButton
+                  asChild
+                  variant="solid"
+                  className="rounded-full px-8 py-6 text-base shadow-xl shadow-primary/20"
+                >
+                  <Link href="/contact" className="group flex items-center gap-2">
+                    Book a Call
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </NeonButton>
+              </MagneticWrapper>
+              <MagneticWrapper strength={0.15}>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/50 px-8 py-3 text-base font-semibold text-foreground shadow-sm backdrop-blur-md transition hover:border-primary/50 hover:bg-primary/10"
+                >
+                  View Pricing
+                </Link>
+              </MagneticWrapper>
+            </>
+          )}
         </motion.div>
 
         <a
@@ -318,13 +348,13 @@ export function Hero() {
           Or call us directly →
         </a>
 
-        {/* Browser mockup with weighty spring rise and clipPath reveal */}
+        {/* Browser mockup — hidden on mobile to keep CTAs above fold */}
         <motion.div
           ref={mockupRef}
           variants={pick(mockupVariants, mobileMockupVariants)}
           initial="hidden"
           animate="visible"
-          className="relative mt-16 w-full max-w-5xl group"
+          className={cn("relative mt-16 w-full max-w-5xl group", isMobile && "hidden")}
           style={prefersReducedMotion || isMobile ? undefined : { y: mockupY }}
         >
           <div className="pointer-events-none absolute -inset-4 rounded-[28px] bg-linear-to-r from-primary/30 to-accent/30 opacity-40 blur-2xl transition-opacity duration-700 group-hover:opacity-70" />

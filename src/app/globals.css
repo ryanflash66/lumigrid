@@ -269,12 +269,26 @@
   /* Kill all infinite CSS animations on mobile */
   [class*="gradient-sweep"],
   [class*="dot-pulse"],
-  .animate-quality-pulse {
+  .animate-quality-pulse,
+  .animate-pulse {
     animation: none !important;
   }
 
   /* Disable custom cursor on touch devices (fallback) */
   * {
     cursor: auto !important;
+  }
+
+  /* Disable backdrop-blur on mobile (expensive GPU compositing) */
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Ensure will-change is not set on mobile (prevents GPU memory bloat) */
+  [style*="will-change"] {
+    will-change: auto !important;
   }
 }

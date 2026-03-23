@@ -41,7 +41,7 @@ export function MobileMenu({ items }: MobileMenuProps) {
         onClick={toggle}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="relative z-50 flex h-10 w-10 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted"
+        className="relative z-[60] flex h-12 w-12 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-muted touch-manipulation"
       >
         {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
@@ -49,7 +49,7 @@ export function MobileMenu({ items }: MobileMenuProps) {
       {/* Overlay */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-background/95 backdrop-blur-sm transition-opacity duration-200',
+          'fixed inset-0 z-[55] bg-background/95 backdrop-blur-sm transition-opacity duration-200',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         )}
         onClick={() => setOpen(false)}
@@ -58,7 +58,7 @@ export function MobileMenu({ items }: MobileMenuProps) {
       {/* Panel */}
       <nav
         className={cn(
-          'fixed inset-x-0 top-0 z-40 flex h-dvh flex-col px-6 pt-24 pb-10 transition-transform duration-200 ease-out',
+          'fixed inset-x-0 top-0 z-[56] flex h-dvh flex-col px-6 pt-24 pb-10 transition-transform duration-200 ease-out',
           open ? 'translate-y-0' : '-translate-y-full'
         )}
       >
