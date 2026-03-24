@@ -388,7 +388,7 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
               touched.phone && errors.phone && 'border-destructive ring-destructive/20',
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
-            placeholder="+1 (415) 555-8911"
+            placeholder="+1 (252) 260-6617"
             value={fields.phone}
             onChange={(event) => handleChange('phone', event.target.value)}
             onBlur={() => handleBlur('phone')}
