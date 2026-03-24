@@ -42,7 +42,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
   const useLightVariants = prefersReduced || isMobile
   const variants = useLightVariants ? lightVariants : fullVariants
-  const duration = useLightVariants ? 0.15 : 0.35
+  const duration = useLightVariants ? 0.1 : 0.25
 
   return (
     <AnimatePresence mode="wait">

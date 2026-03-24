@@ -21,39 +21,39 @@ import { useParallax } from '@/hooks/use-parallax'
 /*  Cinematic entrance variants                                       */
 /* ------------------------------------------------------------------ */
 
-// Badge: fade-in with blur-clear, delay 0.1s
+// Badge: fade-in with blur-clear
 const badgeVariants: Variants = {
   hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
   visible: {
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
-    transition: { duration: 0.6, ease: 'easeOut', delay: 0.1 },
+    transition: { duration: 0.4, ease: 'easeOut', delay: 0.05 },
   },
 }
 
-// Badge glow pulse: settles after 3s
+// Badge glow pulse: settles after 2s
 const badgeGlowVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: [0, 0.8, 0.4, 0.7, 0.3, 0.15],
-    transition: { duration: 3, delay: 0.3, ease: 'easeOut' },
+    transition: { duration: 2, delay: 0.15, ease: 'easeOut' },
   },
 }
 
-// Headline container: delay 0.3s (handled by WordReveal delay prop)
+// Headline container
 const headlineVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 },
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 },
   },
 }
 
-// Subtext: spring physics, delay 0.7s
+// Subtext: spring physics
 const subtextVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
@@ -61,14 +61,14 @@ const subtextVariants: Variants = {
       type: 'spring',
       stiffness: 120,
       damping: 20,
-      delay: 0.7,
+      delay: 0.25,
     },
   },
 }
 
-// CTA buttons: snappy spring with scale overshoot, delay 0.9s
+// CTA buttons: snappy spring with scale overshoot
 const ctaVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.85, y: 30 },
+  hidden: { opacity: 0, scale: 0.9, y: 20 },
   visible: {
     opacity: 1,
     scale: 1,
@@ -77,24 +77,24 @@ const ctaVariants: Variants = {
       type: 'spring',
       stiffness: 200,
       damping: 22,
-      delay: 0.9,
+      delay: 0.35,
     },
   },
 }
 
-// Mockup: heavy spring for weighty rise + clipPath reveal, delay 1.1s
+// Mockup: spring rise + clipPath reveal
 const mockupVariants: Variants = {
-  hidden: { opacity: 0, y: 140, clipPath: 'inset(15% 0% 0% 0%)' },
+  hidden: { opacity: 0, y: 100, clipPath: 'inset(10% 0% 0% 0%)' },
   visible: {
     opacity: 1,
     y: 0,
     clipPath: 'inset(0% 0% 0% 0%)',
     transition: {
       type: 'spring',
-      stiffness: 50,
-      damping: 16,
-      mass: 1.2,
-      delay: 1.1,
+      stiffness: 60,
+      damping: 18,
+      mass: 1,
+      delay: 0.5,
     },
   },
 }
@@ -256,7 +256,7 @@ export function Hero() {
               <WordReveal
                 className="justify-center"
                 highlightWords={['vision']}
-                delay={0.3}
+                delay={0.1}
               >
                 Launch your vision with a site that converts
               </WordReveal>
