@@ -1,15 +1,23 @@
 import { useSyncExternalStore } from 'react'
 
 const MOBILE_BREAKPOINT = 768
+const QUERY = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`
+
+// Singleton: every consumer shares ONE matchMedia listener
+let cachedMql: MediaQueryList | null = null
+function getMql() {
+  if (cachedMql === null) cachedMql = window.matchMedia(QUERY)
+  return cachedMql
+}
 
 function subscribe(callback: () => void) {
-  const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+  const mql = getMql()
   mql.addEventListener('change', callback)
   return () => mql.removeEventListener('change', callback)
 }
 
 function getSnapshot() {
-  return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches
+  return getMql().matches
 }
 
 function getServerSnapshot() {

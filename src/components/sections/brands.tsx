@@ -7,9 +7,10 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { brands } from '@/data/brands'
 
 export function BrandsSection() {
-  const { ref, y } = useParallax(0.05)
   const prefersReduced = useReducedMotion()
   const isMobile = useIsMobile()
+  // Skip parallax scroll listener on mobile — speed=0 triggers noop in useParallax
+  const { ref, y } = useParallax(isMobile ? 0 : 0.05)
 
   return (
     <section id="brands" className={isMobile ? "bg-background px-6 py-6" : "bg-background px-6 py-10 md:py-28 lg:py-32"}>

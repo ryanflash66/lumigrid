@@ -11,6 +11,7 @@ import { NeonButton } from '@/components/ui/neon-button'
 import { ReadingProgress } from '@/components/ui/reading-progress'
 import { NavBar } from '@/components/ui/tubelight-navbar'
 import { Home, Info, CreditCard, BookOpen, MessageCircle } from 'lucide-react'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const navItems = [
   { name: 'Home', url: '/', icon: Home },
@@ -21,6 +22,8 @@ const navItems = [
 ]
 
 export function SiteHeader() {
+  const isMobile = useIsMobile()
+  // On mobile, skip framer-motion scroll listener — use lightweight passive listener instead
   const { scrollY } = useScroll()
   const [scrolled, setScrolled] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -34,13 +37,27 @@ export function SiteHeader() {
     return () => mq.removeEventListener('change', handler)
   }, [])
 
+  // Mobile: lightweight passive scroll check instead of framer-motion useMotionValueEvent
+  useEffect(() => {
+    if (!isMobile) return
+    const onScroll = () => setScrolled(window.scrollY > 80)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [isMobile])
+
   useMotionValueEvent(scrollY, 'change', (latest) => {
+    if (isMobile) return // skip — handled by lightweight listener above
     setScrolled(latest > 80)
   })
 
-  const transitionConfig = prefersReducedMotion
+  const transitionConfig = prefersReducedMotion || isMobile
     ? { duration: 0.01 }
     : { duration: 0.3, ease: 'easeOut' as const }
+
+  // Mobile: fixed compact padding, no animated padding transition
+  const innerPadding = isMobile
+    ? { paddingTop: '0.5rem', paddingBottom: '0.5rem' }
+    : undefined
 
   return (
     <header
@@ -63,7 +80,8 @@ export function SiteHeader() {
 
       <motion.div
         className="mx-auto flex max-w-6xl items-center justify-between px-6 pointer-events-auto"
-        animate={{ paddingTop: scrolled ? '0.5rem' : '1rem', paddingBottom: scrolled ? '0.5rem' : '1rem' }}
+        animate={isMobile ? undefined : { paddingTop: scrolled ? '0.5rem' : '1rem', paddingBottom: scrolled ? '0.5rem' : '1rem' }}
+        style={innerPadding}
         transition={transitionConfig}
       >
         <Link href="/" className="flex items-center gap-3">

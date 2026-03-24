@@ -2,8 +2,10 @@
 
 import { motion, useScroll } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export function ReadingProgress() {
+  const isMobile = useIsMobile()
   const { scrollYProgress } = useScroll()
   const [mounted, setMounted] = useState(false)
 
@@ -12,7 +14,8 @@ export function ReadingProgress() {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  // Mobile: hide progress bar — saves a global scroll listener
+  if (!mounted || isMobile) return null
 
   return (
     <motion.div

@@ -11,13 +11,17 @@ export function useParallax(
   y: MotionValue<number>
 } {
   const ref = useRef<HTMLDivElement>(null)
+  const noop = speed === 0
   const { scrollYProgress } = useScroll({
-    target: ref,
+    // When noop, skip IntersectionObserver by omitting target
+    target: noop ? undefined : ref,
     offset: ['start end', 'end start'],
   })
-  const range = velocityFactor
-    ? speed * 100 * (1 + velocityFactor * 0.5)
-    : speed * 100
+  const range = noop
+    ? 0
+    : velocityFactor
+      ? speed * 100 * (1 + velocityFactor * 0.5)
+      : speed * 100
   const y = useTransform(scrollYProgress, [0, 1], [-range, range])
   return { ref, y }
 }

@@ -27,33 +27,26 @@ const fullVariants = {
   },
 }
 
-// Mobile: opacity-only — blur and clip-path are expensive composite ops on mobile GPUs
-// Explicit filter: 'none' ensures any blur from a hydration-mismatch variant switch is cleared
-const lightVariants = {
-  initial: { opacity: 0, filter: 'none', clipPath: 'none' },
-  animate: { opacity: 1, filter: 'none', clipPath: 'none' },
-  exit: { opacity: 0 },
-}
-
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const prefersReduced = useReducedMotion()
   const isMobile = useIsMobile()
 
-  const useLightVariants = prefersReduced || isMobile
-  const variants = useLightVariants ? lightVariants : fullVariants
-  const duration = useLightVariants ? 0.1 : 0.25
+  // Mobile: skip AnimatePresence entirely — it forces layout recalc on every route change
+  if (isMobile || prefersReduced) {
+    return <main className="flex-1">{children}</main>
+  }
 
   return (
     <AnimatePresence mode="wait">
       <motion.main
         key={pathname}
-        variants={variants}
+        variants={fullVariants}
         initial="initial"
         animate="animate"
         exit="exit"
-        transition={{ duration, ease }}
-        style={isMobile ? undefined : { willChange: 'opacity, transform, clip-path' }}
+        transition={{ duration: 0.25, ease }}
+        style={{ willChange: 'opacity, transform, clip-path' }}
         className="flex-1"
       >
         {children}

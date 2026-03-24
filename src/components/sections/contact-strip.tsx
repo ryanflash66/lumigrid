@@ -27,11 +27,46 @@ const lineVariants = {
   visible: { scaleX: 1, transition: { ...springTransition, delay: 0.15 } },
 }
 
-export function ContactStrip() {
+/* Mobile-only CTA — no hooks, no scroll listeners */
+function MobileContactStrip() {
+  return (
+    <section id="contact" className="bg-primary/5 px-6 py-10">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <h2 className="text-2xl font-bold text-foreground">
+          Ready to launch?
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          Get a free strategy call.
+        </p>
+        <Link
+          href="/contact"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-bold touch-manipulation"
+          style={{
+            backgroundColor: 'var(--primary)',
+            color: '#ffffff',
+            textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+          }}
+        >
+          Start Your Project
+          <ArrowUpRight className="h-5 w-5" />
+        </Link>
+        <a
+          href="tel:+16285550148"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary/40 bg-primary/10 px-6 py-3.5 text-base font-semibold text-foreground touch-manipulation"
+        >
+          <Phone className="h-5 w-5 text-primary" />
+          Or Call Us Now
+        </a>
+      </div>
+    </section>
+  )
+}
+
+/* Desktop CTA — full animations + scroll-linked gradient */
+function DesktopContactStrip() {
   const sectionRef = useRef<HTMLElement>(null)
   const prefersReduced = useReducedMotion()
-  const isMobile = useIsMobile()
-  const skipAnimations = !!prefersReduced || isMobile
+  const skipAnimations = !!prefersReduced
 
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 })
 
@@ -46,44 +81,6 @@ export function ContactStrip() {
     ([x, y]) =>
       `radial-gradient(ellipse 60% 40% at ${x} ${y}, hsl(var(--primary) / 0.06), transparent)`,
   )
-
-  if (isMobile) {
-    return (
-      <section
-        id="contact"
-        ref={sectionRef}
-        className="bg-primary/5 px-6 py-10"
-      >
-        <div className="flex flex-col items-center gap-4 text-center">
-          <h2 className="text-2xl font-bold text-foreground">
-            Ready to launch?
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Get a free strategy call.
-          </p>
-          <Link
-            href="/contact"
-            className="w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-4 text-base font-bold touch-manipulation"
-            style={{
-              backgroundColor: 'var(--primary)',
-              color: '#ffffff',
-              textShadow: '0 1px 2px rgba(0,0,0,0.3)',
-            }}
-          >
-            Start Your Project
-            <ArrowUpRight className="h-5 w-5" />
-          </Link>
-          <a
-            href="tel:+16285550148"
-            className="w-full inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary/40 bg-primary/10 px-6 py-3.5 text-base font-semibold text-foreground touch-manipulation"
-          >
-            <Phone className="h-5 w-5 text-primary" />
-            Or Call Us Now
-          </a>
-        </div>
-      </section>
-    )
-  }
 
   return (
     <section
@@ -155,4 +152,10 @@ export function ContactStrip() {
       </div>
     </section>
   )
+}
+
+export function ContactStrip() {
+  const isMobile = useIsMobile()
+  // Split into two components so mobile never mounts useScroll/useInView/useTransform hooks
+  return isMobile ? <MobileContactStrip /> : <DesktopContactStrip />
 }
