@@ -19,8 +19,8 @@ const contactInfo = [
   {
     icon: PhoneCall,
     label: 'Call the studio',
-    value: '+1 (628) 555-0148',
-    href: 'tel:+16285550148'
+    value: '+1 (252) 260-6617',
+    href: 'tel:+12522606617'
   },
   {
     icon: MapPin,
