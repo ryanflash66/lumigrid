@@ -30,8 +30,8 @@ const fullVariants = {
 // Mobile: opacity-only — blur and clip-path are expensive composite ops on mobile GPUs
 // Explicit filter: 'none' ensures any blur from a hydration-mismatch variant switch is cleared
 const lightVariants = {
-  initial: { opacity: 0, filter: 'none' },
-  animate: { opacity: 1, filter: 'none' },
+  initial: { opacity: 0, filter: 'none', clipPath: 'none' },
+  animate: { opacity: 1, filter: 'none', clipPath: 'none' },
   exit: { opacity: 0 },
 }
 
