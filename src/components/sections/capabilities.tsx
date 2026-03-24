@@ -24,7 +24,7 @@ const capabilities = [
 
 export function CapabilitiesSection() {
   return (
-    <section id="capabilities" className="bg-background px-6 py-24">
+    <section id="capabilities" className="bg-background px-6 py-16 md:py-24">
       <div className="mx-auto max-w-6xl space-y-4">
         <ScrollReveal variant="clip-reveal">
           <h2 className="text-balance text-4xl font-semibold text-foreground md:text-5xl">

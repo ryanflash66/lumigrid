@@ -36,7 +36,7 @@ export function MobileCTABar() {
   return (
     <div
       className={cn(
-        'fixed bottom-24 left-0 right-0 z-40 flex gap-2 px-4 md:hidden transition-transform duration-200',
+        'fixed bottom-6 left-0 right-0 z-40 flex gap-2 px-4 pb-[env(safe-area-inset-bottom)] md:hidden transition-transform duration-200',
         visible ? 'translate-y-0' : 'translate-y-[calc(100%+2rem)]'
       )}
     >

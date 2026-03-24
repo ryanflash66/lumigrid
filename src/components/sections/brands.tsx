@@ -12,7 +12,7 @@ export function BrandsSection() {
   const isMobile = useIsMobile()
 
   return (
-    <section id="brands" className="bg-background px-6 py-16 md:py-28 lg:py-32">
+    <section id="brands" className="bg-background px-6 py-10 md:py-28 lg:py-32">
       <div className="mx-auto max-w-5xl text-center space-y-3">
         <p className="text-xs uppercase tracking-[0.15em] text-foreground/60">Loved by teams everywhere</p>
         <p className="text-sm text-muted-foreground">

@@ -97,7 +97,7 @@ export function SectionDivider({ variant, className }: SectionDividerProps) {
   // On mobile: render static divider without motion wrapper
   if (isMobile) {
     return (
-      <div className={cn("py-4", className)}>
+      <div className={cn("py-1 md:py-4", className)}>
         {variant === "glow-line" && <GlowLine />}
         {variant === "wave" && <Wave />}
         {variant === "dot-cluster" && <DotCluster />}
@@ -111,7 +111,7 @@ export function SectionDivider({ variant, className }: SectionDividerProps) {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true, margin: "-50px" }}
-      className={cn("py-4", className)}
+      className={cn("py-1 md:py-4", className)}
     >
       {variant === "glow-line" && <GlowLine />}
       {variant === "wave" && <Wave />}

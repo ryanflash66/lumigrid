@@ -208,12 +208,9 @@ export function Hero() {
             variants={pick(badgeVariants, mobileBadgeVariants)}
             initial="hidden"
             animate="visible"
-            className={cn(
-              "pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)]",
-              !isMobile && "backdrop-blur-xl"
-            )}
+            className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary md:shadow-[0_0_15px_rgba(100,100,250,0.15)] md:backdrop-blur-xl"
           >
-            <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] animate-pulse" />
+            <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] md:animate-pulse" />
             <span>New Lumigrid launch kit is live</span>
             <Link
               href="/blog"
@@ -230,23 +227,17 @@ export function Hero() {
           variants={pick(headlineVariants, mobileHeadlineVariants)}
           initial="hidden"
           animate="visible"
-          className="relative mt-12"
+          className="relative mt-8 md:mt-12"
         >
-          {/* Glow behind headline */}
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 mx-auto h-full w-3/4 rounded-full bg-primary/20 blur-3xl"
-            animate={
-              prefersReducedMotion
-                ? {}
-                : { opacity: [0.08, 0.18, 0.08] }
-            }
-            transition={
-              prefersReducedMotion
-                ? undefined
-                : { duration: 5, repeat: Infinity, ease: 'easeInOut' }
-            }
-          />
+          {/* Glow behind headline — hidden on mobile to save GPU compositing */}
+          {!isMobile && !prefersReducedMotion && (
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 mx-auto h-full w-3/4 rounded-full bg-primary/20 blur-3xl"
+              animate={{ opacity: [0.08, 0.18, 0.08] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          )}
 
           <h1
             className="max-w-5xl text-balance font-semibold tracking-tight text-foreground"
@@ -280,7 +271,7 @@ export function Hero() {
           animate="visible"
           style={prefersReducedMotion || isMobile ? undefined : { y: subtextY }}
         >
-          <p className="mt-8 max-w-2xl text-pretty text-base text-muted-foreground md:text-lg lg:text-xl">
+          <p className="mt-5 max-w-2xl text-pretty text-base text-muted-foreground md:mt-8 md:text-lg lg:text-xl">
             A premium landing page system built for fast launches, polished
             experiences, and conversion-focused storytelling.
           </p>
@@ -292,7 +283,7 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           className={cn(
-            "pointer-events-auto mt-10 flex items-center justify-center gap-4",
+            "pointer-events-auto mt-6 flex items-center justify-center gap-4 md:mt-10",
             isMobile ? "flex-col w-full px-2" : "flex-wrap"
           )}
         >

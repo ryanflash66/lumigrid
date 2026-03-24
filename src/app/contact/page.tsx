@@ -44,8 +44,8 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
   const selectedPlan = searchParams?.plan ? decodeURIComponent(searchParams.plan) : undefined
 
   return (
-    <main className="px-6 py-24">
-      <section className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_1fr]">
+    <main className="px-6 py-12 md:py-24">
+      <section className="mx-auto grid max-w-6xl gap-6 md:gap-10 lg:grid-cols-[1fr_1fr]">
         {/* ---- Left Column ---- */}
         <div className="space-y-8">
           {/* Hero */}
@@ -93,7 +93,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
         </div>
 
         {/* ---- Right Column ---- */}
-        <div className="rounded-[32px] border border-border/50 bg-background/40 backdrop-blur-2xl p-8 shadow-2xl shadow-primary/10">
+        <div className="rounded-[32px] border border-border/50 bg-background/40 backdrop-blur-2xl p-4 shadow-2xl shadow-primary/10 md:p-8">
           <h2 className="text-2xl font-semibold">Send us a message</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Fill out the form below and we&apos;ll get back to you within two business days.

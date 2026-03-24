@@ -58,7 +58,7 @@ export function MobileMenu({ items }: MobileMenuProps) {
       {/* Panel */}
       <nav
         className={cn(
-          'fixed inset-x-0 top-0 z-[56] flex h-dvh flex-col px-6 pt-24 pb-10 transition-transform duration-200 ease-out',
+          'fixed inset-x-0 top-0 z-[56] flex h-dvh flex-col bg-background px-6 pt-24 pb-10 transition-transform duration-200 ease-out',
           open ? 'translate-y-0' : '-translate-y-full'
         )}
       >

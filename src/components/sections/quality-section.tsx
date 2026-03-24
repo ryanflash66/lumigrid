@@ -69,7 +69,7 @@ export function QualitySection() {
   const inView = useInView(gridRef, { once: true, margin: '-50px' })
 
   return (
-    <section id="quality" className="relative overflow-hidden bg-background px-6 py-28">
+    <section id="quality" className="relative overflow-hidden bg-background px-6 py-16 md:py-28">
       <div className="pointer-events-none absolute inset-x-0 -top-40 mx-auto h-80 w-[80%] rounded-full bg-linear-to-r from-foreground/5 via-blue-500/20 to-foreground/5 blur-[140px]" />
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <h2 className="max-w-5xl text-4xl font-semibold text-foreground md:text-6xl">

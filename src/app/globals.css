@@ -280,6 +280,8 @@
   }
 
   /* Disable backdrop-blur on mobile (expensive GPU compositing) */
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
   .backdrop-blur-xl,
   .backdrop-blur-2xl,
   .backdrop-blur-3xl {

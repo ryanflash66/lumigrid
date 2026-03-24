@@ -119,13 +119,13 @@ export function PricingPreview() {
       {isMobile ? (
         <div
           ref={containerRef}
-          className="mx-auto mt-12 grid max-w-6xl gap-6"
+          className="mx-auto mt-8 grid max-w-6xl gap-4"
         >
           {tiers.map((tier) => (
             <div
               key={tier.name}
               className={cn(
-                'relative flex h-full flex-col rounded-[20px] p-6',
+                'relative flex h-full flex-col rounded-[20px] p-5 md:p-6',
                 'bg-card/60 border border-border/50',
                 tier.featured && 'ring-2 ring-primary/30',
               )}
@@ -139,7 +139,7 @@ export function PricingPreview() {
               )}
               <div>
                 <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
-                <p className="mt-3 text-3xl font-semibold text-foreground">
+                <p className="mt-3 text-2xl font-semibold text-foreground md:text-3xl">
                   $<AnimatedNumber value={tier.price} />
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">{tier.description}</p>
@@ -166,7 +166,7 @@ export function PricingPreview() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3 md:items-center"
+          className="mx-auto mt-8 grid max-w-6xl gap-4 md:mt-12 md:gap-6 md:grid-cols-3 md:items-center"
           style={{ perspective: '800px' }}
         >
           {tiers.map((tier) => (

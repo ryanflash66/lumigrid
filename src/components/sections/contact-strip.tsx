@@ -99,11 +99,11 @@ export function ContactStrip() {
         )}
 
         <ScrollReveal variant="fade-scale" delay={0.2}>
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col items-stretch gap-3 pt-2 md:flex-row md:items-center md:justify-center md:gap-4">
             <MagneticWrapper>
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-lg transition hover:-translate-y-px hover:shadow-xl"
+                className="group inline-flex items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-lg transition hover:-translate-y-px hover:shadow-xl"
               >
                 Book a Call
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -112,7 +112,7 @@ export function ContactStrip() {
             <MagneticWrapper>
               <Link
                 href="/pricing"
-                className="inline-flex items-center rounded-md border border-foreground/20 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-foreground/40"
+                className="inline-flex items-center justify-center rounded-md border border-foreground/20 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-foreground/40"
               >
                 View Pricing
               </Link>

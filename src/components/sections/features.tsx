@@ -39,7 +39,7 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="bg-background px-6 py-24">
+    <section id="features" className="bg-background px-6 py-16 md:py-24">
       <ScrollScene speed={20} scaleFrom={0.98}>
       <div className="mx-auto max-w-6xl text-center">
         <ScrollReveal variant="clip-reveal">

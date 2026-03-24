@@ -109,7 +109,7 @@ export function SiteFooter() {
 
       {/* Year watermark */}
       <div
-        className="pointer-events-none absolute bottom-4 right-6 select-none font-mono text-[10rem] font-bold leading-none opacity-[0.02] md:text-[14rem]"
+        className="pointer-events-none absolute bottom-4 right-6 select-none font-mono text-[8rem] font-bold leading-none opacity-[0.02] md:text-[14rem]"
         aria-hidden
       >
         2026
@@ -120,13 +120,13 @@ export function SiteFooter() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
-        className="relative mx-auto max-w-6xl px-6 pt-28 pb-16 md:pt-36"
+        className="relative mx-auto max-w-6xl px-6 pt-16 pb-12 md:pt-36 md:pb-16"
       >
         {/* Large typographic CTA with word reveal */}
-        {prefersReduced ? (
+        {prefersReduced || isMobile ? (
           <motion.h2
             variants={childVariants}
-            className="mb-20 bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
+            className="mb-10 md:mb-20 bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
             style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}
           >
             Let&rsquo;s build something
@@ -139,7 +139,7 @@ export function SiteFooter() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="mb-20 flex flex-wrap gap-x-[0.3em] bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
+            className="mb-10 md:mb-20 flex flex-wrap gap-x-[0.3em] bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
             style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}
           >
             {headlineWords.map((word, i) =>
@@ -157,7 +157,7 @@ export function SiteFooter() {
         )}
 
         {/* Main footer content */}
-        <div className="flex flex-col gap-10 md:flex-row md:justify-between">
+        <div className="flex flex-col gap-6 md:gap-10 md:flex-row md:justify-between">
           <motion.div variants={childVariants} className="space-y-3">
             <p className="text-lg font-semibold">Lumigrid</p>
             <p className="max-w-sm text-sm text-muted-foreground">
@@ -203,7 +203,7 @@ export function SiteFooter() {
         </div>
 
         {/* Back-to-top button */}
-        <motion.div variants={childVariants} className="mt-16 flex justify-center">
+        <motion.div variants={childVariants} className="mt-10 md:mt-16 flex justify-center">
           <button
             onClick={scrollToTop}
             aria-label="Back to top"

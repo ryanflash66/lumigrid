@@ -59,8 +59,8 @@ function TestimonialCard({
     'group relative flex flex-col gap-6 overflow-hidden rounded-[20px] border border-border/70 transition-all duration-300',
     'hover:-translate-y-1 hover:border-primary/30 hover:bg-muted/60 hover:shadow-xl',
     featured
-      ? 'bg-gradient-to-br from-primary/[0.04] via-muted/50 to-background p-8 md:p-10'
-      : 'bg-gradient-to-b from-muted/40 to-background p-6'
+      ? 'bg-gradient-to-br from-primary/[0.04] via-muted/50 to-background p-5 md:p-10'
+      : 'bg-gradient-to-b from-muted/40 to-background p-4 md:p-6'
   )
 
   if (isMobile) {
@@ -79,7 +79,7 @@ function TestimonialCard({
             featured ? 'h-7 w-7' : 'h-6 w-6'
           )}
         />
-        <p className={cn('text-muted-foreground', featured ? 'text-xl md:text-2xl' : 'text-sm')}>
+        <p className={cn('text-muted-foreground', featured ? 'text-base md:text-2xl' : 'text-sm')}>
           {testimonial.quote}
         </p>
         <div className="mt-auto flex items-center gap-4 pt-4">
@@ -125,7 +125,7 @@ function TestimonialCard({
       <p
         className={cn(
           'text-muted-foreground',
-          featured ? 'text-xl md:text-2xl' : 'text-sm'
+          featured ? 'text-base md:text-2xl' : 'text-sm'
         )}
       >
         {testimonial.quote}
@@ -170,9 +170,9 @@ export function TestimonialsSection() {
       </div>
 
       {isMobile ? (
-        <div className="mx-auto mt-12 max-w-6xl space-y-8">
+        <div className="mx-auto mt-8 max-w-6xl space-y-4">
           <TestimonialCard testimonial={featured} featured isMobile />
-          <div className="grid gap-8">
+          <div className="grid gap-4">
             {rest.map((testimonial) => (
               <TestimonialCard key={testimonial.name} testimonial={testimonial} isMobile />
             ))}
@@ -184,10 +184,10 @@ export function TestimonialsSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: '-100px' }}
-          className="mx-auto mt-12 max-w-6xl space-y-8"
+          className="mx-auto mt-8 max-w-6xl space-y-4 md:mt-12 md:space-y-8"
         >
           <TestimonialCard testimonial={featured} featured />
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-4 md:gap-8 md:grid-cols-2">
             {rest.map((testimonial) => (
               <TestimonialCard key={testimonial.name} testimonial={testimonial} />
             ))}

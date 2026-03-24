@@ -35,13 +35,13 @@ export function FAQSection() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section id="faq" className="bg-background px-6 py-24">
+    <section id="faq" className="bg-background px-6 py-16 md:py-24">
       <div className="mx-auto max-w-3xl space-y-6 text-center">
         <ScrollReveal variant="clip-reveal">
           <h2 className="text-4xl font-semibold">Questions and Answers</h2>
         </ScrollReveal>
       </div>
-      <StaggerContainer stagger={0.1} className="mx-auto mt-12 max-w-3xl divide-y divide-border/60">
+      <StaggerContainer stagger={0.1} className="mx-auto mt-8 max-w-3xl divide-y divide-border/60 md:mt-12">
         {faqs.map((faq) => {
           const isOpen = open === faq.question
           return (
@@ -57,7 +57,7 @@ export function FAQSection() {
 
                 <button
                   type="button"
-                  className="w-full py-5 pl-4 text-left"
+                  className="w-full py-5 pl-4 text-left touch-manipulation"
                   aria-expanded={isOpen}
                   onClick={() => setOpen(isOpen ? null : faq.question)}
                 >
