@@ -3,6 +3,7 @@
 import { useRef, type ReactNode } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface ScrollSceneProps {
   children: ReactNode
@@ -21,6 +22,7 @@ export function ScrollScene({
 }: ScrollSceneProps) {
   const ref = useRef<HTMLDivElement>(null)
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -35,7 +37,7 @@ export function ScrollScene({
     fadeIn ? [0.3, 1, 1, 0.7] : [1, 1, 1, 1]
   )
 
-  if (prefersReduced) {
+  if (prefersReduced || isMobile) {
     return <div ref={ref} className={cn(className)}>{children}</div>
   }
 

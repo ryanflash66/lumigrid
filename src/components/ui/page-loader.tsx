@@ -18,6 +18,14 @@ export function PageLoader() {
   const [loading, setLoading] = useState(true);
   const [showFlash, setShowFlash] = useState(false);
 
+  // Mobile: skip loader entirely — every ms counts for lead conversion
+  // Runs after hydration to avoid SSR mismatch
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      setLoading(false);
+    }
+  }, []);
+
   // Animated progress value (0-100)
   const progress = useMotionValue(0);
   const displayPercent = useTransform(progress, (v) => Math.round(v));

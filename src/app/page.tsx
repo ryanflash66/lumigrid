@@ -13,13 +13,17 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       <Hero />
+      {/* Dividers hidden on mobile via the component's own isMobile check */}
       <SectionDivider variant="glow-line" />
       <BrandsSection />
       <CapabilitiesSection />
       <SectionDivider variant="wave" />
-      <FeaturesSection />
-      <SectionDivider variant="dot-cluster" />
-      <QualitySection />
+      {/* Features + Quality hidden on mobile via CSS — keeps server render stable */}
+      <div className="hidden md:contents">
+        <FeaturesSection />
+        <SectionDivider variant="dot-cluster" />
+        <QualitySection />
+      </div>
       <TestimonialsSection />
       <SectionDivider variant="glow-line" />
       <PricingPreview />

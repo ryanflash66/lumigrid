@@ -152,7 +152,7 @@ export default function AboutPage() {
       {/* ------------------------------------------------------------------ */}
       <section className="py-20 md:py-32">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-6 md:gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="space-y-6">
               <ScrollReveal>
                 <p className="text-xs uppercase tracking-[0.4em] text-primary">Our story</p>
@@ -211,12 +211,12 @@ export default function AboutPage() {
             <h2 className="mt-4 text-3xl font-semibold">What drives us</h2>
           </ScrollReveal>
 
-          <StaggerContainer className="mt-12 grid gap-6 sm:grid-cols-2" stagger={0.1}>
+          <StaggerContainer className="mt-8 grid gap-4 sm:grid-cols-2 md:mt-12 md:gap-6" stagger={0.1}>
             {values.map((v) => {
               const Icon = v.icon
               return (
                 <StaggerItem key={v.title}>
-                  <GlowCard className="p-8">
+                  <GlowCard className="p-4 md:p-8">
                     <Icon className="h-8 w-8 text-primary" />
                     <h3 className="mt-4 text-lg font-semibold">{v.title}</h3>
                     <p className="mt-2 text-sm text-muted-foreground">{v.description}</p>
@@ -247,10 +247,10 @@ export default function AboutPage() {
           <div className="relative mt-14">
             <div className="absolute left-0 right-0 top-12 hidden h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent md:block" />
 
-            <StaggerContainer className="grid gap-8 md:grid-cols-4" stagger={0.12}>
+            <StaggerContainer className="grid gap-4 md:grid-cols-4 md:gap-8" stagger={0.12}>
               {processSteps.map((step) => (
                 <StaggerItem key={step.number}>
-                  <div className="relative rounded-3xl border border-border/50 bg-background/30 p-6 shadow-lg shadow-primary/5 backdrop-blur-xl">
+                  <div className="relative rounded-3xl border border-border/50 bg-background/30 p-4 shadow-lg shadow-primary/5 backdrop-blur-xl md:p-6">
                     <span className="text-4xl font-bold text-primary/20">{step.number}</span>
                     <h3 className="mt-2 text-lg font-semibold">{step.title}</h3>
                     <span className="mt-1 inline-block rounded-full bg-primary/10 px-3 py-0.5 text-xs font-medium text-primary">
@@ -315,7 +315,7 @@ export default function AboutPage() {
             <p className="text-center text-sm uppercase tracking-wider text-muted-foreground">
               Trusted by teams building the future
             </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-8 md:gap-12">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-6 md:mt-10 md:gap-12">
               {brands.map((brand) => (
                 <div key={brand.name} className="flex-shrink-0">
                   <Image

@@ -6,12 +6,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { FloatingCTA } from "@/components/layout/floating-cta";
+import { MobileCTABar } from "@/components/layout/mobile-cta-bar";
 import { PageTransition } from "@/components/layout/page-transition";
-import { AmbientBackground } from "@/components/ui/ambient-background";
-import { PageLoader } from "@/components/ui/page-loader";
 import { LenisProvider } from "@/components/lenis-provider";
-import { CustomCursor } from "@/components/ui/custom-cursor";
-import { GrainOverlay } from "@/components/ui/grain-overlay";
+import { DeferredDecorations } from "@/components/layout/deferred-decorations";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,16 +87,14 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LenisProvider>
-            <AmbientBackground />
-            <CustomCursor />
-            <GrainOverlay />
+            <DeferredDecorations />
             <div className="flex min-h-screen flex-col relative z-0">
               <SiteHeader />
               <PageTransition>{children}</PageTransition>
               <SiteFooter />
             </div>
             <FloatingCTA />
-            <PageLoader />
+            <MobileCTABar />
           </LenisProvider>
         </ThemeProvider>
       </body>

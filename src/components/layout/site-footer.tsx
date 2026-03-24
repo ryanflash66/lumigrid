@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const footerLinks = [
   {
@@ -68,40 +69,47 @@ const headlineWords = ["Let's", 'build', 'something', '|', 'luminous']
 
 export function SiteFooter() {
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
 
   return (
     <footer className="relative overflow-hidden bg-background">
-      {/* Animated gradient border sweep at top */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px] animate-[gradient-sweep_4s_linear_infinite]"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent)',
-          backgroundSize: '200% 100%',
-        }}
-      />
-      <div
-        className="absolute top-0 left-0 right-0 h-8 opacity-30"
-        style={{
-          background:
-            'linear-gradient(to bottom, var(--primary), transparent)',
-          filter: 'blur(12px)',
-        }}
-      />
+      {/* Animated gradient border sweep at top — skip on mobile */}
+      {!isMobile && (
+        <>
+          <div
+            className="absolute top-0 left-0 right-0 h-[2px] animate-[gradient-sweep_4s_linear_infinite]"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent, var(--primary), var(--accent), var(--primary), transparent)',
+              backgroundSize: '200% 100%',
+            }}
+          />
+          <div
+            className="absolute top-0 left-0 right-0 h-8 opacity-30"
+            style={{
+              background:
+                'linear-gradient(to bottom, var(--primary), transparent)',
+              filter: 'blur(12px)',
+            }}
+          />
+        </>
+      )}
 
-      {/* Pulsing dot grid pattern background */}
-      <div
-        className="pointer-events-none absolute inset-0 animate-[dot-pulse_6s_ease-in-out_infinite]"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, var(--primary) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-        }}
-      />
+      {/* Pulsing dot grid pattern background — skip on mobile */}
+      {!isMobile && (
+        <div
+          className="pointer-events-none absolute inset-0 animate-[dot-pulse_6s_ease-in-out_infinite]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, var(--primary) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+      )}
 
       {/* Year watermark */}
       <div
-        className="pointer-events-none absolute bottom-4 right-6 select-none font-mono text-[10rem] font-bold leading-none opacity-[0.02] md:text-[14rem]"
+        className="pointer-events-none absolute bottom-4 right-6 hidden select-none font-mono text-[14rem] font-bold leading-none opacity-[0.02] md:block"
         aria-hidden
       >
         2026
@@ -112,14 +120,14 @@ export function SiteFooter() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
-        className="relative mx-auto max-w-6xl px-6 pt-28 pb-16 md:pt-36"
+        className="relative mx-auto max-w-6xl px-6 pt-6 pb-6 md:pt-36 md:pb-16"
       >
-        {/* Large typographic CTA with word reveal */}
-        {prefersReduced ? (
+        {/* Large typographic CTA with word reveal — compact on mobile */}
+        {prefersReduced || isMobile ? (
           <motion.h2
             variants={childVariants}
-            className="mb-20 bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
-            style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}
+            className="mb-4 md:mb-20 bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
+            style={{ fontSize: isMobile ? 'clamp(1.5rem, 6vw, 2.5rem)' : 'clamp(3rem, 8vw, 6rem)' }}
           >
             Let&rsquo;s build something
             <br />
@@ -131,7 +139,7 @@ export function SiteFooter() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="mb-20 flex flex-wrap gap-x-[0.3em] bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
+            className="mb-10 md:mb-20 flex flex-wrap gap-x-[0.3em] bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text font-serif leading-[1.1] text-transparent"
             style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}
           >
             {headlineWords.map((word, i) =>
@@ -149,12 +157,13 @@ export function SiteFooter() {
         )}
 
         {/* Main footer content */}
-        <div className="flex flex-col gap-10 md:flex-row md:justify-between">
+        <div className="flex flex-col gap-4 md:gap-10 md:flex-row md:justify-between">
           <motion.div variants={childVariants} className="space-y-3">
             <p className="text-lg font-semibold">Lumigrid</p>
             <p className="max-w-sm text-sm text-muted-foreground">
-              Web development agency crafting shader-powered hero moments, design
-              systems, and Core Web Vitals-friendly sites.
+              {isMobile
+                ? 'Premium web development that converts.'
+                : 'Web development agency crafting shader-powered hero moments, design systems, and Core Web Vitals-friendly sites.'}
             </p>
             <p className="text-xs text-muted-foreground">
               &copy; {new Date().getFullYear()} Lumigrid. All rights reserved.
@@ -195,7 +204,7 @@ export function SiteFooter() {
         </div>
 
         {/* Back-to-top button */}
-        <motion.div variants={childVariants} className="mt-16 flex justify-center">
+        <motion.div variants={childVariants} className="mt-6 md:mt-16 flex justify-center">
           <button
             onClick={scrollToTop}
             aria-label="Back to top"

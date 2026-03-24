@@ -17,6 +17,7 @@ export function AnimatedNumber({ value, spring = false, format }: AnimatedNumber
 
   useEffect(() => {
     if (!isInView || !ref.current) return
+    if (window.matchMedia('(max-width: 768px)').matches) return
 
     const match = value.match(/^([\D]*)?([\d,.]+)([\D]*)?$/)
     if (!match) return

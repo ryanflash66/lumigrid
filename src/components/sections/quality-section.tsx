@@ -5,6 +5,7 @@ import { Activity, Zap, Layers, Users } from 'lucide-react'
 import { useRef } from 'react'
 import { AnimatedNumber } from '@/components/ui/animated-number'
 import { ScrollScene } from '@/components/ui/scroll-storytelling'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const metrics = [
   { id: 1, label: 'Guaranteed Uptime', value: '99.9%', numericPercent: 0.999, icon: Activity, delay: 0.1 },
@@ -64,10 +65,11 @@ function ProgressRing({ percent, delay, inView }: { percent: number; delay: numb
 
 export function QualitySection() {
   const gridRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
   const inView = useInView(gridRef, { once: true, margin: '-50px' })
 
   return (
-    <section id="quality" className="relative overflow-hidden bg-background px-6 py-28">
+    <section id="quality" className="relative overflow-hidden bg-background px-6 py-16 md:py-28">
       <div className="pointer-events-none absolute inset-x-0 -top-40 mx-auto h-80 w-[80%] rounded-full bg-linear-to-r from-foreground/5 via-blue-500/20 to-foreground/5 blur-[140px]" />
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <h2 className="max-w-5xl text-4xl font-semibold text-foreground md:text-6xl">
@@ -95,34 +97,51 @@ export function QualitySection() {
             }}
           />
 
-          <div ref={gridRef} className="relative z-10 grid w-full grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
-            {metrics.map((metric) => (
-              <motion.div
-                key={metric.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ delay: metric.delay, type: 'spring', stiffness: 300, damping: 24 }}
-                className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/50 bg-background/60 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md transition-all hover:-translate-y-1.5 hover:border-border/80 hover:bg-background/80 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(255,255,255,0.02)] dark:hover:shadow-[0_12px_40px_rgb(255,255,255,0.04)] animate-quality-pulse"
-              >
-                {/* Icon with progress ring */}
-                <div className="relative flex h-[72px] w-[72px] items-center justify-center">
-                  <ProgressRing percent={metric.numericPercent} delay={metric.delay} inView={inView} />
-                  <div className="relative z-10 rounded-full bg-primary/10 p-3 text-primary transition-transform group-hover:scale-110">
-                    <metric.icon size={28} strokeWidth={1.5} />
+          <div ref={gridRef} className="relative z-10 grid w-full grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {metrics.map((metric) => {
+              const cardContent = (
+                <>
+                  <div className="relative flex h-[56px] w-[56px] md:h-[72px] md:w-[72px] items-center justify-center">
+                    <ProgressRing percent={metric.numericPercent} delay={isMobile ? 0 : metric.delay} inView={isMobile || inView} />
+                    <div className="relative z-10 rounded-full bg-primary/10 p-2 md:p-3 text-primary">
+                      <metric.icon size={isMobile ? 22 : 28} strokeWidth={1.5} />
+                    </div>
                   </div>
-                </div>
+                  <div className="mt-2 flex flex-col items-center text-center">
+                    <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                      <AnimatedNumber value={metric.value} />
+                    </span>
+                    <span className="mt-1 md:mt-2 text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                      {metric.label}
+                    </span>
+                  </div>
+                </>
+              )
 
-                <div className="mt-2 flex flex-col items-center text-center">
-                  <span className="text-3xl font-bold tracking-tight text-foreground">
-                    <AnimatedNumber value={metric.value} />
-                  </span>
-                  <span className="mt-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-                    {metric.label}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+              if (isMobile) {
+                return (
+                  <div
+                    key={metric.id}
+                    className="group flex flex-col items-center justify-center gap-2 rounded-2xl border border-border/50 bg-background/60 p-4"
+                  >
+                    {cardContent}
+                  </div>
+                )
+              }
+
+              return (
+                <motion.div
+                  key={metric.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ delay: metric.delay, type: 'spring', stiffness: 300, damping: 24 }}
+                  className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-border/50 bg-background/60 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md transition-all hover:-translate-y-1.5 hover:border-border/80 hover:bg-background/80 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgb(255,255,255,0.02)] dark:hover:shadow-[0_12px_40px_rgb(255,255,255,0.04)]"
+                >
+                  {cardContent}
+                </motion.div>
+              )
+            })}
           </div>
 
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-transparent to-background/90 md:h-56" />

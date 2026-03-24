@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 // ---------------------------------------------------------------------------
 // WordReveal — viewport-triggered staggered word entrance
@@ -54,6 +55,7 @@ export function WordReveal({
   highlightWords = [],
 }: WordRevealProps) {
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
 
   // Build word list with highlight flags
   const words = children.split(' ')
@@ -64,6 +66,27 @@ export function WordReveal({
     text: word,
     highlight: highlightSet.has(word),
   }))
+
+  // On mobile, render words directly without staggered animation
+  if (isMobile) {
+    return (
+      <span className={cn('inline-flex flex-wrap', className)}>
+        {wordData.map((word, i) => (
+          <span key={`${word.text}-${i}`} className="inline-block mr-[0.25em] last:mr-0">
+            <span
+              className={cn(
+                'inline-block',
+                word.highlight &&
+                  'bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-serif italic'
+              )}
+            >
+              {word.text}
+            </span>
+          </span>
+        ))}
+      </span>
+    )
+  }
 
   return (
     <motion.span
@@ -130,14 +153,20 @@ function CharSpan({
   )
 }
 
-export function CharReveal({ children, className, once = true }: CharRevealProps) {
+export function CharReveal({ children, className }: CharRevealProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start 0.9', 'start 0.3'],
   })
   const chars = children.split('')
+
+  // On mobile, render text directly without per-character scroll animation
+  if (isMobile) {
+    return <span className={cn('inline-block', className)}>{children}</span>
+  }
 
   return (
     <span ref={ref} className={cn('inline-block', className)}>

@@ -127,8 +127,9 @@ export const ModernPricingPage = ({
   const [shaderEnabled, setShaderEnabled] = useState(true)
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setShaderEnabled(!media.matches)
+    const update = () => setShaderEnabled(!media.matches && !isMobile)
     update()
     media.addEventListener('change', update)
     return () => media.removeEventListener('change', update)
@@ -137,22 +138,22 @@ export const ModernPricingPage = ({
   const shouldRenderShader = showAnimatedBackground && shaderEnabled
 
   return (
-    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden bg-background px-4 py-16 text-foreground sm:px-6 lg:px-8">
+    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden bg-background px-4 py-12 text-foreground sm:px-6 md:py-16 lg:px-8">
       {shouldRenderShader ? (
         <DotShaderBackground />
       ) : (
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
       )}
 
-      {/* Warm gradient orbs */}
-      <div className="pointer-events-none absolute -left-32 top-1/3 z-0 h-96 w-96 rounded-full bg-gradient-to-br from-primary/15 to-accent/10 blur-3xl dark:from-primary/25 dark:to-accent/15" />
-      <div className="pointer-events-none absolute -right-32 bottom-1/3 z-0 h-80 w-80 rounded-full bg-gradient-to-tl from-accent/10 to-secondary/10 blur-3xl dark:from-accent/20 dark:to-secondary/15" />
+      {/* Warm gradient orbs — hidden on mobile */}
+      <div className="pointer-events-none absolute -left-32 top-1/3 z-0 hidden h-96 w-96 rounded-full bg-gradient-to-br from-primary/15 to-accent/10 blur-3xl dark:from-primary/25 dark:to-accent/15 md:block" />
+      <div className="pointer-events-none absolute -right-32 bottom-1/3 z-0 hidden h-80 w-80 rounded-full bg-gradient-to-tl from-accent/10 to-secondary/10 blur-3xl dark:from-accent/20 dark:to-secondary/15 md:block" />
 
       <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/8 via-transparent to-transparent dark:from-primary/12" />
 
       <main className="pointer-events-none relative z-20 flex w-full flex-1 flex-col items-center justify-center">
         <div className="mx-auto mb-14 w-full max-w-5xl px-2 text-center">
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight text-foreground">
+          <h1 className="font-serif text-3xl md:text-6xl lg:text-7xl leading-tight tracking-tight text-foreground">
             {title}
           </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">

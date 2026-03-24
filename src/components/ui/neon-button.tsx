@@ -4,6 +4,7 @@ import * as React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { VariantProps, cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const springTransition = { type: 'spring' as const, stiffness: 400, damping: 25 }
 
@@ -83,6 +84,7 @@ const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
     )
 
     const prefersReduced = useReducedMotion()
+    const isMobile = useIsMobile()
 
     if (asChild) {
       const child = React.Children.only(children) as React.ReactElement<React.HTMLAttributes<HTMLElement> & { className?: string }>
@@ -93,10 +95,11 @@ const NeonButton = React.forwardRef<HTMLButtonElement, NeonButtonProps>(
       } as Partial<React.HTMLAttributes<HTMLElement>>)
     }
 
-    if (prefersReduced) {
+    // On mobile or reduced motion: plain button, no glow layers, no motion wrapper
+    if (prefersReduced || isMobile) {
       return (
         <button className={classes} ref={ref} type={type} {...props}>
-          {wrapChildren(children)}
+          <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
         </button>
       )
     }

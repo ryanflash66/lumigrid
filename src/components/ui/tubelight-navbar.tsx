@@ -37,7 +37,6 @@ export function NavBar({ items, className, highlightLayoutId = "lumigrid-nav-lam
   const rawPathname = usePathname()
   const pathname = normalizePath(rawPathname)
   const [scrollActive, setScrollActive] = useState<string | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
 
   const routeActive = useMemo(() => {
     const match = items.find((item) => getBasePath(item.url) === pathname)
@@ -46,12 +45,6 @@ export function NavBar({ items, className, highlightLayoutId = "lumigrid-nav-lam
 
   const resolvedActive = pathname === "/" && scrollActive ? scrollActive : routeActive
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
 
 useEffect(() => {
   if (pathname !== "/") return
@@ -119,12 +112,12 @@ useEffect(() => {
                 }
               }}
               className={cn(
-                "relative cursor-pointer rounded-full px-6 py-2 text-sm font-semibold transition-colors",
+                "relative cursor-pointer rounded-full px-6 py-2 md:py-2 text-sm font-semibold transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center",
                 "text-foreground/70 hover:text-primary",
                 item.isActive && "text-primary"
               )}
             >
-              <span className={cn("hidden md:inline", isMobile && "inline")}>{item.name}</span>
+              <span className="hidden md:inline">{item.name}</span>
               <span className="md:hidden">
                 <Icon size={18} strokeWidth={2.5} />
               </span>

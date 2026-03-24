@@ -3,6 +3,7 @@
 import { type ReactNode, useRef, useCallback } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface MagneticWrapperProps {
   children: ReactNode
@@ -15,6 +16,17 @@ export function MagneticWrapper({
   className,
   strength = 0.3,
 }: MagneticWrapperProps) {
+  const isMobile = useIsMobile()
+
+  // Mobile: skip all spring physics — useless on touch devices
+  if (isMobile) {
+    return <div className={cn(className)}>{children}</div>
+  }
+
+  return <MagneticWrapperDesktop className={className} strength={strength}>{children}</MagneticWrapperDesktop>
+}
+
+function MagneticWrapperDesktop({ children, className, strength = 0.3 }: MagneticWrapperProps) {
   const ref = useRef<HTMLDivElement>(null)
   const prefersReduced = useReducedMotion()
 

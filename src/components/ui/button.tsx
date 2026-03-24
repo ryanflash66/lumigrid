@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "framer-motion"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 const tapSpring = { type: "spring" as const, stiffness: 400, damping: 25 }
 
@@ -52,6 +53,7 @@ function Button({
     asChild?: boolean
   }) {
   const prefersReduced = useReducedMotion()
+  const isMobile = useIsMobile()
 
   if (asChild) {
     return (
@@ -63,7 +65,7 @@ function Button({
     )
   }
 
-  if (prefersReduced) {
+  if (prefersReduced || isMobile) {
     return (
       <button
         data-slot="button"

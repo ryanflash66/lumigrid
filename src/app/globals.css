@@ -219,6 +219,11 @@
   .animate-marquee {
     animation: marquee 30s linear infinite;
   }
+  @media (max-width: 767px) {
+    .animate-marquee {
+      animation: none;
+    }
+  }
   @keyframes marquee {
     0% {
       transform: translateX(0);
@@ -234,5 +239,58 @@
   @keyframes quality-pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.97; }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile Performance: Kill expensive animations, optimize for speed  */
+/* ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  /* Override smooth scroll — native scroll is hardware-optimized */
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* Remove 300ms tap delay on all interactive elements */
+  a, button, input, select, textarea, [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Prevent horizontal overflow */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Account for sticky header on section scroll targets */
+  section {
+    scroll-margin-top: 60px;
+  }
+
+  /* Kill all infinite CSS animations on mobile */
+  [class*="gradient-sweep"],
+  [class*="dot-pulse"],
+  .animate-quality-pulse,
+  .animate-pulse {
+    animation: none !important;
+  }
+
+  /* Disable custom cursor on touch devices (fallback) */
+  * {
+    cursor: auto !important;
+  }
+
+  /* Disable backdrop-blur on mobile (expensive GPU compositing) */
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Ensure will-change is not set on mobile (prevents GPU memory bloat) */
+  [style*="will-change"] {
+    will-change: auto !important;
   }
 }

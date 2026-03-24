@@ -266,7 +266,7 @@ function TrustSignals() {
         <ScrollReveal>
           <div className="grid gap-8 md:grid-cols-2">
             {/* Guarantee */}
-            <div className="rounded-2xl border border-border/50 bg-card/60 p-8 backdrop-blur">
+            <div className="rounded-2xl border border-border/50 bg-card/60 p-5 backdrop-blur md:p-8">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
                 <Shield className="h-6 w-6 text-primary" />
               </div>
@@ -398,7 +398,7 @@ function NotSureCTA() {
   return (
     <section className="py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[40px] border border-primary/20 bg-gradient-to-br from-primary via-primary/90 to-accent p-10 text-center text-primary-foreground dark:border-primary/30">
+        <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[40px] border border-primary/20 bg-gradient-to-br from-primary via-primary/90 to-accent p-6 text-center text-primary-foreground dark:border-primary/30 md:p-10">
           <div className="relative z-10 space-y-5">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-balance">
               Not sure which plan fits?

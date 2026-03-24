@@ -3,6 +3,7 @@
 import { useRef, useCallback } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface TiltCardProps {
   className?: string
@@ -14,6 +15,7 @@ interface TiltCardProps {
 }
 
 export function TiltCard({ className, children, maxTilt = 4, glowBorder = true }: TiltCardProps) {
+  const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
@@ -51,6 +53,15 @@ export function TiltCard({ className, children, maxTilt = 4, glowBorder = true }
     mouseX.set(0.5)
     mouseY.set(0.5)
   }, [rawRotateX, rawRotateY, mouseX, mouseY])
+
+  // On mobile: plain div, no pointer tracking, no 3D transforms
+  if (isMobile) {
+    return (
+      <div className={cn('group relative', className)}>
+        {children}
+      </div>
+    )
+  }
 
   return (
     <motion.div
