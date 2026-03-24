@@ -161,7 +161,7 @@ export function TestimonialsSection() {
   const isMobile = useIsMobile()
 
   return (
-    <section id="testimonials" className={cn("bg-background px-6", isMobile ? "py-10" : "py-12 md:py-24")}>
+    <section id="testimonials" className={cn("bg-background px-6", isMobile ? "py-8" : "py-12 md:py-24")}>
       {isMobile ? (
         <>
           <h2 className="text-lg font-semibold text-foreground">What clients say</h2>

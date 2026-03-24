@@ -25,7 +25,7 @@ export function BrandsSection() {
         <p className="text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">Trusted by 120+ teams</p>
       )}
       <motion.div
-        ref={isMobile ? undefined : ref}
+        ref={ref}
         style={prefersReduced || isMobile ? undefined : { y }}
         className={`relative flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] ${isMobile ? 'mt-0' : 'mt-12'}`}
       >

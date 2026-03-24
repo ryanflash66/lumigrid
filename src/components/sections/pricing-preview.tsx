@@ -108,7 +108,7 @@ export function PricingPreview() {
   const featuredTier = tiers.find(t => t.featured) || tiers[1]
 
   return (
-    <section id="pricing" className={cn("bg-background px-6", isMobile ? "py-10" : "py-12 md:py-24")}>
+    <section id="pricing" className={cn("bg-background px-6", isMobile ? "py-8" : "py-12 md:py-24")}>
       {isMobile ? (
         <>
           <h2 className="text-2xl font-semibold text-foreground">Pricing</h2>

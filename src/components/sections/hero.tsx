@@ -339,13 +339,12 @@ export function Hero() {
 
         {/* Social proof line — mobile only */}
         {isMobile && (
-          <div className="pointer-events-auto mt-6 flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="flex -space-x-2">
-              {[1,2,3].map(i => (
-                <div key={i} className="h-6 w-6 rounded-full border-2 border-background bg-muted" />
-              ))}
+          <div className="pointer-events-auto mt-6 flex items-center gap-2.5 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <span className="text-primary font-bold">★★★★★</span>
             </span>
-            <span>120+ projects shipped · 94% retention</span>
+            <span className="text-foreground/50">·</span>
+            <span>120+ projects · 94% retention</span>
           </div>
         )}
 

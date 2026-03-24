@@ -94,15 +94,9 @@ function DotCluster() {
 export function SectionDivider({ variant, className }: SectionDividerProps) {
   const isMobile = useIsMobile()
 
-  // On mobile: render static divider without motion wrapper
+  // On mobile: hide dividers entirely for lean conversion funnel
   if (isMobile) {
-    return (
-      <div className={cn("py-1 md:py-4", className)}>
-        {variant === "glow-line" && <GlowLine />}
-        {variant === "wave" && <Wave />}
-        {variant === "dot-cluster" && <DotCluster />}
-      </div>
-    )
+    return null
   }
 
   return (

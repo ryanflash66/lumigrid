@@ -41,7 +41,7 @@ export function FAQSection() {
 
   if (isMobile) {
     return (
-      <section id="faq" className="bg-background px-6 py-10">
+      <section id="faq" className="bg-background px-6 py-8">
         <h2 className="text-lg font-semibold text-foreground">Quick answers</h2>
         <div className="mt-4 divide-y divide-border/60">
           {displayedFaqs.map((faq) => {

@@ -52,28 +52,28 @@ export function ContactStrip() {
       <section
         id="contact"
         ref={sectionRef}
-        className="bg-primary/5 px-6 py-12"
+        className="bg-primary/5 px-6 py-10"
       >
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex flex-col items-center gap-3 text-center">
           <h2 className="text-2xl font-bold text-foreground">
             Ready to launch?
           </h2>
-          <p className="text-sm text-muted-foreground max-w-xs">
-            Tell us about your project and get a free strategy call.
+          <p className="text-sm text-muted-foreground">
+            Get a free strategy call.
           </p>
           <Link
             href="/contact"
-            className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-base font-bold text-primary-foreground shadow-xl touch-manipulation"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-base font-bold text-white shadow-xl shadow-primary/30 touch-manipulation"
           >
             Start Your Project
             <ArrowUpRight className="h-5 w-5" />
           </Link>
           <a
             href="tel:+16285550148"
-            className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-foreground touch-manipulation"
           >
-            <Phone className="h-4 w-4" />
-            Or call +1 (628) 555-0148
+            <Phone className="h-4 w-4 text-primary" />
+            Or call us now
           </a>
         </div>
       </section>
