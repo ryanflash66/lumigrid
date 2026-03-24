@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Phone } from 'lucide-react'
 import {
   motion,
   useInView,
@@ -35,7 +35,6 @@ export function ContactStrip() {
 
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 })
 
-  // Background gradient shift driven by scroll position — skip on mobile
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
@@ -48,13 +47,45 @@ export function ContactStrip() {
       `radial-gradient(ellipse 60% 40% at ${x} ${y}, hsl(var(--primary) / 0.06), transparent)`,
   )
 
+  if (isMobile) {
+    return (
+      <section
+        id="contact"
+        ref={sectionRef}
+        className="bg-primary/5 px-6 py-12"
+      >
+        <div className="flex flex-col items-center gap-4 text-center">
+          <h2 className="text-2xl font-bold text-foreground">
+            Ready to launch?
+          </h2>
+          <p className="text-sm text-muted-foreground max-w-xs">
+            Tell us about your project and get a free strategy call.
+          </p>
+          <Link
+            href="/contact"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-base font-bold text-primary-foreground shadow-xl touch-manipulation"
+          >
+            Start Your Project
+            <ArrowUpRight className="h-5 w-5" />
+          </Link>
+          <a
+            href="tel:+16285550148"
+            className="inline-flex items-center gap-2 text-sm font-medium text-foreground/70"
+          >
+            <Phone className="h-4 w-4" />
+            Or call +1 (628) 555-0148
+          </a>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section
       id="contact"
       ref={sectionRef}
       className="relative overflow-hidden bg-background px-6 py-12 md:py-24"
     >
-      {/* Scroll-driven radial gradient background — skip on mobile */}
       {!skipAnimations && (
         <motion.div
           className="pointer-events-none absolute inset-0"
@@ -62,7 +93,6 @@ export function ContactStrip() {
         />
       )}
 
-      {/* Animated glow blur — skip on mobile */}
       {!skipAnimations && (
         <motion.div
           className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-48 w-[70%] rounded-full bg-blue-500/20 blur-[140px]"
@@ -73,7 +103,6 @@ export function ContactStrip() {
       )}
 
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
-        {/* Character-by-character heading reveal */}
         <h2 className="text-4xl font-semibold md:text-5xl">
           <CharReveal>Start building</CharReveal>
         </h2>
@@ -85,7 +114,6 @@ export function ContactStrip() {
           </p>
         </ScrollReveal>
 
-        {/* Decorative horizontal line — static on mobile */}
         {skipAnimations ? (
           <div className="h-px w-full max-w-md bg-primary/30" />
         ) : (

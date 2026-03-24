@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const faqs = [
   {
@@ -33,6 +34,41 @@ const springTransition = { type: 'spring' as const, stiffness: 300, damping: 30 
 export function FAQSection() {
   const [open, setOpen] = useState<string | null>(faqs[0].question)
   const prefersReducedMotion = useReducedMotion()
+  const isMobile = useIsMobile()
+
+  // On mobile: show only first 2 FAQs to reduce scroll depth
+  const displayedFaqs = isMobile ? faqs.slice(0, 2) : faqs
+
+  if (isMobile) {
+    return (
+      <section id="faq" className="bg-background px-6 py-10">
+        <h2 className="text-lg font-semibold text-foreground">Quick answers</h2>
+        <div className="mt-4 divide-y divide-border/60">
+          {displayedFaqs.map((faq) => {
+            const isOpen = open === faq.question
+            return (
+              <div key={faq.question}>
+                <button
+                  type="button"
+                  className="w-full py-4 text-left touch-manipulation"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpen(isOpen ? null : faq.question)}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-medium">{faq.question}</p>
+                    <ChevronDown className={`h-4 w-4 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                  {isOpen && (
+                    <p className="mt-2 text-xs text-muted-foreground leading-relaxed">{faq.answer}</p>
+                  )}
+                </button>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="faq" className="bg-background px-6 py-16 md:py-24">
@@ -47,7 +83,6 @@ export function FAQSection() {
           return (
             <StaggerItem key={faq.question} variant="fade-up">
               <motion.div layout={!prefersReducedMotion} className="relative">
-                {/* Left indicator bar */}
                 <motion.div
                   className="absolute left-0 top-0 h-full w-[2px] origin-top bg-primary"
                   initial={false}

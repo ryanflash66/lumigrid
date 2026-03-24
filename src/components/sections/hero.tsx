@@ -192,42 +192,43 @@ export function Hero() {
         animate="visible"
         className="pointer-events-none relative z-20 mx-auto flex max-w-6xl flex-col items-center text-center"
       >
-        {/* Badge with blur-clear entrance and glow pulse */}
-        <motion.div className="relative">
-          {/* Glow pulse behind badge — settles after 3s, skip on mobile */}
-          {!prefersReducedMotion && !isMobile && (
+        {/* Badge — hidden on mobile for cleaner conversion funnel */}
+        {!isMobile && (
+          <motion.div className="relative">
+            {!prefersReducedMotion && (
+              <motion.div
+                aria-hidden
+                variants={badgeGlowVariants}
+                initial="hidden"
+                animate="visible"
+                className="pointer-events-none absolute -inset-3 -z-10 rounded-full bg-primary/30 blur-xl"
+              />
+            )}
             <motion.div
-              aria-hidden
-              variants={badgeGlowVariants}
+              variants={pick(badgeVariants)}
               initial="hidden"
               animate="visible"
-              className="pointer-events-none absolute -inset-3 -z-10 rounded-full bg-primary/30 blur-xl"
-            />
-          )}
-          <motion.div
-            variants={pick(badgeVariants, mobileBadgeVariants)}
-            initial="hidden"
-            animate="visible"
-            className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary md:shadow-[0_0_15px_rgba(100,100,250,0.15)] md:backdrop-blur-xl"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] md:animate-pulse" />
-            <span>New Lumigrid launch kit is live</span>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1 text-foreground transition-colors hover:text-primary"
+              className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)] backdrop-blur-xl"
             >
-              Read more
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
+              <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] animate-pulse" />
+              <span>New Lumigrid launch kit is live</span>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-1 text-foreground transition-colors hover:text-primary"
+              >
+                Read more
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
 
-        {/* Headline with increased y-travel and WordReveal delay 0.3s */}
+        {/* Headline */}
         <motion.div
           variants={pick(headlineVariants, mobileHeadlineVariants)}
           initial="hidden"
           animate="visible"
-          className="relative mt-8 md:mt-12"
+          className={cn("relative", isMobile ? "mt-0" : "mt-12")}
         >
           {/* Glow behind headline — hidden on mobile to save GPU compositing */}
           {!isMobile && !prefersReducedMotion && (
@@ -271,9 +272,13 @@ export function Hero() {
           animate="visible"
           style={prefersReducedMotion || isMobile ? undefined : { y: subtextY }}
         >
-          <p className="mt-5 max-w-2xl text-pretty text-base text-muted-foreground md:mt-8 md:text-lg lg:text-xl">
-            A premium landing page system built for fast launches, polished
-            experiences, and conversion-focused storytelling.
+          <p className={cn(
+            "text-pretty text-muted-foreground",
+            isMobile ? "mt-4 text-sm max-w-xs" : "mt-8 max-w-2xl text-base md:text-lg lg:text-xl"
+          )}>
+            {isMobile
+              ? "Premium websites that convert visitors into customers."
+              : "A premium landing page system built for fast launches, polished experiences, and conversion-focused storytelling."}
           </p>
         </motion.div>
 
@@ -292,19 +297,19 @@ export function Hero() {
               <NeonButton
                 asChild
                 variant="solid"
-                className="w-full rounded-full px-8 py-4 text-base shadow-xl shadow-primary/20"
+                className="w-full rounded-full px-8 py-5 text-lg font-bold shadow-2xl shadow-primary/30"
               >
                 <Link href="/contact" className="group flex items-center justify-center gap-2">
-                  Book a Call
-                  <ArrowRight className="h-4 w-4" />
+                  Start Your Project
+                  <ArrowRight className="h-5 w-5" />
                 </Link>
               </NeonButton>
-              <Link
-                href="/pricing"
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-border/50 bg-background/50 px-8 py-3 text-base font-semibold text-foreground shadow-sm"
+              <a
+                href="tel:+16285550148"
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-8 py-4 text-base font-semibold text-primary"
               >
-                View Pricing
-              </Link>
+                Or Call Us Now →
+              </a>
             </>
           ) : (
             <>
@@ -332,12 +337,17 @@ export function Hero() {
           )}
         </motion.div>
 
-        <a
-          href="tel:+16285550148"
-          className="pointer-events-auto mt-3 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground md:hidden"
-        >
-          Or call us directly →
-        </a>
+        {/* Social proof line — mobile only */}
+        {isMobile && (
+          <div className="pointer-events-auto mt-6 flex items-center gap-2 text-xs text-muted-foreground">
+            <span className="flex -space-x-2">
+              {[1,2,3].map(i => (
+                <div key={i} className="h-6 w-6 rounded-full border-2 border-background bg-muted" />
+              ))}
+            </span>
+            <span>120+ projects shipped · 94% retention</span>
+          </div>
+        )}
 
         {/* Browser mockup — hidden on mobile to keep CTAs above fold */}
         <motion.div

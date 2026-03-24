@@ -105,8 +105,54 @@ export function PricingPreview() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: '-80px' })
 
+  const featuredTier = tiers.find(t => t.featured) || tiers[1]
+
   return (
-    <section id="pricing" className="bg-background px-6 py-12 md:py-24">
+    <section id="pricing" className={cn("bg-background px-6", isMobile ? "py-10" : "py-12 md:py-24")}>
+      {isMobile ? (
+        <>
+          <h2 className="text-2xl font-semibold text-foreground">Pricing</h2>
+          <p className="mt-1 text-sm text-muted-foreground">From $0 to custom enterprise builds.</p>
+
+          {/* Featured tier only on mobile */}
+          <div className="mt-5 rounded-2xl border-2 border-primary/30 bg-card/60 p-5">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-foreground">{featuredTier.name}</h3>
+              <span className="bg-primary text-primary-foreground text-xs font-semibold px-2.5 py-0.5 rounded-full">Popular</span>
+            </div>
+            <p className="mt-2 text-3xl font-bold text-foreground">${featuredTier.price}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{featuredTier.description}</p>
+            <Link
+              href="/contact"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-3.5 text-sm font-bold text-primary-foreground shadow-lg touch-manipulation"
+            >
+              {featuredTier.cta}
+            </Link>
+          </div>
+
+          {/* Quick tier summary */}
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            {tiers.filter(t => !t.featured).map((tier) => (
+              <Link
+                key={tier.name}
+                href="/pricing"
+                className="rounded-xl border border-border/50 bg-muted/20 p-3 text-center touch-manipulation"
+              >
+                <p className="text-xs font-semibold text-foreground">{tier.name}</p>
+                <p className="mt-0.5 text-lg font-bold text-foreground">${tier.price}</p>
+              </Link>
+            ))}
+          </div>
+
+          <Link
+            href="/pricing"
+            className="mt-4 inline-flex w-full items-center justify-center text-sm font-medium text-primary"
+          >
+            Compare all plans →
+          </Link>
+        </>
+      ) : (
+        <>
       <ScrollReveal variant="clip-reveal" className="mx-auto max-w-6xl text-center">
         <h2 className="text-balance text-4xl font-semibold md:text-5xl">
           Build your dream landing page, today.
@@ -116,51 +162,6 @@ export function PricingPreview() {
         </p>
       </ScrollReveal>
 
-      {isMobile ? (
-        <div
-          ref={containerRef}
-          className="mx-auto mt-8 grid max-w-6xl gap-4"
-        >
-          {tiers.map((tier) => (
-            <div
-              key={tier.name}
-              className={cn(
-                'relative flex h-full flex-col rounded-[20px] p-5 md:p-6',
-                'bg-card/60 border border-border/50',
-                tier.featured && 'ring-2 ring-primary/30',
-              )}
-            >
-              {tier.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              <div>
-                <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
-                <p className="mt-3 text-2xl font-semibold text-foreground md:text-3xl">
-                  $<AnimatedNumber value={tier.price} />
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground">{tier.description}</p>
-              </div>
-              <div className="mt-6">
-                <Link
-                  href="/contact"
-                  className={cn(
-                    'inline-flex w-full items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-colors touch-manipulation',
-                    tier.featured
-                      ? 'bg-primary text-primary-foreground'
-                      : 'border border-foreground/20 text-foreground',
-                  )}
-                >
-                  {tier.cta}
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
         <motion.div
           ref={containerRef}
           variants={containerVariants}
@@ -227,7 +228,6 @@ export function PricingPreview() {
             </motion.div>
           ))}
         </motion.div>
-      )}
       <div className="mt-8 text-center text-sm text-muted-foreground">
         <Link
           href="/pricing"
@@ -236,6 +236,8 @@ export function PricingPreview() {
           View full pricing →
         </Link>
       </div>
+        </>
+      )}
     </section>
   )
 }

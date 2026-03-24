@@ -161,7 +161,30 @@ export function TestimonialsSection() {
   const isMobile = useIsMobile()
 
   return (
-    <section id="testimonials" className="bg-background px-6 py-12 md:py-24">
+    <section id="testimonials" className={cn("bg-background px-6", isMobile ? "py-10" : "py-12 md:py-24")}>
+      {isMobile ? (
+        <>
+          <h2 className="text-lg font-semibold text-foreground">What clients say</h2>
+          <div className="mt-4 rounded-2xl border border-border/50 bg-muted/20 p-4">
+            <Quote className="h-5 w-5 text-primary/40 mb-2" />
+            <p className="text-sm text-muted-foreground leading-relaxed">{featured.quote}</p>
+            <div className="mt-3 flex items-center gap-3">
+              <Image
+                src={featured.avatar}
+                alt={featured.name}
+                width={36}
+                height={36}
+                className="rounded-full"
+              />
+              <div>
+                <p className="text-xs font-semibold">{featured.name}</p>
+                <p className="text-xs text-muted-foreground">{featured.title}</p>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
       <div className="mx-auto max-w-5xl space-y-8 text-center">
         <WordReveal className="text-balance text-4xl font-semibold md:text-5xl">
           Loved by designers and developers across the planet
@@ -169,16 +192,6 @@ export function TestimonialsSection() {
         <p className="text-muted-foreground">Here&apos;s what teams say about building with Lumigrid.</p>
       </div>
 
-      {isMobile ? (
-        <div className="mx-auto mt-8 max-w-6xl space-y-4">
-          <TestimonialCard testimonial={featured} featured isMobile />
-          <div className="grid gap-4">
-            {rest.map((testimonial) => (
-              <TestimonialCard key={testimonial.name} testimonial={testimonial} isMobile />
-            ))}
-          </div>
-        </div>
-      ) : (
         <motion.div
           variants={containerVars}
           initial="hidden"
@@ -193,6 +206,7 @@ export function TestimonialsSection() {
             ))}
           </div>
         </motion.div>
+        </>
       )}
     </section>
   )
