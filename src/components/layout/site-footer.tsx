@@ -21,6 +21,13 @@ const footerLinks = [
       { label: 'Performance notes', href: '/blog/scaling-mission-driven-products' },
     ],
   },
+  {
+    title: 'Legal',
+    items: [
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Service', href: '/terms' },
+    ],
+  },
 ]
 
 const containerVariants: Variants = {
@@ -153,15 +160,15 @@ export function SiteFooter() {
           <motion.div variants={childVariants} className="space-y-3">
             <p className="text-lg font-semibold">Lumigrid</p>
             <p className="max-w-sm text-sm text-muted-foreground">
-              Web development agency crafting shader-powered hero moments, design
-              systems, and Core Web Vitals-friendly sites.
+              AI automation agency that builds custom automations to save your
+              business time and money.
             </p>
             <p className="text-xs text-muted-foreground">
               &copy; {new Date().getFullYear()} Lumigrid. All rights reserved.
             </p>
           </motion.div>
 
-          <div className="grid flex-1 gap-8 sm:grid-cols-2">
+          <div className="grid flex-1 gap-8 sm:grid-cols-3">
             {footerLinks.map((column) => (
               <motion.div
                 key={column.title}

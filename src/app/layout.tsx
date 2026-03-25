@@ -32,32 +32,32 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lumigrid.example.com"),
+  metadataBase: new URL("https://lumigrid.ai"),
   title: {
-    default: "Lumigrid | Web Development Agency",
-    template: "%s | Lumigrid",
+    default: "Lumigrid AI — AI Automation Agency",
+    template: "%s | Lumigrid AI",
   },
   description:
-    "Lumigrid builds high-performing websites and digital experiences for NGOs, startups, and enterprises.",
+    "We build custom AI automations that save your business time and money.",
   keywords: [
-    "Lumigrid",
-    "web development agency",
-    "Next.js agency site",
-    "tailwind website",
-    "digital product studio",
+    "Lumigrid AI",
+    "AI automation agency",
+    "custom AI workflows",
+    "business automation",
+    "AI integration",
   ],
   openGraph: {
-    title: "Lumigrid | Web Development Agency",
+    title: "Lumigrid AI — AI Automation Agency",
     description:
-      "Custom-built websites, human-centered UX, and blazing-fast performance for mission-driven teams.",
-    url: "https://lumigrid.example.com",
-    siteName: "Lumigrid",
+      "We build custom AI automations that save your business time and money.",
+    url: "https://lumigrid.ai",
+    siteName: "Lumigrid AI",
     images: [
       {
         url: "/assets/images/hero/hero-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Lumigrid hero image",
+        alt: "Lumigrid AI",
       },
     ],
     type: "website",
@@ -65,9 +65,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@lumigrid",
-    title: "Lumigrid | Web Development Agency",
+    title: "Lumigrid AI — AI Automation Agency",
     description:
-      "Custom-built websites, human-centered UX, and blazing-fast performance for mission-driven teams.",
+      "We build custom AI automations that save your business time and money.",
     images: ["/assets/images/hero/hero-image.jpg"],
   },
 };

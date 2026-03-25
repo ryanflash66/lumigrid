@@ -75,7 +75,11 @@ const transformPricingData = (): PricingCardProps[] => {
 
 export const metadata = {
   title: 'Pricing',
-  description: 'Transparent pricing for Lumigrid engagements plus what each phase unlocks.'
+  description: 'Transparent pricing for Lumigrid AI automation services and what each tier includes.',
+  openGraph: {
+    title: 'Pricing — Lumigrid AI',
+    description: 'Transparent pricing for Lumigrid AI automation services.',
+  },
 }
 
 export default function PricingPage() {

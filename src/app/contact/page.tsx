@@ -31,7 +31,11 @@ const contactInfo = [
 
 export const metadata = {
   title: 'Contact',
-  description: 'Tell us what you\u2019re trying to achieve and we\u2019ll outline the path to launch.'
+  description: 'Reach out to discuss your AI automation needs with Lumigrid AI.',
+  openGraph: {
+    title: 'Contact Lumigrid AI',
+    description: 'Reach out to discuss your AI automation needs.',
+  },
 }
 
 type ContactPageProps = {
