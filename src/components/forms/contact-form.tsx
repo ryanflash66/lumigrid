@@ -268,15 +268,6 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
 
       setStatus('success')
       setStatusMessage("Thank you! We'll get back to you within two business days.")
-      setFields(buildInitialFields(prefillPlan))
-      setTouched({})
-      setErrors({})
-      
-      // Reset form after 5 seconds
-      setTimeout(() => {
-        setStatus('idle')
-        setStatusMessage('')
-      }, 5000)
     } catch (error) {
       console.error('Form submission error:', error)
       setStatus('error')
@@ -289,6 +280,44 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
   }
 
   const formClassName = compact ? 'space-y-4' : 'space-y-6'
+
+  // Show a prominent success panel that replaces the entire form
+  if (status === 'success') {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-12 text-center md:py-16">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15 ring-1 ring-emerald-500/30">
+          <svg
+            className="h-8 w-8 text-emerald-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+        <h3 className="text-xl font-semibold text-foreground md:text-2xl">
+          Message sent!
+        </h3>
+        <p className="max-w-sm text-sm text-muted-foreground md:text-base">
+          Thank you for reaching out. We&apos;ll get back to you within two business days.
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setStatus('idle')
+            setStatusMessage('')
+            setFields(buildInitialFields(prefillPlan))
+            setTouched({})
+            setErrors({})
+          }}
+          className="mt-2 text-sm font-medium text-primary underline underline-offset-2 hover:text-primary/80"
+        >
+          Send another message
+        </button>
+      </div>
+    )
+  }
 
   return (
     <form onSubmit={handleSubmit} className={formClassName} noValidate>

@@ -13,8 +13,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: 'Email us',
-    value: 'hello@lumigrid.com',
-    href: 'mailto:hello@lumigrid.com'
+    value: 'hello@lumigrid.ai',
+    href: 'mailto:hello@lumigrid.ai'
   },
   {
     icon: PhoneCall,
