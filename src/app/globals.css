@@ -164,7 +164,7 @@
     @apply bg-background text-foreground;
   }
   @media (pointer: fine) {
-    * {
+    html[data-custom-cursor="true"] * {
       cursor: none !important;
     }
   }

@@ -2,10 +2,12 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
+import { useCursorEnabled } from '@/contexts/cursor-context'
 
 const INTERACTIVE_SELECTOR = 'a, button, [role="button"], [data-cursor="pointer"], input, textarea, select, label'
 
 export function CustomCursor() {
+  const { enabled } = useCursorEnabled()
   const prefersReduced = useReducedMotion()
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
@@ -60,7 +62,7 @@ export function CustomCursor() {
   }, [])
 
   useEffect(() => {
-    if (isTouch) return
+    if (isTouch || !enabled) return
 
     document.addEventListener('pointermove', handlePointerMove)
     document.addEventListener('pointerleave', handlePointerLeave)
@@ -73,9 +75,9 @@ export function CustomCursor() {
       document.removeEventListener('pointerover', handlePointerOver)
       document.removeEventListener('pointerout', handlePointerOut)
     }
-  }, [isTouch, handlePointerMove, handlePointerLeave, handlePointerOver, handlePointerOut])
+  }, [isTouch, enabled, handlePointerMove, handlePointerLeave, handlePointerOver, handlePointerOut])
 
-  if (isTouch || prefersReduced) return null
+  if (isTouch || prefersReduced || !enabled) return null
 
   return (
     <>

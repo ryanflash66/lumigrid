@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { CursorToggle } from '@/components/ui/cursor-toggle'
 
 const footerLinks = [
   {
@@ -194,8 +195,9 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Back-to-top button */}
-        <motion.div variants={childVariants} className="mt-16 flex justify-center">
+        {/* Back-to-top & cursor toggle */}
+        <motion.div variants={childVariants} className="mt-16 flex items-center justify-center gap-3">
+          <CursorToggle />
           <button
             onClick={scrollToTop}
             aria-label="Back to top"
