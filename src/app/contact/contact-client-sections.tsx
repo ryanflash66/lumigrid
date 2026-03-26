@@ -58,50 +58,6 @@ export function ProcessPreview() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Mini Testimonials                                                 */
-/* ------------------------------------------------------------------ */
-const testimonials = [
-  {
-    quote: 'Lumigrid rebuilt our entire marketing site in six weeks. The results exceeded every metric.',
-    name: 'Mara Patel',
-    company: 'FutureAid',
-    avatar: '/assets/images/testimonials/author-01.jpg',
-  },
-  {
-    quote: 'They operated like an integrated product team. Best agency experience we\u2019ve had.',
-    name: 'Rafael Gomez',
-    company: 'Northwind Labs',
-    avatar: '/assets/images/testimonials/author-02.jpg',
-  },
-]
-
-export function MiniTestimonials() {
-  return (
-    <StaggerContainer className="space-y-4">
-      {testimonials.map((t) => (
-        <StaggerItem key={t.name}>
-          <div className="flex items-start gap-3">
-            <Image
-              src={t.avatar}
-              alt={t.name}
-              width={40}
-              height={40}
-              className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
-            />
-            <div>
-              <p className="text-sm italic text-foreground/90">&ldquo;{t.quote}&rdquo;</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {t.name}, {t.company}
-              </p>
-            </div>
-          </div>
-        </StaggerItem>
-      ))}
-    </StaggerContainer>
-  )
-}
-
-/* ------------------------------------------------------------------ */
 /*  Calendar Booking Callout                                          */
 /* ------------------------------------------------------------------ */
 export function CalendarCallout() {
@@ -111,8 +67,9 @@ export function CalendarCallout() {
       <p className="text-sm text-muted-foreground">
         Book a 30-minute discovery call directly.
       </p>
+      {/* [OWNER TO REPLACE — supply real Calendly or booking link] */}
       <Link
-        href="#book"
+        href="[OWNER_CALENDLY_LINK]"
         className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
       >
         <Calendar className="h-4 w-4" />

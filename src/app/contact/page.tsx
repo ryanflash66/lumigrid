@@ -1,10 +1,9 @@
 import Link from 'next/link'
-import { Mail, MapPin, PhoneCall } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { ContactForm } from '@/components/forms/contact-form'
 import {
   ResponseBadge,
   ProcessPreview,
-  MiniTestimonials,
   CalendarCallout,
   TrustBar,
 } from './contact-client-sections'
@@ -16,17 +15,6 @@ const contactInfo = [
     value: 'hello@lumigrid.ai',
     href: 'mailto:hello@lumigrid.ai'
   },
-  {
-    icon: PhoneCall,
-    label: 'Call the studio',
-    value: '+1 (252) 260-6617',
-    href: 'tel:+12522606617'
-  },
-  {
-    icon: MapPin,
-    label: 'San Francisco',
-    value: '600 Treat Ave, Suite 400'
-  }
 ]
 
 export const metadata = {
@@ -88,9 +76,6 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
 
           {/* What happens next? */}
           <ProcessPreview />
-
-          {/* Mini Testimonials */}
-          <MiniTestimonials />
 
           {/* Calendar Booking Callout */}
           <CalendarCallout />
