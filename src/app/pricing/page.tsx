@@ -82,6 +82,8 @@ export const metadata = {
   },
 }
 
+/* [OWNER TO REPLACE — all pricing tiers, features, and copy below are placeholders.
+   Update with real pricing before going live.] */
 export default function PricingPage() {
   const pricingPlans = transformPricingData()
 

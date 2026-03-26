@@ -2,7 +2,7 @@
 
 import { Fragment, useState } from 'react'
 import Link from 'next/link'
-import { ChevronDown, Shield, Quote } from 'lucide-react'
+import { ChevronDown, Shield } from 'lucide-react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
 import { NeonButton } from '@/components/ui/neon-button'
@@ -74,23 +74,6 @@ const processSteps = [
     duration: 'Week 6',
     description:
       'Deployment, performance monitoring, team handoff, and post-launch support.',
-  },
-]
-
-const testimonials = [
-  {
-    quote:
-      'Lumigrid rebuilt our entire marketing site in six weeks. The results exceeded every metric we set.',
-    name: 'Mara Patel',
-    company: 'FutureAid',
-    initials: 'MP',
-  },
-  {
-    quote:
-      'They operated like an integrated product team. Best agency experience we\'ve had.',
-    name: 'Rafael Gomez',
-    company: 'Northwind Labs',
-    initials: 'RG',
   },
 ]
 
@@ -264,7 +247,7 @@ function TrustSignals() {
     <section className="py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <ScrollReveal>
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="mx-auto max-w-xl">
             {/* Guarantee */}
             <div className="rounded-2xl border border-border/50 bg-card/60 p-8 backdrop-blur">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -275,30 +258,6 @@ function TrustSignals() {
                 If you&apos;re not satisfied after the first design milestone, we&apos;ll refund
                 your deposit. No questions asked.
               </p>
-            </div>
-
-            {/* Testimonials */}
-            <div className="space-y-6">
-              {testimonials.map((t) => (
-                <div
-                  key={t.name}
-                  className="rounded-2xl border border-border/50 bg-card/60 p-6 backdrop-blur"
-                >
-                  <Quote className="mb-3 h-5 w-5 text-primary/60" />
-                  <p className="text-sm text-foreground leading-relaxed italic">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div className="mt-4 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                      {t.initials}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{t.name}</p>
-                      <p className="text-xs text-muted-foreground">{t.company}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </ScrollReveal>

@@ -155,13 +155,11 @@ function ProjectCard({ project }: { project: Project }) {
   )
 }
 
+/* [OWNER TO REPLACE — update categories once real projects are added] */
+const serviceCategories = ['Workflow Automation', 'CRM Integration', 'Lead Generation', 'Web Development']
+
 export function ProjectsGrid({ projects }: { projects: Project[] }) {
   const [activeFilter, setActiveFilter] = useState('All')
-
-  const industries = useMemo(
-    () => Array.from(new Set(projects.map((p) => p.industry))),
-    [projects]
-  )
 
   const featured = projects.find((p) => p.featured)
   const filteredProjects = useMemo(() => {
@@ -183,8 +181,8 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
         </ScrollReveal>
         <ScrollReveal variant="fade-up" delay={0.15}>
           <p className="mt-4 text-lg text-muted-foreground">
-            Case studies from the Lumigrid studio. Strategy, design, and engineering for teams
-            chasing ambitious outcomes.
+            AI automation case studies from the Lumigrid studio. Strategy, implementation, and
+            optimization for teams chasing ambitious outcomes.
           </p>
         </ScrollReveal>
       </section>
@@ -198,32 +196,43 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
       <div className="mx-auto mt-12 max-w-6xl">
         <ScrollReveal variant="fade-up">
           <IndustryFilter
-            industries={industries}
+            industries={serviceCategories}
             active={activeFilter}
             onChange={setActiveFilter}
           />
         </ScrollReveal>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.25 }}
-          >
-            <StaggerContainer
-              stagger={0.1}
-              className="mt-8 grid gap-8 md:grid-cols-2"
+        {projects.length === 0 ? (
+          <div className="mt-16 flex flex-col items-center justify-center rounded-3xl border border-dashed border-border/60 bg-muted/20 px-8 py-20 text-center">
+            <p className="text-lg font-medium text-foreground">
+              Our first case studies are on the way.
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Check back soon to see real results from our AI automation projects.
+            </p>
+          </div>
+        ) : (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeFilter}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25 }}
             >
-              {filteredProjects.map((project) => (
-                <StaggerItem key={project.slug} variant="fade-up">
-                  <ProjectCard project={project} />
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </motion.div>
-        </AnimatePresence>
+              <StaggerContainer
+                stagger={0.1}
+                className="mt-8 grid gap-8 md:grid-cols-2"
+              >
+                {filteredProjects.map((project) => (
+                  <StaggerItem key={project.slug} variant="fade-up">
+                    <ProjectCard project={project} />
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </motion.div>
+          </AnimatePresence>
+        )}
       </div>
     </main>
   )
