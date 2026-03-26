@@ -78,9 +78,6 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link href="/signin" className="hidden text-sm font-medium text-foreground/70 transition hover:text-foreground sm:inline-flex">
-            Sign in
-          </Link>
           <NeonButton
             asChild
             variant="solid"

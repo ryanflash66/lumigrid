@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/signin', '/signup'],
+      disallow: [],
     },
     sitemap: 'https://lumigrid.ai/sitemap.xml',
   }
