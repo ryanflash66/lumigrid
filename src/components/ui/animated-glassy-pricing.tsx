@@ -2,7 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { DotShaderBackground } from '@/components/ui/dot-shader-background'
+import dynamic from 'next/dynamic'
+
+// Lazy-load so Three.js doesn't block the main thread — pricing cards
+// and text paint immediately while the shader initialises in the background.
+const DotShaderBackground = dynamic(
+  () => import('@/components/ui/dot-shader-background').then((m) => m.DotShaderBackground),
+  { ssr: false },
+)
 
 // --- Internal Helper Components (Not exported) --- //
 
