@@ -58,7 +58,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
             {contactInfo.map((item) => (
               <div key={item.label} className="group flex items-center gap-4 rounded-3xl border border-border/50 bg-background/30 backdrop-blur-xl p-5 transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary/10 hover:shadow-xl hover:shadow-primary/20">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/20 transition-colors group-hover:bg-primary flex-shrink-0">
-                  <item.icon className="h-6 w-6 text-primary" />
+                  <item.icon className="h-6 w-6 text-primary group-hover:text-primary-foreground" />
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{item.label}</p>
