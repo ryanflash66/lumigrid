@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -86,11 +87,25 @@ const reducedFade: Variants = {
   visible: { opacity: 1, transition: { duration: 0.4 } },
 }
 
+/**
+ * Counter that increments every time the component mounts.
+ * Used as a React `key` to guarantee Framer Motion replays entrance
+ * animations on client-side navigation (even when bfcache/router-cache
+ * might skip a full unmount).
+ */
+function useRemountKey() {
+  const pathname = usePathname()
+  const [key, setKey] = useState(0)
+  useEffect(() => {
+    setKey((k) => k + 1)
+  }, [pathname])
+  return key
+}
+
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
   const shaderEnabled = !prefersReducedMotion
-  // Force full re-mount (and re-animation) on every client-side navigation
-  const pathname = usePathname()
+  const animKey = useRemountKey()
 
   const { ref: mockupRef, y: mockupY } = useParallax(0.15)
   const { ref: subtextRef, y: subtextY } = useParallax(0.05)
@@ -100,7 +115,8 @@ export function Hero() {
     prefersReducedMotion ? reducedFade : full
 
   return (
-    <section key={pathname} className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
+    <section className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
+      {/* Shader background — never remounted, avoids WebGL context leaks */}
       {shaderEnabled ? (
         <DotShaderBackground />
       ) : (
@@ -142,7 +158,13 @@ export function Hero() {
         <div className="pointer-events-none absolute -right-40 bottom-0 z-0 h-96 w-96 rounded-full bg-linear-to-tl from-blue-500/20 to-transparent blur-[140px] dark:from-blue-400/30" />
       </motion.div>
 
+      {/*
+        key={animKey} forces this subtree to re-mount on every navigation,
+        replaying all entrance animations. The shader above is NOT keyed,
+        so it persists without leaking WebGL contexts.
+      */}
       <motion.div
+        key={animKey}
         initial="hidden"
         animate="visible"
         className="pointer-events-none relative z-20 mx-auto flex max-w-6xl flex-col items-center text-center"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion, useInView, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
@@ -54,8 +54,19 @@ export function WordReveal({
   highlightWords = [],
 }: WordRevealProps) {
   const prefersReduced = useReducedMotion()
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once, margin: '-80px' })
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once, margin: '-40px' })
+
+  const [forcedVisible, setForcedVisible] = useState(false)
+  useEffect(() => {
+    if (!ref.current || isInView || forcedVisible) return
+    const rect = ref.current.getBoundingClientRect()
+    if (rect.top < window.innerHeight - 40) {
+      setForcedVisible(true)
+    }
+  }, [isInView, forcedVisible])
+
+  const visible = isInView || forcedVisible
 
   // Build word list with highlight flags
   const words = children.split(' ')
@@ -74,7 +85,7 @@ export function WordReveal({
       variants={wordContainerVars}
       custom={delay}
       initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      animate={visible ? 'visible' : 'hidden'}
     >
       {wordData.map((word, i) => (
         <span key={`${word.text}-${i}`} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
