@@ -34,14 +34,14 @@ const steps = [
 
 export function ProcessPreview() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
         What happens next?
       </h3>
-      <StaggerContainer className="space-y-3">
+      <StaggerContainer className="grid gap-3 md:grid-cols-3">
         {steps.map((step) => (
           <StaggerItem key={step.number}>
-            <div className="flex items-start gap-3 rounded-xl border border-border/50 bg-background/30 p-4">
+            <div className="flex items-start gap-3 rounded-xl border border-border/50 bg-background/30 p-3 md:flex-col md:items-center md:text-center">
               <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
                 {step.number}
               </div>
@@ -93,7 +93,7 @@ const brands = [
 export function TrustBar() {
   return (
     <ScrollReveal variant="fade-up">
-      <div className="mx-auto max-w-6xl pt-20 text-center">
+      <div className="mx-auto max-w-6xl pt-12 text-center">
         <p className="text-sm uppercase tracking-wider text-muted-foreground">
           Trusted by teams building the future
         </p>
