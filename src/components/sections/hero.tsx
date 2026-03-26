@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { NeonButton } from '@/components/ui/neon-button'
@@ -88,6 +89,8 @@ const reducedFade: Variants = {
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
   const shaderEnabled = !prefersReducedMotion
+  // Force full re-mount (and re-animation) on every client-side navigation
+  const pathname = usePathname()
 
   const { ref: mockupRef, y: mockupY } = useParallax(0.15)
   const { ref: subtextRef, y: subtextY } = useParallax(0.05)
@@ -97,7 +100,7 @@ export function Hero() {
     prefersReducedMotion ? reducedFade : full
 
   return (
-    <section className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
+    <section key={pathname} className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
       {shaderEnabled ? (
         <DotShaderBackground />
       ) : (
