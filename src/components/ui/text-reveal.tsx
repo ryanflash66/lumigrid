@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform, useReducedMotion, type Variants } from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion, useInView, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 // ---------------------------------------------------------------------------
@@ -54,6 +54,8 @@ export function WordReveal({
   highlightWords = [],
 }: WordRevealProps) {
   const prefersReduced = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once, margin: '-80px' })
 
   // Build word list with highlight flags
   const words = children.split(' ')
@@ -67,12 +69,12 @@ export function WordReveal({
 
   return (
     <motion.span
+      ref={ref}
       className={cn('inline-flex flex-wrap', className)}
       variants={wordContainerVars}
       custom={delay}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-80px' }}
+      animate={isInView ? 'visible' : 'hidden'}
     >
       {wordData.map((word, i) => (
         <span key={`${word.text}-${i}`} className="inline-block overflow-hidden mr-[0.25em] last:mr-0">
