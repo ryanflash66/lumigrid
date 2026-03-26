@@ -2,13 +2,20 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { DotShaderBackground } from '@/components/ui/dot-shader-background'
 import { NeonButton } from '@/components/ui/neon-button'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 import { WordReveal } from '@/components/ui/text-reveal'
 import { useParallax } from '@/hooks/use-parallax'
+
+// Lazy-load the WebGL shader so it doesn't block the main thread —
+// text, buttons, and mockup render immediately while Three.js initialises.
+const DotShaderBackground = dynamic(
+  () => import('@/components/ui/dot-shader-background').then((m) => m.DotShaderBackground),
+  { ssr: false },
+)
 
 /* ------------------------------------------------------------------ */
 /*  Cinematic entrance variants                                       */

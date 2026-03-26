@@ -76,6 +76,9 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
 
           {/* What happens next? */}
           <ProcessPreview />
+
+          {/* Calendar Booking Callout */}
+          <CalendarCallout />
         </div>
 
         {/* ---- Right Column ---- */}
@@ -96,9 +99,6 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
               <ContactForm prefillPlan={selectedPlan} />
             </div>
           </div>
-
-          {/* Calendar Booking Callout */}
-          <CalendarCallout />
         </div>
       </section>
 
