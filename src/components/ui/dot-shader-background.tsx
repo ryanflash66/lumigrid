@@ -6,6 +6,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   type CSSProperties,
 } from "react";
 import * as THREE from "three";
@@ -574,7 +575,18 @@ function Scene() {
   );
 }
 
-export const DotScreenShader = () => {
+function ReadySignal({ onReady }: { onReady?: () => void }) {
+  const hasSignaled = useRef(false);
+  useFrame(() => {
+    if (!hasSignaled.current) {
+      hasSignaled.current = true;
+      onReady?.();
+    }
+  });
+  return null;
+}
+
+export const DotScreenShader = ({ onReady }: { onReady?: () => void }) => {
   return (
     <Canvas
       className="w-full h-full"
@@ -586,6 +598,7 @@ export const DotScreenShader = () => {
       }}
     >
       <Scene />
+      <ReadySignal onReady={onReady} />
     </Canvas>
   );
 };
@@ -595,16 +608,41 @@ type DotShaderBackgroundProps = {
   style?: CSSProperties;
 };
 
+function ShaderSkeleton() {
+  return (
+    <div
+      className="absolute inset-0 animate-pulse"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, var(--color-primary) 0.6px, transparent 0.6px)",
+        backgroundSize: "20px 20px",
+        opacity: 0.06,
+      }}
+    />
+  );
+}
+
 export function DotShaderBackground({
   className,
   style,
 }: DotShaderBackgroundProps) {
+  const [ready, setReady] = useState(false);
+
   return (
     <div
       className={cn("absolute inset-0 z-0 h-full w-full", className)}
       style={{ minHeight: "100vh", ...style }}
     >
-      <DotScreenShader />
+      {/* Lightweight CSS dot grid shown until WebGL canvas is ready */}
+      {!ready && <ShaderSkeleton />}
+      <div
+        className={cn(
+          "h-full w-full transition-opacity duration-700",
+          ready ? "opacity-100" : "opacity-0"
+        )}
+      >
+        <DotScreenShader onReady={() => setReady(true)} />
+      </div>
     </div>
   );
 }
