@@ -13,6 +13,7 @@ import { PageLoader } from "@/components/ui/page-loader";
 import { LenisProvider } from "@/components/lenis-provider";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
+import { CursorProvider } from "@/contexts/cursor-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -103,18 +104,20 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LenisProvider>
-            <AmbientBackground />
-            <CustomCursor />
-            <GrainOverlay />
-            <div className="flex min-h-screen flex-col relative z-0">
-              <SiteHeader />
-              <PageTransition>{children}</PageTransition>
-              <SiteFooter />
-            </div>
-            <FloatingCTA />
-            <PageLoader />
-          </LenisProvider>
+          <CursorProvider>
+            <LenisProvider>
+              <AmbientBackground />
+              <CustomCursor />
+              <GrainOverlay />
+              <div className="flex min-h-screen flex-col relative z-0">
+                <SiteHeader />
+                <PageTransition>{children}</PageTransition>
+                <SiteFooter />
+              </div>
+              <FloatingCTA />
+              <PageLoader />
+            </LenisProvider>
+          </CursorProvider>
         </ThemeProvider>
       </body>
     </html>
