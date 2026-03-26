@@ -15,13 +15,6 @@ const footerLinks = [
     ],
   },
   {
-    title: 'Resources',
-    items: [
-      { label: 'Blog', href: '/blog' },
-      { label: 'Performance notes', href: '/blog/scaling-mission-driven-products' },
-    ],
-  },
-  {
     title: 'Legal',
     items: [
       { label: 'Privacy Policy', href: '/privacy-policy' },
@@ -168,7 +161,7 @@ export function SiteFooter() {
             </p>
           </motion.div>
 
-          <div className="grid flex-1 gap-8 sm:grid-cols-3">
+          <div className="grid flex-1 gap-8 sm:grid-cols-2">
             {footerLinks.map((column) => (
               <motion.div
                 key={column.title}
