@@ -1,7 +1,7 @@
 'use client'
 
-import { type ReactNode } from 'react'
-import { motion, useReducedMotion, type Variant, type Variants } from 'framer-motion'
+import { type ReactNode, useRef } from 'react'
+import { motion, useReducedMotion, useInView, type Variant, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 type RevealVariant = 'fade-up' | 'fade-scale' | 'slide-in-left' | 'slide-in-right' | 'clip-reveal'
@@ -76,13 +76,15 @@ export function ScrollReveal({
   children,
 }: ScrollRevealProps) {
   const reducedMotion = useReducedMotion()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once, margin: '-80px' })
 
   return (
     <motion.div
+      ref={ref}
       variants={buildVariants(variant, reducedMotion, duration, delay)}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-80px' }}
+      animate={isInView ? 'visible' : 'hidden'}
       className={cn(className)}
     >
       {children}
@@ -109,6 +111,9 @@ export function StaggerContainer({
   className,
   children,
 }: StaggerContainerProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once, margin: '-80px' })
+
   const variants: Variants = {
     hidden: { opacity: 1 },
     visible: {
@@ -122,10 +127,10 @@ export function StaggerContainer({
 
   return (
     <motion.div
+      ref={ref}
       variants={variants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-80px' }}
+      animate={isInView ? 'visible' : 'hidden'}
       className={cn(className)}
     >
       {children}
