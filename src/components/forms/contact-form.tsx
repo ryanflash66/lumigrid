@@ -587,17 +587,12 @@ export function ContactForm({ compact = false, prefillPlan }: ContactFormProps) 
         )}
       </NeonButton>
 
-      {/* Status Messages */}
-      {status !== 'idle' && statusMessage && (
+      {/* Error Message */}
+      {status === 'error' && statusMessage && (
         <div
-          className={cn(
-            'rounded-xl border px-4 py-3 text-sm',
-            status === 'success'
-              ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-              : 'border-destructive/50 bg-destructive/10 text-destructive'
-          )}
+          className="rounded-xl border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive"
           role="alert"
-          aria-live={status === 'success' ? 'polite' : 'assertive'}
+          aria-live="assertive"
         >
           {statusMessage}
         </div>
