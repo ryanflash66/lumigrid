@@ -14,26 +14,6 @@ import { useParallax } from '@/hooks/use-parallax'
 /*  Cinematic entrance variants                                       */
 /* ------------------------------------------------------------------ */
 
-// Badge: fade-in with blur-clear, delay 0.1s
-const badgeVariants: Variants = {
-  hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.6, ease: 'easeOut', delay: 0.1 },
-  },
-}
-
-// Badge glow pulse: settles after 3s
-const badgeGlowVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: [0, 0.8, 0.4, 0.7, 0.3, 0.15],
-    transition: { duration: 3, delay: 0.3, ease: 'easeOut' },
-  },
-}
-
 // Headline container: delay 0.3s (handled by WordReveal delay prop)
 const headlineVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -157,36 +137,6 @@ export function Hero() {
         animate="visible"
         className="pointer-events-none relative z-20 mx-auto flex max-w-6xl flex-col items-center text-center"
       >
-        {/* Badge with blur-clear entrance and glow pulse */}
-        <motion.div className="relative">
-          {/* Glow pulse behind badge — settles after 3s */}
-          {!prefersReducedMotion && (
-            <motion.div
-              aria-hidden
-              variants={badgeGlowVariants}
-              initial="hidden"
-              animate="visible"
-              className="pointer-events-none absolute -inset-3 -z-10 rounded-full bg-primary/30 blur-xl"
-            />
-          )}
-          <motion.div
-            variants={pick(badgeVariants)}
-            initial="hidden"
-            animate="visible"
-            className="pointer-events-auto inline-flex items-center gap-3 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold text-primary shadow-[0_0_15px_rgba(100,100,250,0.15)] backdrop-blur-xl"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(100,100,250,0.6)] animate-pulse" />
-            <span>New Lumigrid launch kit is live</span>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1 text-foreground transition-colors hover:text-primary"
-            >
-              Read more
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </motion.div>
-        </motion.div>
-
         {/* Headline with increased y-travel and WordReveal delay 0.3s */}
         <motion.div
           variants={pick(headlineVariants)}
@@ -293,7 +243,7 @@ export function Hero() {
                 <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-foreground/20" />
-                <span className="ml-2">lumigrid.co</span>
+                <span className="ml-2">lumigrid.ai</span>
               </div>
               <Image
                 src="/assets/images/hero/hero-image.jpg"
