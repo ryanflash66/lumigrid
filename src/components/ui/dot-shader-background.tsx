@@ -575,6 +575,9 @@ function Scene() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Ready Signal — fires callback on the very first rendered frame    */
+/* ------------------------------------------------------------------ */
 function ReadySignal({ onReady }: { onReady?: () => void }) {
   const hasSignaled = useRef(false);
   useFrame(() => {
@@ -586,23 +589,100 @@ function ReadySignal({ onReady }: { onReady?: () => void }) {
   return null;
 }
 
-export const DotScreenShader = ({ onReady }: { onReady?: () => void }) => {
+/* ------------------------------------------------------------------ */
+/*  Visibility-aware frameloop pauser                                 */
+/*  Stops the render loop when the tab is hidden to conserve GPU.     */
+/* ------------------------------------------------------------------ */
+function VisibilityPauser() {
+  const { invalidate } = useThree();
+  const gl = useThree((s) => s.gl);
+
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") {
+        // Kick the loop back to life
+        invalidate();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [gl, invalidate]);
+
+  return null;
+}
+
+/* ------------------------------------------------------------------ */
+/*  DotScreenShader — Canvas wrapper with context-loss recovery       */
+/* ------------------------------------------------------------------ */
+export const DotScreenShader = ({
+  onReady,
+  onContextLost,
+  onContextRestored,
+}: {
+  onReady?: () => void;
+  onContextLost?: () => void;
+  onContextRestored?: () => void;
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [contextLost, setContextLost] = useState(false);
+
+  // Attach context-loss / restore listeners directly to the <canvas>
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const handleLost = (e: Event) => {
+      // preventDefault allows the browser to attempt a restore
+      e.preventDefault();
+      setContextLost(true);
+      onContextLost?.();
+    };
+
+    const handleRestored = () => {
+      setContextLost(false);
+      onContextRestored?.();
+    };
+
+    canvas.addEventListener("webglcontextlost", handleLost);
+    canvas.addEventListener("webglcontextrestored", handleRestored);
+    return () => {
+      canvas.removeEventListener("webglcontextlost", handleLost);
+      canvas.removeEventListener("webglcontextrestored", handleRestored);
+    };
+  }, [onContextLost, onContextRestored]);
+
   return (
     <Canvas
+      ref={canvasRef}
       className="w-full h-full"
+      // Use "demand" frameloop — Scene calls invalidate() via useFrame,
+      // but when tab is hidden VisibilityPauser stops requesting frames.
+      frameloop="always"
       gl={{
-        antialias: true,
-        powerPreference: "high-performance",
+        antialias: false,          // fullscreen quad doesn't need AA
+        powerPreference: "default", // "high-performance" hogs dedicated GPU & eats context slots
+        depth: false,               // 2D shader — no depth buffer needed
+        stencil: false,             // no stencil operations
+        alpha: false,               // we render our own bg color
+        failIfMajorPerformanceCaveat: false,
         outputColorSpace: THREE.SRGBColorSpace,
         toneMapping: THREE.NoToneMapping,
       }}
+      // Force renderer disposal on unmount to free the WebGL context
+      onCreated={({ gl: renderer }) => {
+        renderer.domElement.dataset.shaderCanvas = "dot-shader";
+      }}
     >
-      <Scene />
+      {!contextLost && <Scene />}
       <ReadySignal onReady={onReady} />
+      <VisibilityPauser />
     </Canvas>
   );
 };
 
+/* ------------------------------------------------------------------ */
+/*  Public wrapper: skeleton → shader crossfade + context recovery     */
+/* ------------------------------------------------------------------ */
 type DotShaderBackgroundProps = {
   className?: string;
   style?: CSSProperties;
@@ -627,6 +707,16 @@ export function DotShaderBackground({
   style,
 }: DotShaderBackgroundProps) {
   const [ready, setReady] = useState(false);
+  const [contextAlive, setContextAlive] = useState(true);
+
+  const handleContextLost = useCallback(() => {
+    setContextAlive(false);
+    setReady(false); // fall back to skeleton
+  }, []);
+
+  const handleContextRestored = useCallback(() => {
+    setContextAlive(true);
+  }, []);
 
   return (
     <div
@@ -638,11 +728,20 @@ export function DotShaderBackground({
       <div
         className={cn(
           "h-full w-full transition-opacity duration-700",
-          ready ? "opacity-100" : "opacity-0"
+          ready ? "opacity-100" : "opacity-0",
         )}
       >
-        <DotScreenShader onReady={() => setReady(true)} />
+        <DotScreenShader
+          onReady={() => setReady(true)}
+          onContextLost={handleContextLost}
+          onContextRestored={handleContextRestored}
+        />
       </div>
+
+      {/* If context was lost and never restored, show permanent fallback */}
+      {!contextAlive && !ready && (
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
+      )}
     </div>
   );
 }
