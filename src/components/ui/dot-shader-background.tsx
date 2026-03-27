@@ -10,7 +10,7 @@ import {
   type CSSProperties,
 } from "react";
 import * as THREE from "three";
-import { Canvas, ThreeEvent, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -550,25 +550,34 @@ function Scene() {
     dotMaterial.uniforms.cursorActive.value = currentActive;
   });
 
-  const handlePointerMove = useCallback((event: ThreeEvent<PointerEvent>) => {
-    if (event.uv) {
-      mousePosTarget.current.set(event.uv.x, event.uv.y);
-    }
-    mouseActiveTarget.current = 1;
-  }, []);
+  // Track mouse at window level so the shader responds even when
+  // behind pointer-events-none content (layout-level singleton).
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      // Convert screen coords → 0-1 UV (bottom-left origin like GL)
+      mousePosTarget.current.set(
+        e.clientX / window.innerWidth,
+        1 - e.clientY / window.innerHeight,
+      );
+      mouseActiveTarget.current = 1;
+    };
 
-  const handlePointerOut = useCallback(() => {
-    mouseActiveTarget.current = 0;
+    const onMouseLeave = () => {
+      mouseActiveTarget.current = 0;
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", onMouseLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      document.documentElement.removeEventListener("mouseleave", onMouseLeave);
+    };
   }, []);
 
   const scale = Math.max(viewport.width, viewport.height) / 2;
 
   return (
-    <mesh
-      scale={[scale, scale, 1]}
-      onPointerMove={handlePointerMove}
-      onPointerOut={handlePointerOut}
-    >
+    <mesh scale={[scale, scale, 1]}>
       <planeGeometry args={[2, 2]} />
       <primitive object={dotMaterial} render={0} />
     </mesh>
