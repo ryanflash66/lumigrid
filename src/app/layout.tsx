@@ -111,7 +111,7 @@ export default function RootLayout({
               <PersistentShader />
               <CustomCursor />
               <GrainOverlay />
-              <div className="flex min-h-screen flex-col relative z-0">
+              <div className="flex min-h-screen flex-col relative z-10">
                 <SiteHeader />
                 <PageTransition>{children}</PageTransition>
                 <SiteFooter />

@@ -121,7 +121,7 @@ export const ModernPricingPage = ({
   plans,
 }: ModernPricingPageProps) => {
   return (
-    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden bg-background px-4 py-16 text-foreground sm:px-6 lg:px-8">
+    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden px-4 py-16 text-foreground sm:px-6 lg:px-8">
       {/* Shader background now lives in the root layout (PersistentShader) —
           rendered once, never destroyed across navigations. */}
 

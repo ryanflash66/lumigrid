@@ -44,8 +44,7 @@ export function PersistentShader() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 -z-40"
-      style={{ isolation: "isolate" }}
+      className="pointer-events-none fixed inset-0 z-[1]"
     >
       <DotShaderBackground />
     </div>
