@@ -1,14 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useReducedMotion } from "framer-motion";
 
-/**
- * Lazy-load the shader — the heavy Three.js bundle only downloads once,
- * and the component is never unmounted after first mount because it lives
- * in the root layout.
- */
 const DotShaderBackground = dynamic(
   () =>
     import("@/components/ui/dot-shader-background").then(
@@ -17,34 +13,36 @@ const DotShaderBackground = dynamic(
   { ssr: false },
 );
 
+/** Pages where the dot shader should be visible. */
+const SHADER_PAGES = new Set(["/", "/pricing"]);
+
 /**
  * Layout-level singleton for the WebGL dot shader.
  *
  * Rendered once in RootLayout → never destroyed on client-side navigation.
- * This means:
- *  • WebGL context created once, shader compiled once
- *  • Zero re-initialisation when navigating between pages
- *  • GPU textures and buffers persist in VRAM
- *
- * The shader sits behind all page content at z-0 as a fixed full-viewport
- * background.  Every page gets the subtle dot effect; pages that had their
- * own <DotShaderBackground> no longer need it.
+ * On pages not in SHADER_PAGES, we keep the component mounted (preserving
+ * the WebGL context) but hide it with opacity-0 so it's instant when the
+ * user navigates back.
  */
 export function PersistentShader() {
   const prefersReducedMotion = useReducedMotion();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
-  // Delay mount by one tick so the initial HTML/CSS paint isn't blocked
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (prefersReducedMotion || !mounted) return null;
 
+  const visible = SHADER_PAGES.has(pathname);
+
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-[1]"
+      className={`pointer-events-none fixed inset-0 z-[1] transition-opacity duration-500 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
     >
       <DotShaderBackground />
     </div>
