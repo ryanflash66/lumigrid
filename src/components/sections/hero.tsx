@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
@@ -11,13 +10,6 @@ import { NeonButton } from '@/components/ui/neon-button'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
 import { WordReveal } from '@/components/ui/text-reveal'
 import { useParallax } from '@/hooks/use-parallax'
-
-// Lazy-load the WebGL shader so it doesn't block the main thread —
-// text, buttons, and mockup render immediately while Three.js initialises.
-const DotShaderBackground = dynamic(
-  () => import('@/components/ui/dot-shader-background').then((m) => m.DotShaderBackground),
-  { ssr: false },
-)
 
 /* ------------------------------------------------------------------ */
 /*  Cinematic entrance variants                                       */
@@ -104,7 +96,6 @@ function useRemountKey() {
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
-  const shaderEnabled = !prefersReducedMotion
   const animKey = useRemountKey()
 
   const { ref: mockupRef, y: mockupY } = useParallax(0.15)
@@ -116,17 +107,13 @@ export function Hero() {
 
   return (
     <section className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
-      {/* Shader background — never remounted, avoids WebGL context leaks */}
-      {shaderEnabled ? (
-        <DotShaderBackground />
-      ) : (
-        <div className="absolute inset-0 z-0 bg-linear-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
-      )}
+      {/* Shader background now lives in the root layout (PersistentShader) —
+          rendered once, never destroyed across navigations. */}
 
       <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent dark:from-primary/15" />
 
       {/* Light ray decorative strips */}
-      {shaderEnabled && (
+      {!prefersReducedMotion && (
         <>
           <div
             className="pointer-events-none absolute -left-20 top-0 z-10 h-full w-[1px] opacity-[0.07] dark:opacity-[0.12]"

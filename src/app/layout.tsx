@@ -13,6 +13,7 @@ import { PageLoader } from "@/components/ui/page-loader";
 import { LenisProvider } from "@/components/lenis-provider";
 import { CustomCursor } from "@/components/ui/custom-cursor";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
+import { PersistentShader } from "@/components/ui/persistent-shader";
 import { CursorProvider } from "@/contexts/cursor-context";
 
 const geistSans = Geist({
@@ -107,6 +108,7 @@ export default function RootLayout({
           <CursorProvider>
             <LenisProvider>
               <AmbientBackground />
+              <PersistentShader />
               <CustomCursor />
               <GrainOverlay />
               <div className="flex min-h-screen flex-col relative z-0">
