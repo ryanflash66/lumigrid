@@ -15,6 +15,7 @@ import { CustomCursor } from "@/components/ui/custom-cursor";
 import { GrainOverlay } from "@/components/ui/grain-overlay";
 import { PersistentShader } from "@/components/ui/persistent-shader";
 import { CursorProvider } from "@/contexts/cursor-context";
+import { OrganizationJsonLd, WebSiteJsonLd } from "@/lib/structured-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -99,6 +100,8 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased bg-background text-foreground`}
       >
+        <OrganizationJsonLd />
+        <WebSiteJsonLd />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

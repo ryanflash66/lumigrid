@@ -1,6 +1,7 @@
 import { ModernPricingPage, PricingCardProps } from '@/components/ui/animated-glassy-pricing'
 import { GradientCTASection } from '@/components/sections/cta-variations'
 import { PricingSections } from '@/components/pricing/pricing-sections'
+import { ServiceJsonLd } from '@/lib/structured-data'
 
 // Transform pricing data to match new component format
 const transformPricingData = (): PricingCardProps[] => {
@@ -89,6 +90,11 @@ export default function PricingPage() {
 
   return (
     <>
+      <ServiceJsonLd
+        name="AI Automation Services"
+        description="Custom AI automations that save your business time and money. From landing pages to enterprise solutions."
+        price="1800"
+      />
       <ModernPricingPage
         title={
           <>

@@ -7,6 +7,7 @@ import {
   CalendarCallout,
   TrustBar,
 } from './contact-client-sections'
+import { BreadcrumbJsonLd } from '@/lib/structured-data'
 
 const contactInfo = [
   {
@@ -37,6 +38,7 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
 
   return (
     <main className="px-6 py-16">
+      <BreadcrumbJsonLd items={[{ name: 'Home', href: '/' }, { name: 'Contact', href: '/contact' }]} />
       <section className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_1fr]">
         {/* ---- Left Column ---- */}
         <div className="space-y-6">
