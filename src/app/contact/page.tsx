@@ -36,12 +36,12 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
   const selectedPlan = searchParams?.plan ? decodeURIComponent(searchParams.plan) : undefined
 
   return (
-    <main className="px-6 py-24">
+    <main className="px-6 py-16">
       <section className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_1fr]">
         {/* ---- Left Column ---- */}
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Hero */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.4em] text-primary">Contact</p>
             <h1 className="text-balance text-4xl font-semibold md:text-5xl">
               Let&apos;s build something remarkable.
@@ -54,11 +54,11 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
           </div>
 
           {/* Contact Info Cards */}
-          <div className="grid gap-6">
+          <div className="grid gap-4">
             {contactInfo.map((item) => (
-              <div key={item.label} className="group flex items-center gap-4 rounded-3xl border border-border/50 bg-background/30 backdrop-blur-xl p-5 transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary/10 hover:shadow-xl hover:shadow-primary/20">
+              <div key={item.label} className="group flex items-center gap-4 rounded-3xl border border-border/50 bg-background/30 backdrop-blur-xl p-4 transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary/10 hover:shadow-xl hover:shadow-primary/20">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/20 transition-colors group-hover:bg-primary flex-shrink-0">
-                  <item.icon className="h-6 w-6 text-primary" />
+                  <item.icon className="h-6 w-6 text-primary group-hover:text-primary-foreground" />
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">{item.label}</p>
@@ -82,20 +82,22 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
         </div>
 
         {/* ---- Right Column ---- */}
-        <div className="rounded-[32px] border border-border/50 bg-background/40 backdrop-blur-2xl p-8 shadow-2xl shadow-primary/10">
-          <h2 className="text-2xl font-semibold">Send us a message</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Fill out the form below and we&apos;ll get back to you within two business days.
-          </p>
-          {selectedPlan && (
-            <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-4 text-sm text-primary">
-              <p className="font-semibold tracking-wide uppercase text-xs">Selected plan</p>
-              <p className="mt-1 text-base font-medium text-primary">{selectedPlan}</p>
-              <p className="text-primary/80">We&apos;ll prefill your message so you can skip retyping details.</p>
+        <div className="space-y-6">
+          <div className="rounded-[32px] border border-border/50 bg-background/40 backdrop-blur-2xl p-8 shadow-2xl shadow-primary/10">
+            <h2 className="text-2xl font-semibold">Send us a message</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Fill out the form below and we&apos;ll get back to you within two business days.
+            </p>
+            {selectedPlan && (
+              <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-4 text-sm text-primary">
+                <p className="font-semibold tracking-wide uppercase text-xs">Selected plan</p>
+                <p className="mt-1 text-base font-medium text-primary">{selectedPlan}</p>
+                <p className="text-primary/80">We&apos;ll prefill your message so you can skip retyping details.</p>
+              </div>
+            )}
+            <div className="mt-8">
+              <ContactForm prefillPlan={selectedPlan} />
             </div>
-          )}
-          <div className="mt-8">
-            <ContactForm prefillPlan={selectedPlan} />
           </div>
         </div>
       </section>

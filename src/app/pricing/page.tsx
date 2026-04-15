@@ -98,7 +98,6 @@ export default function PricingPage() {
         }
         subtitle="Start with a launchpad project or engage a full team for ongoing work. Every package includes strategy, design, build, and QA wrapped in a predictable scope."
         plans={pricingPlans}
-        showAnimatedBackground={true}
       />
       <PricingSections />
       <GradientCTASection />

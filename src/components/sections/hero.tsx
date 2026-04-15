@@ -2,105 +2,27 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { DotShaderBackground } from '@/components/ui/dot-shader-background'
 import { NeonButton } from '@/components/ui/neon-button'
 import { MagneticWrapper } from '@/components/ui/magnetic-wrapper'
-import { WordReveal } from '@/components/ui/text-reveal'
 import { useParallax } from '@/hooks/use-parallax'
-
-/* ------------------------------------------------------------------ */
-/*  Cinematic entrance variants                                       */
-/* ------------------------------------------------------------------ */
-
-// Headline container: delay 0.3s (handled by WordReveal delay prop)
-const headlineVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 },
-  },
-}
-
-// Subtext: spring physics, delay 0.7s
-const subtextVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 120,
-      damping: 20,
-      delay: 0.7,
-    },
-  },
-}
-
-// CTA buttons: snappy spring with scale overshoot, delay 0.9s
-const ctaVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.85, y: 30 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 200,
-      damping: 22,
-      delay: 0.9,
-    },
-  },
-}
-
-// Mockup: heavy spring for weighty rise + clipPath reveal, delay 1.1s
-const mockupVariants: Variants = {
-  hidden: { opacity: 0, y: 140, clipPath: 'inset(15% 0% 0% 0%)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    clipPath: 'inset(0% 0% 0% 0%)',
-    transition: {
-      type: 'spring',
-      stiffness: 50,
-      damping: 16,
-      mass: 1.2,
-      delay: 1.1,
-    },
-  },
-}
-
-// Reduced motion fallback: opacity-only, no transforms
-const reducedFade: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.4 } },
-}
 
 export function Hero() {
   const prefersReducedMotion = useReducedMotion()
-  const shaderEnabled = !prefersReducedMotion
 
   const { ref: mockupRef, y: mockupY } = useParallax(0.15)
   const { ref: subtextRef, y: subtextY } = useParallax(0.05)
   const { ref: blobRef, y: blobY } = useParallax(-0.1)
 
-  const pick = (full: Variants): Variants =>
-    prefersReducedMotion ? reducedFade : full
-
   return (
     <section className="relative isolate overflow-hidden px-6 pb-32 pt-28 text-foreground md:pb-40 md:pt-32">
-      {shaderEnabled ? (
-        <DotShaderBackground />
-      ) : (
-        <div className="absolute inset-0 z-0 bg-linear-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
-      )}
+      {/* Shader background lives in the root layout (PersistentShader) */}
 
       <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent dark:from-primary/15" />
 
       {/* Light ray decorative strips */}
-      {shaderEnabled && (
+      {!prefersReducedMotion && (
         <>
           <div
             className="pointer-events-none absolute -left-20 top-0 z-10 h-full w-[1px] opacity-[0.07] dark:opacity-[0.12]"
@@ -132,18 +54,10 @@ export function Hero() {
         <div className="pointer-events-none absolute -right-40 bottom-0 z-0 h-96 w-96 rounded-full bg-linear-to-tl from-blue-500/20 to-transparent blur-[140px] dark:from-blue-400/30" />
       </motion.div>
 
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        className="pointer-events-none relative z-20 mx-auto flex max-w-6xl flex-col items-center text-center"
-      >
-        {/* Headline with increased y-travel and WordReveal delay 0.3s */}
-        <motion.div
-          variants={pick(headlineVariants)}
-          initial="hidden"
-          animate="visible"
-          className="relative mt-12"
-        >
+      {/* Content — renders immediately, no entrance animation delays */}
+      <div className="pointer-events-none relative z-20 mx-auto flex max-w-6xl flex-col items-center text-center">
+        {/* Headline */}
+        <div className="relative mt-12">
           {/* Glow behind headline */}
           <motion.div
             aria-hidden
@@ -164,32 +78,17 @@ export function Hero() {
             className="max-w-5xl text-balance font-semibold tracking-tight text-foreground"
             style={{ fontSize: 'clamp(3.5rem, 9vw, 7rem)', lineHeight: 1.05 }}
           >
-            {prefersReducedMotion ? (
-              <>
-                Launch your{' '}
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text font-serif italic text-transparent">
-                  vision
-                </span>
-                {' '}with a site that converts
-              </>
-            ) : (
-              <WordReveal
-                className="justify-center"
-                highlightWords={['vision']}
-                delay={0.3}
-              >
-                Launch your vision with a site that converts
-              </WordReveal>
-            )}
+            Launch your{' '}
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text font-serif italic text-transparent">
+              vision
+            </span>
+            {' '}with a site that converts
           </h1>
-        </motion.div>
+        </div>
 
-        {/* Subtext with spring physics */}
+        {/* Subtext */}
         <motion.div
           ref={subtextRef}
-          variants={pick(subtextVariants)}
-          initial="hidden"
-          animate="visible"
           style={prefersReducedMotion ? undefined : { y: subtextY }}
         >
           <p className="mt-8 max-w-2xl text-pretty text-base text-muted-foreground md:text-lg lg:text-xl">
@@ -198,13 +97,8 @@ export function Hero() {
           </p>
         </motion.div>
 
-        {/* CTA buttons with snappy spring overshoot */}
-        <motion.div
-          variants={pick(ctaVariants)}
-          initial="hidden"
-          animate="visible"
-          className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-4"
-        >
+        {/* CTA buttons */}
+        <div className="pointer-events-auto mt-10 flex flex-wrap items-center justify-center gap-4">
           <MagneticWrapper strength={0.2}>
             <NeonButton
               asChild
@@ -225,14 +119,11 @@ export function Hero() {
               View Pricing
             </Link>
           </MagneticWrapper>
-        </motion.div>
+        </div>
 
-        {/* Browser mockup with weighty spring rise and clipPath reveal */}
+        {/* Browser mockup */}
         <motion.div
           ref={mockupRef}
-          variants={pick(mockupVariants)}
-          initial="hidden"
-          animate="visible"
           className="relative mt-16 w-full max-w-5xl group"
           style={prefersReducedMotion ? undefined : { y: mockupY }}
         >
@@ -257,7 +148,7 @@ export function Hero() {
           </div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent to-background" />
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   )
 }

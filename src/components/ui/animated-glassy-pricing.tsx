@@ -1,8 +1,7 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
-import { DotShaderBackground } from '@/components/ui/dot-shader-background'
 
 // --- Internal Helper Components (Not exported) --- //
 
@@ -114,35 +113,17 @@ interface ModernPricingPageProps {
   subtitle: React.ReactNode
   /** An array of plan objects that conform to PricingCardProps. */
   plans: PricingCardProps[]
-  /** Whether to show the animated WebGL background. Defaults to true. */
-  showAnimatedBackground?: boolean
 }
 
 export const ModernPricingPage = ({
   title,
   subtitle,
   plans,
-  showAnimatedBackground = true
 }: ModernPricingPageProps) => {
-  const [shaderEnabled, setShaderEnabled] = useState(true)
-
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setShaderEnabled(!media.matches)
-    update()
-    media.addEventListener('change', update)
-    return () => media.removeEventListener('change', update)
-  }, [])
-
-  const shouldRenderShader = showAnimatedBackground && shaderEnabled
-
   return (
-    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden bg-background px-4 py-16 text-foreground sm:px-6 lg:px-8">
-      {shouldRenderShader ? (
-        <DotShaderBackground />
-      ) : (
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
-      )}
+    <section className="relative isolate flex min-h-screen w-full flex-col overflow-hidden px-4 py-16 text-foreground sm:px-6 lg:px-8">
+      {/* Shader background now lives in the root layout (PersistentShader) —
+          rendered once, never destroyed across navigations. */}
 
       {/* Warm gradient orbs */}
       <div className="pointer-events-none absolute -left-32 top-1/3 z-0 h-96 w-96 rounded-full bg-gradient-to-br from-primary/15 to-accent/10 blur-3xl dark:from-primary/25 dark:to-accent/15" />

@@ -10,6 +10,7 @@ import { NeonButton } from '@/components/ui/neon-button'
 import { ReadingProgress } from '@/components/ui/reading-progress'
 import { NavBar } from '@/components/ui/tubelight-navbar'
 import { Home, Info, CreditCard, BookOpen, MessageCircle } from 'lucide-react'
+import { CursorToggle } from '@/components/ui/cursor-toggle'
 
 const navItems = [
   { name: 'Home', url: '/', icon: Home },
@@ -77,6 +78,7 @@ export function SiteHeader() {
         />
 
         <div className="flex items-center gap-3">
+          <CursorToggle />
           <ThemeToggle />
           <NeonButton
             asChild

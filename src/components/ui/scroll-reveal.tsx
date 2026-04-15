@@ -1,7 +1,7 @@
 'use client'
 
-import { type ReactNode } from 'react'
-import { motion, useReducedMotion, type Variant, type Variants } from 'framer-motion'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion, useInView, type Variant, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 type RevealVariant = 'fade-up' | 'fade-scale' | 'slide-in-left' | 'slide-in-right' | 'clip-reveal'
@@ -76,13 +76,26 @@ export function ScrollReveal({
   children,
 }: ScrollRevealProps) {
   const reducedMotion = useReducedMotion()
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once, margin: '-40px' })
+
+  // Fallback: if the element is already above-the-fold on mount,
+  // IntersectionObserver may fire asynchronously and miss it.
+  const [forcedVisible, setForcedVisible] = useState(false)
+  useEffect(() => {
+    if (!ref.current || isInView || forcedVisible) return
+    const rect = ref.current.getBoundingClientRect()
+    if (rect.top < window.innerHeight - 40) {
+      setForcedVisible(true)
+    }
+  }, [isInView, forcedVisible])
 
   return (
     <motion.div
+      ref={ref}
       variants={buildVariants(variant, reducedMotion, duration, delay)}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-80px' }}
+      animate={isInView || forcedVisible ? 'visible' : 'hidden'}
       className={cn(className)}
     >
       {children}
@@ -109,6 +122,18 @@ export function StaggerContainer({
   className,
   children,
 }: StaggerContainerProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once, margin: '-40px' })
+
+  const [forcedVisible, setForcedVisible] = useState(false)
+  useEffect(() => {
+    if (!ref.current || isInView || forcedVisible) return
+    const rect = ref.current.getBoundingClientRect()
+    if (rect.top < window.innerHeight - 40) {
+      setForcedVisible(true)
+    }
+  }, [isInView, forcedVisible])
+
   const variants: Variants = {
     hidden: { opacity: 1 },
     visible: {
@@ -122,10 +147,10 @@ export function StaggerContainer({
 
   return (
     <motion.div
+      ref={ref}
       variants={variants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-80px' }}
+      animate={isInView || forcedVisible ? 'visible' : 'hidden'}
       className={cn(className)}
     >
       {children}
