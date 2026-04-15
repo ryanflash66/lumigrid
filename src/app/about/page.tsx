@@ -8,7 +8,6 @@ import { WordReveal } from '@/components/ui/text-reveal'
 import { GlowCard } from '@/components/ui/glow-card'
 import { NeonButton } from '@/components/ui/neon-button'
 import { SectionDivider } from '@/components/ui/section-divider'
-import { brands } from '@/data/brands'
 
 /* -------------------------------------------------------------------------- */
 /*  Data                                                                      */
@@ -209,41 +208,6 @@ export default function AboutPage() {
               ))}
             </StaggerContainer>
           </div>
-        </div>
-      </section>
-
-      <SectionDivider variant="dot-cluster" />
-
-      {/* ------------------------------------------------------------------ */}
-      {/*  6. Client Trust Bar                                               */}
-      {/* ------------------------------------------------------------------ */}
-      <section className="py-20 md:py-32">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <ScrollReveal>
-            <p className="text-center text-sm uppercase tracking-wider text-muted-foreground">
-              Trusted by teams building the future
-            </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-8 md:gap-12">
-              {brands.map((brand) => (
-                <div key={brand.name} className="flex-shrink-0">
-                  <Image
-                    src={brand.light}
-                    alt={brand.name}
-                    width={140}
-                    height={40}
-                    className="block h-8 w-auto object-contain opacity-70 dark:hidden"
-                  />
-                  <Image
-                    src={brand.dark}
-                    alt={`${brand.name} dark`}
-                    width={140}
-                    height={40}
-                    className="hidden h-8 w-auto object-contain opacity-70 dark:block"
-                  />
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 

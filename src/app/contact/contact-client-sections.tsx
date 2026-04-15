@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Calendar, Clock } from 'lucide-react'
@@ -76,48 +75,5 @@ export function CalendarCallout() {
         Schedule a Call &rarr;
       </Link>
     </div>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/*  Trust Bar — Brand Logos                                           */
-/* ------------------------------------------------------------------ */
-const brands = [
-  { name: 'Ayroui', light: '/assets/images/brands/ayroui.svg', dark: '/assets/images/brands/ayroui-white.svg' },
-  { name: 'Graygrids', light: '/assets/images/brands/graygrids.svg', dark: '/assets/images/brands/graygrids-white.svg' },
-  { name: 'Lineicons', light: '/assets/images/brands/lineicons.svg', dark: '/assets/images/brands/lineicons-white.svg' },
-  { name: 'Tailgrids', light: '/assets/images/brands/tailgrids.svg', dark: '/assets/images/brands/tailgrids-white.svg' },
-  { name: 'UIdeck', light: '/assets/images/brands/uideck.svg', dark: '/assets/images/brands/uideck-white.svg' },
-]
-
-export function TrustBar() {
-  return (
-    <ScrollReveal variant="fade-up">
-      <div className="mx-auto max-w-6xl pt-12 text-center">
-        <p className="text-sm uppercase tracking-wider text-muted-foreground">
-          Trusted by teams building the future
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">
-          {brands.map((brand) => (
-            <div key={brand.name} className="flex items-center justify-center">
-              <Image
-                src={brand.light}
-                alt={brand.name}
-                width={120}
-                height={32}
-                className="block h-8 w-auto object-contain opacity-70 dark:hidden"
-              />
-              <Image
-                src={brand.dark}
-                alt={brand.name}
-                width={120}
-                height={32}
-                className="hidden h-8 w-auto object-contain opacity-70 dark:block"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </ScrollReveal>
   )
 }
