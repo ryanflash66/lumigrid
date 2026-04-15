@@ -5,7 +5,6 @@ import {
   ResponseBadge,
   ProcessPreview,
   CalendarCallout,
-  TrustBar,
 } from './contact-client-sections'
 
 const contactInfo = [
@@ -101,9 +100,6 @@ export default function ContactPage({ searchParams }: ContactPageProps) {
           </div>
         </div>
       </section>
-
-      {/* ---- Trust Bar ---- */}
-      <TrustBar />
     </main>
   )
 }
