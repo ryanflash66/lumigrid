@@ -1,10 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Calendar, Clock } from 'lucide-react'
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal'
+import { CalendlyButton } from '@/components/ui/calendly-button'
 
 /* ------------------------------------------------------------------ */
 /*  Animated Response Badge                                           */
@@ -61,20 +61,17 @@ export function ProcessPreview() {
 /*  Calendar Booking Callout                                          */
 /* ------------------------------------------------------------------ */
 export function CalendarCallout() {
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL
+
+  if (!calendlyUrl) return null
+
   return (
     <div className="rounded-xl border border-border/50 bg-card/60 p-6 space-y-3">
       <p className="text-sm font-semibold text-foreground">Prefer to skip the form?</p>
       <p className="text-sm text-muted-foreground">
         Book a 30-minute discovery call directly.
       </p>
-      {/* [OWNER TO REPLACE — supply real Calendly or booking link] */}
-      <Link
-        href="[OWNER_CALENDLY_LINK]"
-        className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-primary/10 hover:text-primary"
-      >
-        <Calendar className="h-4 w-4" />
-        Schedule a Call &rarr;
-      </Link>
+      <CalendlyButton url={calendlyUrl} />
     </div>
   )
 }
