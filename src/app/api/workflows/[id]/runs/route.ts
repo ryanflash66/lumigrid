@@ -6,12 +6,12 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const workflow = store.getWorkflow(id)
+  const workflow = await store.getWorkflow(id)
 
   if (!workflow) {
     return NextResponse.json({ error: 'Workflow not found' }, { status: 404 })
   }
 
-  const runs = store.listRuns(id)
+  const runs = await store.listRuns(id)
   return NextResponse.json(runs)
 }

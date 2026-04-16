@@ -3,7 +3,7 @@ import { createWorkflowSchema } from '@/lib/engine/schema'
 import { store } from '@/lib/engine/store'
 
 export async function GET() {
-  const workflows = store.listWorkflows()
+  const workflows = await store.listWorkflows()
   return NextResponse.json(workflows)
 }
 
@@ -18,6 +18,6 @@ export async function POST(request: Request) {
     )
   }
 
-  const workflow = store.createWorkflow(parsed.data)
+  const workflow = await store.createWorkflow(parsed.data)
   return NextResponse.json(workflow, { status: 201 })
 }

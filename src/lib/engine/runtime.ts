@@ -9,11 +9,15 @@ import type {
 } from './types'
 import { aiPromptHandler } from './steps/ai-prompt'
 import { transformHandler } from './steps/transform'
+import { conditionHandler } from './steps/condition'
+import { httpRequestHandler } from './steps/http-request'
 import { outputHandler } from './steps/output'
 
 const stepHandlers: Record<string, StepHandler> = {
   ai_prompt: aiPromptHandler,
   transform: transformHandler,
+  condition: conditionHandler,
+  http_request: httpRequestHandler,
   output: outputHandler,
 }
 

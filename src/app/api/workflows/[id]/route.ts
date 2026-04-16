@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const workflow = store.getWorkflow(id)
+  const workflow = await store.getWorkflow(id)
 
   if (!workflow) {
     return NextResponse.json({ error: 'Workflow not found' }, { status: 404 })
@@ -31,7 +31,7 @@ export async function PUT(
     )
   }
 
-  const workflow = store.updateWorkflow(id, parsed.data)
+  const workflow = await store.updateWorkflow(id, parsed.data)
   if (!workflow) {
     return NextResponse.json({ error: 'Workflow not found' }, { status: 404 })
   }
@@ -44,7 +44,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const deleted = store.deleteWorkflow(id)
+  const deleted = await store.deleteWorkflow(id)
 
   if (!deleted) {
     return NextResponse.json({ error: 'Workflow not found' }, { status: 404 })

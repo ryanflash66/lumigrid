@@ -8,7 +8,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
-  const workflow = store.getWorkflow(id)
+  const workflow = await store.getWorkflow(id)
 
   if (!workflow) {
     return NextResponse.json({ error: 'Workflow not found' }, { status: 404 })
@@ -25,7 +25,7 @@ export async function POST(
   }
 
   const run = await executeWorkflow(workflow, parsed.data.input)
-  store.saveRun(run)
+  await store.saveRun(run)
 
   return NextResponse.json(run, {
     status: run.status === 'failed' ? 500 : 200,
