@@ -9,11 +9,12 @@ import { ThemeToggle } from '@/components/layout/theme-toggle'
 import { NeonButton } from '@/components/ui/neon-button'
 import { ReadingProgress } from '@/components/ui/reading-progress'
 import { NavBar } from '@/components/ui/tubelight-navbar'
-import { Home, Info, CreditCard, BookOpen, MessageCircle } from 'lucide-react'
+import { Home, Info, CreditCard, BookOpen, MessageCircle, Sparkles } from 'lucide-react'
 
 const navItems = [
   { name: 'Home', url: '/', icon: Home },
   { name: 'About', url: '/about', icon: Info },
+  { name: 'Demo', url: '/demo', icon: Sparkles },
   { name: 'Pricing', url: '/pricing', icon: CreditCard },
   { name: 'Projects', url: '/blog', icon: BookOpen },
   { name: 'Contact', url: '/contact', icon: MessageCircle }
