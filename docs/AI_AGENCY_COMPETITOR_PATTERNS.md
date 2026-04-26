@@ -1,6 +1,17 @@
 # AI Agency Competitor Patterns Research
 
+> **Version:** 1.0 — Compiled April 2026
+> **Revisit:** Every 6 months (next: October 2026), or sooner if pricing shifts materially or a major player exits/enters the SMB tier. AI tooling and agency positioning move fast — treat anything older than ~9 months as directional, not authoritative.
+
 Research into AI automation agency positioning, pricing, and website patterns to inform Lumigrid's content strategy and market differentiation.
+
+## Next 3 Actions
+
+These are the highest-impact, lowest-effort moves to execute first. Each maps to a recommendation later in the doc.
+
+1. **Rewrite the homepage hero around a quantified outcome** — replace generic "digital experiences" copy with an AI-specific outcome statement and at least one quantified result or projection. (See *Homepage Messaging Shifts* and *Differentiation #1*.)
+2. **Publish a transparent pricing-and-process page** — extend the existing public pricing with delivery timelines, a "what to expect" breakdown per tier, and the discovery-call CTA. (See *Differentiation #3*.)
+3. **Ship one vertical case study or workflow teardown** — pick the strongest vertical Lumigrid has shipped against, publish a before/after with real metrics, and link it from the homepage proof section. (See *Differentiation #4* and *Blog / Case Study Topics #5*.)
 
 ## Market Landscape
 
@@ -46,26 +57,26 @@ The AI automation agency market in 2026 is crowded and rapidly commoditizing. Ke
 ### 1. Outcome-Focused Positioning (High Priority)
 Most competitors sell "AI automation services." Lumigrid should sell specific, measurable business outcomes: time saved, cost reduced, revenue gained. The messaging should answer "what changes for my business?" not "what technology do you use?"
 
-### 2. SMB Specialization
+### 2. SMB Specialization (High Priority)
 The sweet spot is small-to-mid-sized businesses that need AI but can't afford enterprise consultancies. Lumigrid's pricing ($1,800-$5,999 per project) sits well below enterprise rates while above DIY tool subscriptions. Lean into this by:
 - Showing delivery timelines in weeks, not months
 - Emphasizing end-to-end support (strategy through deployment)
 - Highlighting that clients don't need technical staff
 
-### 3. Transparency as a Brand Value
+### 3. Transparency as a Brand Value (High Priority)
 While competitors obscure pricing and process, Lumigrid already has public pricing tiers. Double down on this with:
 - Published process timelines
 - "What to expect" content for each service tier
 - Open case studies with real metrics (when available)
 
-### 4. Industry-Specific Workflows
+### 4. Industry-Specific Workflows (Medium Priority)
 Industry specialization allows repeatable workflows and faster delivery. Identify 2-3 verticals where Lumigrid has or can build expertise. High-ROI first automations for SMBs include:
 - Lead response and follow-up sequences
 - Client onboarding documentation
 - Report generation from existing data
 - Team notification routing
 
-### 5. AI Transparency
+### 5. AI Transparency (Medium Priority)
 Rather than hiding AI usage, lead with it. Position AI as an accelerator that makes Lumigrid faster and more affordable, while human expertise provides the strategic judgment that AI cannot: competitive positioning, market dynamics, and creative concepts.
 
 ## Content Strategy Recommendations
@@ -92,4 +103,4 @@ Rather than hiding AI usage, lead with it. Position AI as an accelerator that ma
 
 ---
 
-*Research compiled April 2026. Sources: Latenode, iCODA, DesignRush, Digital Agency Network, Thinkpeak AI, Goodish Agency, Superside, Clay Community, Branded Agency, Search Engine Land, BCG.*
+*Sources: Latenode, iCODA, DesignRush, Digital Agency Network, Thinkpeak.ai, Goodish Agency, Superside, Clay Community, Branded Agency, Search Engine Land, BCG.*
