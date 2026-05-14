@@ -52,3 +52,6 @@ AGENTS.md
 # lint artifacts
 lint-output.txt
 lint-results.json
+
+# local-only research docs (not tracked)
+docs/AI_AGENCY_COMPETITOR_PATTERNS.md
